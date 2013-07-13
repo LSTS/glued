@@ -72,7 +72,7 @@ To perform all of the previous steps, you must first identify the
 target block device file and then issue the following command (as
 root):
 
-./mkmaster.bash <config_file> <block_device>
+./mkdisk.bash <config_file> <block_device>
 
 Example
 =======
@@ -84,4 +84,4 @@ flash card with the block device file /dev/sdd:
 ./mksystem.bash lctr-a6xx/lauv-seacon-1.bash &&
 ./pktoolchain.bash lctr-a6xx/lauv-seacon-1.bash &&
 ./pkrootfs.bash lctr-a6xx/lauv-seacon-1.bash &&
-sudo ./mkmaster.bash lctr-a6xx/lauv-seacon-1.bash /dev/sdd
+sudo ./mkdisk.bash lctr-a6xx/lauv-seacon-1.bash /dev/sdd
