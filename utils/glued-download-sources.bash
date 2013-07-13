@@ -32,14 +32,13 @@ find "$PKGS" -name '*.bash' | while read file; do
         m="${md5[$n]}"
         u="${url[$n]}"
         f="$DST/$(basename $u)"
-        nfo1 "Verifying checksum of $f"
         fh="$(md5sum "$f" 2> /dev/null | cut -f1 -d' ')"
         if [ "$fh" != "$m" ]; then
             nfo1 "Downloading $f"
             echo ""
             wget -P "$DST" -4 -c "$u"
+            echo ""
         fi
         let n++
-        echo ""
     done
 done
