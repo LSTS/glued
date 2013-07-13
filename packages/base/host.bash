@@ -10,6 +10,7 @@ maintainer=\
 
 requires=\
 (
+    'gnu-config/host'
     'bzip2/host'
     'xz/host'
     'zip/host'

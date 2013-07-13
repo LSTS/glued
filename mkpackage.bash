@@ -109,8 +109,14 @@ unpack()
         let n++
     done
 
-    find "$cfg_dir_builds/$PKG" -name config.sub -exec install -v -m 0755 "$cfg_dir_downloads"/config.sub '{}' \;
-    find "$cfg_dir_builds/$PKG" -name config.guess -exec install -v -m 0755 "$cfg_dir_downloads"/config.guess '{}' \;
+    dir_gnu_cfg="$cfg_dir_toolchain/share/gnu-config"
+    if [ "$cfg_dir_cfg/config.sub" ]; then
+        find "$cfg_dir_builds/$PKG" -name config.sub -exec install -v -m 0755 "$dir_gnu_cfg/config.sub" '{}' \;
+    fi
+
+    if [ "$cfg_dir_cfg/config.guess" ]; then
+        find "$cfg_dir_builds/$PKG" -name config.guess -exec install -v -m 0755 "$dir_gnu_cfg/config.guess" '{}' \;
+    fi
 
     return 0
 }
