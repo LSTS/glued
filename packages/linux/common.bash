@@ -10,7 +10,7 @@ post_unpack()
 refresh()
 {
     for rule in configure build target_install; do
-        if [ "$cfg_dir_system/linux-${version}.cfg" -nt "$cfg_dir_builds/linux/$PKG_VAR/.$rule" ]; then
+        if [ "$cfg_dir_system/cfg/linux-${version}.cfg" -nt "$cfg_dir_builds/linux/$PKG_VAR/.$rule" ]; then
             rm "$cfg_dir_builds/linux/$PKG_VAR/.$rule"
         fi
     done
@@ -21,7 +21,7 @@ configure()
     $cmd_make \
         ARCH=${cfg_target_linux} \
         mrproper &&
-    cp "$cfg_dir_system/linux-${version}.cfg" .config &&
+    cp "$cfg_dir_system/cfg/linux-${version}.cfg" .config &&
     yes '' | $cmd_make \
         CROSS_COMPILE=${cfg_target_canonical}- \
         ARCH=${cfg_target_linux} \
