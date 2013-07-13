@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "http://archive.ntp.org/ntp4/ntp-4.2/ntp-$version.tar.gz"
+    "ftp://mirror.ovh.net/gentoo-distfiles/distfiles/ntp-$version.tar.gz"
 )
 
 md5=\
