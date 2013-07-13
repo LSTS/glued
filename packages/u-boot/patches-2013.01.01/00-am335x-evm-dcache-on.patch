@@ -1,0 +1,17 @@
+--- u-boot-2013.01/board/ti/am335x/board.c	2013-01-15 21:47:42.000000000 +0000
++++ u-boot-2013.01.rasm/board/ti/am335x/board.c	2013-04-09 18:39:45.938442622 +0100
+@@ -73,6 +73,14 @@
+ 	return !strncmp(header.config, "SKU#02", 6);
+ }
+ 
++#ifndef CONFIG_SYS_DCACHE_OFF
++void enable_caches(void)
++{
++	/* Enable D-cache. I-cache is already enabled in start.S */
++	dcache_enable();
++}
++#endif
++
+ /*
+  * Read header information from EEPROM into global structure.
+  */

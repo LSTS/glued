@@ -1,0 +1,29 @@
+# Configuration parameters
+# cfg_dtnd_config: DTN Daemon configuration file.
+# cfg_dtnd_name: DTN node name.
+
+start()
+{
+    export DTN_NODE="$cfg_dtnd_name"
+    db="/opt/lsts/dtn/var/$DTN_NODE/db"
+
+    if [ -f "$cfg_dtnd_config" ]; then
+        mkdir -p /opt/lsts/dtn
+
+        if ! [ -d "$db" ]; then
+            mkdir -p "$db"
+            /usr/bin/dtnd \
+                -c "$cfg_dtnd_config" \
+                --init-db
+        fi
+
+        /usr/bin/dtnd -d \
+            -c "$cfg_dtnd_config" \
+            -o /opt/lsts/dtn/log.txt
+    fi
+}
+
+stop()
+{
+    killall dtnd > /dev/null 2>&1
+}

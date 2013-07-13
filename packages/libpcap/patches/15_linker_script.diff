@@ -1,0 +1,103 @@
+Use a linker script.
+---
+ Makefile.in |    2 -
+ libpcap.lds |   83 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 84 insertions(+), 1 deletion(-)
+
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -67,7 +67,7 @@
+ 
+ # Standard CFLAGS
+ CFLAGS = $(CCOPT) $(INCLS) $(DEFS)
+-CFLAGS_SHARED = -shared -Wl,-soname,$(SOLIBRARY).$(MAJ)
++CFLAGS_SHARED = -shared -Wl,-soname,$(SOLIBRARY).$(MAJ) -Wl,--version-script=libpcap.lds
+ 
+ INSTALL = @INSTALL@
+ INSTALL_PROGRAM = @INSTALL_PROGRAM@
+--- /dev/null
++++ b/libpcap.lds
+@@ -0,0 +1,83 @@
++{
++  global:
++    bpf_dump;
++    bpf_filter;
++    bpf_image;
++    bpf_validate;
++    eproto_db;
++    pcap_breakloop;
++    pcap_can_set_rfmon;
++    pcap_close;
++    pcap_compile;
++    pcap_compile_nopcap;
++    pcap_datalink;
++    pcap_datalink_name_to_val;
++    pcap_datalink_val_to_description;
++    pcap_datalink_val_to_name;
++    pcap_dispatch;
++    pcap_dump;
++    pcap_dump_close;
++    pcap_dump_file;
++    pcap_dump_flush;
++    pcap_dump_fopen;
++    pcap_dump_ftell;
++    pcap_dump_open;
++    pcap_ether_aton;
++    pcap_ether_hostton;
++    pcap_file;
++    pcap_fileno;
++    pcap_findalldevs;
++    pcap_fopen_offline;
++    pcap_freealldevs;
++    pcap_freecode;
++    pcap_get_selectable_fd;
++    pcap_geterr;
++    pcap_getnonblock;
++    pcap_inject;
++    pcap_is_swapped;
++    pcap_lib_version;
++    pcap_list_datalinks;
++    pcap_lookupdev;
++    pcap_lookupnet;
++    pcap_loop;
++    pcap_major_version;
++    pcap_minor_version;
++    pcap_nametoaddr;
++    pcap_nametoaddrinfo;
++    pcap_nametoeproto;
++    pcap_nametollc;
++    pcap_nametonetaddr;
++    pcap_nametoport;
++    pcap_nametoportrange;
++    pcap_nametoproto;
++    pcap_next;
++    pcap_next_etherent;
++    pcap_next_ex;
++    pcap_open_dead;
++    pcap_open_live;
++    pcap_open_offline;
++    pcap_perror;
++    pcap_sendpacket;
++    pcap_set_datalink;
++    pcap_setdirection;
++    pcap_setfilter;
++    pcap_setnonblock;
++    pcap_snapshot;
++    pcap_stats;
++    pcap_statustostr;
++    pcap_strerror;
++    pcap_version;
++    /* introduced in pcap 1.0 */
++    pcap_activate;
++    pcap_create;
++    pcap_datalink_ext;
++    pcap_free_datalinks;
++    pcap_offline_filter;
++    pcap_set_buffer_size;
++    pcap_set_promisc;
++    pcap_set_rfmon;
++    pcap_set_snaplen;
++    pcap_set_timeout;
++  local:
++    *;
++};

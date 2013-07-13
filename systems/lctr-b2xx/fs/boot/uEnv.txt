@@ -1,0 +1,3 @@
+bootfile=/boot/kernel
+mmcrootfstype=ext2 rootwait uboot=ext2
+mmcargs=setenv bootargs console=${console} root=${mmcroot} rootfstype=${mmcrootfstype} quiet

@@ -1,0 +1,27 @@
+version=\
+(
+    '1.0'
+)
+
+maintainer=\
+(
+    'Ricardo Martins <rasm@fe.up.pt>'
+)
+
+requires=\
+(
+    'bzip2/host'
+    'xz/host'
+    'zip/host'
+    'unzip/host'
+    'patch/host'
+    'fakeroot/host'
+    'pkg-config/host'
+    'util-linux/host'
+    'automake/host'
+    'make/host'
+    'gawk/host'
+    'texinfo/host'
+    'parted/host'
+    'dosfstools/host'
+)

@@ -1,0 +1,64 @@
+trex_base='/opt/lsts/trex'
+
+maybe_upgrade()
+{
+    echo -n "* Searching TREX upgrade... "
+    if ! [ -f $trex_base/trex-*.tar.gz ]; then
+        echo "none found"
+        return 1
+    fi
+    echo "found"
+
+    echo -n "* Starting TREX upgrade... "
+    rm -rf $trex_base/.trex-upgrade &&
+    mkdir $trex_base/.trex-upgrade &&
+    tar -x -C $trex_base/.trex-upgrade -f $trex_base/trex-*.tar.gz &&
+    rm $trex_base/trex-*.tar.gz &&
+    for dir in $trex_base/.trex-upgrade/trex-*/*; do
+        d="$(basename "$dir")"
+        rm -rf "$trex_base/$d"
+        mv -v "$dir" $trex_base
+    done
+    
+    rm -rf $trex_base/.trex-upgrade
+    echo "done"
+}
+
+start()
+{
+    maybe_upgrade
+
+    export TREX_LOG_DIR=$trex_base/log
+    export TREX_EXTRA=$trex_base
+    export EUROPA_HOME='/usr/share/europa'
+    mkdir -p "$TREX_LOG_DIR"
+
+    if [ -z "$cfg_trex_config" ]; then
+        export cfg_trex_config="$TREX_EXTRA/cfg/lsts.cfg"
+    fi
+
+    export TREX_PATH=$PATH:$TREX_EXTRA/cfg:$TREX_EXTRA/plugins:$EUROPA_HOME/lib
+    /usr/bin/amc "$cfg_trex_config" < /dev/null > /dev/null 2>&1 &
+}
+
+stop()
+{
+    while [ 1 ]; do
+        echo "* Stopping TREX..."
+        killall amc > /dev/null 2>&1
+
+        for r in 0 1 2 3 4 5 6 7 8 9; do
+            if [ -n "$(pidof amc)" ]; then
+                echo "* Waiting for TREX to exit ($r)..."
+                sleep 1
+            else
+                echo "* TREX not running."
+                return 1
+            fi
+        done
+
+        echo "* Forcing TREX to exit..."
+        killall -9 amc > /dev/null 2>&1
+        sleep 1
+    done
+}

@@ -1,0 +1,10 @@
+start()
+{
+    /usr/bin/setserial /dev/ttyS0 low_latency
+    /usr/bin/setserial /dev/ttyUSB0 low_latency
+}
+
+stop()
+{
+    echo ""
+}

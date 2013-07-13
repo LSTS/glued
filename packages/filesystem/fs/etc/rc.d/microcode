@@ -1,0 +1,17 @@
+start()
+{
+    dmesg | grep microcode_updated
+    if [ $? -ne 0 ]; then
+        echo -en 'Waiting for system to settle '
+        for x in 0 1 2; do echo -en '.'; sleep 1; done
+        cmd_line="$(dmesg | grep "command line:" | cut -f2- -d: | sed 's/noapic//g')"
+        /sbin/microcode_ctl -u &&
+        /sbin/kexec -l /boot/kernel --append "$cmd_line microcode_updated" &&
+        /sbin/kexec -e
+    fi
+}
+
+stop()
+{
+    echo ""
+}

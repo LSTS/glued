@@ -1,0 +1,11 @@
+--- linux-3.5.4/arch/arm/mach-omap2/board-igep0020.c	2013-04-12 14:14:07.706131422 +0100
++++ linux-3.5.4.rasm/arch/arm/mach-omap2/board-igep0020.c	2013-04-12 14:12:18.810582649 +0100
+@@ -554,6 +554,8 @@
+ 
+ #ifdef CONFIG_OMAP_MUX
+ static struct omap_board_mux board_mux[] __initdata = {
++	/* SMSC9221 LAN Controller ETH IRQ (GPIO_176) */
++	OMAP3_MUX(MCSPI1_CS2, OMAP_MUX_MODE4 | OMAP_PIN_INPUT),
+ 	{ .reg_offset = OMAP_MUX_TERMINATOR },
+ };
+ #endif

@@ -1,0 +1,41 @@
+start()
+{
+    for unit in $cfg_storage; do
+        label="$(echo $unit | cut -f1 -d:)"
+        fstype="$(echo $unit | cut -f2 -d:)"
+        point="$(echo $unit | cut -f3 -d:)"
+
+        if ! [ -d "$point" ]; then
+            mkdir -p "$point"
+        fi
+
+        n=0; while [ $n -lt 20 ]; do
+            args=''
+
+            if [ $fstype = 'ext3' ]; then
+                args='-o noatime,data=ordered'
+            fi
+
+            mount -t $fstype $args LABEL="$label" "$point"
+            if [ $? -eq 0 ]; then
+                break;
+            fi
+            sleep 1
+            let n++
+        done
+    done
+}
+
+stop()
+{
+    units=''
+    for unit in $cfg_storage; do
+        units="$unit $units"
+    done
+
+    for unit in $units; do
+        point="$(echo $unit | cut -f3 -d:)"
+        echo "* Unmounting $point..."
+        umount "$point"
+    done
+}

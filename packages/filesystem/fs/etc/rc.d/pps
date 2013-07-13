@@ -1,0 +1,9 @@
+start()
+{
+    /usr/bin/ldattach PPS "$cfg_pps_attach_dev"
+}
+
+stop()
+{
+    killall ldattach
+}

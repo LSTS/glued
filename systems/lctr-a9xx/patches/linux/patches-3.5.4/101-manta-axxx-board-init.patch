@@ -1,0 +1,22 @@
+--- linux-3.3.1/arch/arm/mach-omap2/board-igep0020.c	2012-04-02 18:32:52.000000000 +0100
++++ linux-3.3.1.rasm/arch/arm/mach-omap2/board-igep0020.c	2012-05-07 18:24:05.423120776 +0100
+@@ -633,6 +633,9 @@
+ static inline void __init igep_wlan_bt_init(void) { }
+ #endif
+ 
++/* Customization for Manta Axxx */
++extern void __init manta_axxx_init(void);
++
+ static void __init igep_init(void)
+ {
+ 	omap3_mux_init(board_mux, OMAP_PACKAGE_CBB);
+@@ -650,6 +653,9 @@
+ 	igep_flash_init();
+ 	igep_leds_init();
+ 
++	/* Customization for Manta A2xx */
++	manta_axxx_init();
++
+ 	/*
+ 	 * WLAN-BT combo module from MuRata which has a Marvell WLAN
+ 	 * (88W8686) + CSR Bluetooth chipset. Uses SDIO interface.

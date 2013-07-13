@@ -1,0 +1,14 @@
+# Configuration Parameters
+# cfg_gpsd_dev: serial port device.
+# cfg_gpsd_baud: serial port baud rate.
+
+start()
+{
+    stty -F "$cfg_gpsd_dev" "$cfg_gpsd_baud"
+    gpsd -n "$cfg_gpsd_dev"
+}
+
+stop()
+{
+    killall gpsd
+}

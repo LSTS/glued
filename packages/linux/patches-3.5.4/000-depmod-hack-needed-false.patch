@@ -1,0 +1,12 @@
+diff -Nru a/scripts/depmod.sh b/scripts/depmod.sh
+--- a/scripts/depmod.sh	2012-07-21 21:58:29.000000000 +0100
++++ b/scripts/depmod.sh	2012-08-07 00:31:44.400656765 +0100
+@@ -14,7 +14,7 @@
+ fi
+ # older versions of depmod require the version string to start with three
+ # numbers, so we cheat with a symlink here
+-depmod_hack_needed=true
++depmod_hack_needed=false
+ tmp_dir=$(mktemp -d ${TMPDIR:-/tmp}/depmod.XXXXXX)
+ mkdir -p "$tmp_dir/lib/modules/$KERNELRELEASE"
+ if "$DEPMOD" -b "$tmp_dir" $KERNELRELEASE 2>/dev/null; then

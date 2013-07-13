@@ -1,0 +1,19 @@
+--- trunk/main/m4/nsallinone.m4	2012-09-21 14:09:26.000000000 +0200
++++ trunk/main/m4/nsallinone.m4	2012-09-21 17:08:21.807075643 +0200
+@@ -49,12 +49,10 @@
+ 		NS_ALLINONE_PATH=$withval
+ 
+ 		NS_PATH=$NS_ALLINONE_PATH/`cd $NS_ALLINONE_PATH; ls -d ns-* | head -n 1`
+-		TCL_PATH=$NS_ALLINONE_PATH/`cd $NS_ALLINONE_PATH; ls -d * | grep -e 'tcl[0-9].*' | head -n 1`
+-		TCLCL_PATH=$NS_ALLINONE_PATH/`cd $NS_ALLINONE_PATH; ls -d tclcl-* | head -n 1`
+-		OTCL_PATH=$NS_ALLINONE_PATH/`cd $NS_ALLINONE_PATH; ls -d otcl-* | head -n 1`
+-
+-		NS_CPPFLAGS="-I$NS_ALLINONE_PATH/include -I$NS_PATH -I$TCLCL_PATH -I$OTCL_PATH"
+-
++		TCL_PATH="${cfg_dir_builds}/tcl/"`cd "${cfg_dir_builds}/tcl/"; ls -d * | grep -e 'tcl[0-9].*' | head -n 1`
++		TCLCL_PATH="${cfg_dir_builds}/tclcl/"`cd "${cfg_dir_builds}/tclcl"; ls -d tclcl-* | head -n 1`
++		OTCL_PATH="${cfg_dir_builds}/otcl/"`cd "${cfg_dir_builds}/otcl/"; ls -d otcl-* | head -n 1`
++		NS_CPPFLAGS="${cfg_dir_toolchain_sysroot}/usr/include -I$NS_PATH -I$TCLCL_PATH -I$OTCL_PATH"
+ 
+ 		NS_ALLINONE_DISTCHECK_CONFIGURE_FLAGS="--with-ns-allinone=$withval"
+ 		AC_SUBST(NS_ALLINONE_DISTCHECK_CONFIGURE_FLAGS)

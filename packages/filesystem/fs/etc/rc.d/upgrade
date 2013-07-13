@@ -1,0 +1,168 @@
+#! /bin/sh
+#############################################################################
+# Copyright (C) 2007-2009 Laboratório de Sistemas e Tecnologia Subaquática  #
+# Departamento de Engenharia Electrotécnica e de Computadores               #
+# Rua Dr. Roberto Frias, 4200-465 Porto, Portugal                           #
+#############################################################################
+# Author: Ricardo Martins                                                   #
+#############################################################################
+# $Id:: upgrade 1244 2012-10-08 07:21:07Z rasm                            $:#
+#############################################################################
+
+base='/opt/lsts/glued'
+hostname="$(hostname)"
+flashcp='/usr/sbin/flashcp'
+scratch="$base/.glued"
+
+clean()
+{
+    if [ -d "$base"/.glued-new ]; then
+        rm -rf "$base"/.glued-new
+    fi
+
+    if [ -d "$base"/.glued-old ]; then
+        rm -rf "$base"/.glued-old
+    fi
+}
+
+version()
+{
+    file="$(ls -1 $base/glued-*-*-rootfs.tar.bz2 2> /dev/null | head -n 1)"
+
+    if [ -z "$file" ]; then
+        return 1
+    fi
+
+    # Filter version.
+    ver="$(echo $file | sed "s%$base/glued-%%")"
+    ver="$(echo $ver | sed "s%-$hostname-bundle\.tar%%")"
+
+    export fw_version="$ver"
+    export fw_file="$file"
+
+    return 0
+}
+
+new_unpack()
+{
+    echo -n "* Unpacking new rootfs... "
+    mkdir ${base}/.glued-new
+    tar -C ${base}/.glued-new -x -f "$fw_file"; rv=$?
+    if [ -d /etc/dropbear ]; then
+        cp -a /etc/dropbear ${base}/.glued-new/etc
+    fi
+
+    if [ $rv -eq 0 ]; then
+        rm "$fw_file"
+        echo "done"
+        return 0
+    fi
+
+    echo "failed"
+    return 1
+}
+
+kernel_dst()
+{
+    echo -n "* Detecting kernel destination... "
+
+    # Kernel resides in the root filesystem.
+    if [ -d /boot/extlinux ]; then
+        echo "filesystem"
+        return 0
+    fi
+
+    if ! [ -f /proc/mtd ]; then
+        echo "filesystem"
+        return 0
+    fi
+
+    grep 'uboot=ext2' /proc/cmdline > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "filesystem"
+        return 0
+    fi
+
+    export fw_kernel_mtd="$(grep \"kernel\" /proc/mtd | cut -f1 -d':')"
+    if [ -z "$fw_kernel_mtd" ]; then
+        export fw_kernel_mtd="$(grep \"Kernel\" /proc/mtd | cut -f1 -d':')"
+        if [ -z "$fw_kernel_mtd" ]; then
+            echo "failed to detect kernel's MTD partition"
+            return 1
+        fi
+    fi
+
+    echo "mtd"
+    return 0
+}
+
+kernel_upgrade()
+{
+    # Upgrade MTD
+    if [ -n "$fw_kernel_mtd" ]; then
+        echo -n "* Upgrading kernel... "
+        "$flashcp" -v "$base/.glued-new/boot/kernel" /dev/"$fw_kernel_mtd" > /dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            echo "failed"
+            return 1
+        fi
+        echo "done"
+        return 0
+    fi
+}
+
+old_move()
+{
+    echo "* Mounting rootfs read-write..."
+    mount -o remount,rw /
+
+    echo "* Unmounting pseudo filesystems..."
+    umount /sys
+    umount /dev/pts
+    umount /dev/shm
+    umount /proc
+
+    if [ -f /boot/extlinux/extlinux.sys ]; then
+        /bin/chattr -i /boot/extlinux/extlinux.sys
+    fi
+
+    echo "* Moving old rootfs..."
+    mkdir $base/.glued-old &&
+    mv /bin /boot /etc /init /lib /proc /root /sbin /sys /tmp /usr /var $base/.glued-old &&
+    $base/.glued-old/bin/echo "* Moving new rootfs into place..." &&
+    $base/.glued-old/bin/busybox cp -a $base/.glued-new/* / &&
+    $base/.glued-old/bin/echo "* Mounting procfs..." &&
+    $base/.glued-old/bin/busybox mount -t proc proc /proc &&
+    if [ -d "/boot/extlinux" ]; then
+        $base/.glued-old/usr/sbin/extlinux -i /boot/extlinux
+    fi
+
+    $base/.glued-old/bin/echo "* Flushing filesystem cache... "
+    $base/.glued-old/bin/busybox sync
+    $base/.glued-old/bin/busybox sync
+    $base/.glued-old/bin/busybox sync
+    $base/.glued-old/bin/busybox sync
+    $base/.glued-old/bin/busybox sync
+
+    $base/.glued-old/bin/echo "* Preparing reboot... "
+    $base/.glued-old/bin/busybox mount -o remount,ro /opt
+    $base/.glued-old/bin/busybox umount /proc
+    $base/.glued-old/bin/busybox touch /.reboot
+    $base/.glued-old/bin/busybox kill -SIGQUIT 1
+    exit 0
+}
+
+start()
+{
+    clean
+    version || return 1
+    kernel_dst || return 1
+    new_unpack || return 1
+    kernel_upgrade || return 1
+    old_move || return 1
+}
+
+stop()
+{
+    echo -n ""
+}

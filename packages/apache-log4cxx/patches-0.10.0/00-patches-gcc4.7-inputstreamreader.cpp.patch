@@ -1,0 +1,19 @@
+--- apache-log4cxx-0.10.0/src/main/cpp/inputstreamreader.cpp	2008-04-01 00:34:09.000000000 +0200
++++ apache-log4cxx-0.10.0/src/main/cpp/inputstreamreader.cpp	2013-04-16 12:57:58.153931747 +0200
+@@ -15,6 +15,7 @@
+  * limitations under the License.
+  */
+ 
++#include <cstring>
+ #include <log4cxx/logstring.h>
+ #include <log4cxx/helpers/inputstreamreader.h>
+ #include <log4cxx/helpers/exception.h>
+@@ -63,7 +64,7 @@ LogString InputStreamReader::read(Pool&
+              throw IOException(stat);
+          }
+          if (buf.remaining() > 0) {
+-             memmove(buf.data(), buf.current(), buf.remaining());
++             std::memmove(buf.data(), buf.current(), buf.remaining());
+              buf.limit(buf.remaining());
+          } else {
+              buf.clear();

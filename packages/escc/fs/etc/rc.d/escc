@@ -1,0 +1,18 @@
+start()
+{
+    modprobe escc &&
+    rm -f /dev/escc0 &&
+    mknod /dev/escc0 c 261 0 &&
+    rm -f /dev/escc1 &&
+    mknod /dev/escc1 c 261 1 &&
+    if [ -f "$cfg_escc_script" ]; then
+        source "$cfg_escc_script"
+    fi
+}
+
+stop()
+{
+    rmmod escc &&
+    rm -f /dev/escc0 &&
+    rm -f /dev/escc1
+}

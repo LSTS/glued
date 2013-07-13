@@ -1,0 +1,58 @@
+--- a/include/configs/igep00x0.h
++++ b/include/configs/igep00x0.h
+@@ -104,6 +104,8 @@
+ /* commands to include */
+ #include <config_cmd_default.h>
+
++#undef CONFIG_BOOT_ONENAND
++
+ #define CONFIG_CMD_CACHE
+ #define CONFIG_CMD_EXT2		/* EXT2 Support			*/
+ #define CONFIG_CMD_FAT		/* FAT support			*/
+@@ -119,8 +121,8 @@
+ #define CONFIG_CMD_DHCP
+ #define CONFIG_CMD_PING
+ #define CONFIG_CMD_NFS		/* NFS support			*/
+-#define CONFIG_CMD_MTDPARTS	/* Enable MTD parts commands	*/
+-#define CONFIG_MTD_DEVICE
++/* #define CONFIG_CMD_MTDPARTS	/\* Enable MTD parts commands	*\/ */
++/* #define CONFIG_MTD_DEVICE */
+
+ #undef CONFIG_CMD_FLASH		/* flinfo, erase, protect	*/
+ #undef CONFIG_CMD_IMLS		/* List all found images	*/
+@@ -142,6 +144,7 @@
+ #define CONFIG_ZERO_BOOTDELAY_CHECK
+
+ #define CONFIG_EXTRA_ENV_SETTINGS \
++	"bootfile=uImage\0" \
+ 	"usbtty=cdc_acm\0" \
+ 	"loadaddr=0x82000000\0" \
+ 	"usbtty=cdc_acm\0" \
+@@ -150,7 +153,7 @@
+ 	"vram=12M\0" \
+ 	"dvimode=1024x768MR-16@60\0" \
+ 	"defaultdisplay=dvi\0" \
+-	"mmcdev=0\0" \
++	"mmcdev=0:1\0" \
+ 	"mmcroot=/dev/mmcblk0p2 rw\0" \
+ 	"mmcrootfstype=ext4 rootwait\0" \
+ 	"nandroot=/dev/mtdblock4 rw\0" \
+@@ -174,7 +177,7 @@
+ 	"loadbootenv=fatload mmc ${mmcdev} ${loadaddr} uEnv.txt\0" \
+ 	"importbootenv=echo Importing environment from mmc ...; " \
+ 		"env import -t $loadaddr $filesize\0" \
+-	"loaduimage=fatload mmc ${mmcdev} ${loadaddr} uImage\0" \
++	"loaduimage=ext2load mmc ${mmcdev} ${loadaddr} ${bootfile}\0" \
+ 	"mmcboot=echo Booting from mmc ...; " \
+ 		"run mmcargs; " \
+ 		"bootm ${loadaddr}\0" \
+@@ -234,6 +237,9 @@
+ #define CONFIG_SYS_PTV			2       /* Divisor: 2^(PTV+1) => 8 */
+ #define CONFIG_SYS_HZ			1000
+
++#define CONFIG_ENV_IS_NOWHERE
++#define CONFIG_ENV_SIZE			(512 << 10) /* Total Size Environment */
++
+ /*
+  * Physical Memory Map
+  *

@@ -1,0 +1,35 @@
+--- linux-3.5.4/arch/x86/kernel/acpi/boot.c	2012-11-05 06:02:54.660816905 +0000
++++ linux-3.5.4.rasm/arch/x86/kernel/acpi/boot.c	2012-11-05 06:02:16.044145822 +0000
+@@ -1586,8 +1586,31 @@
+ 	if (!arg)
+ 		return -EINVAL;
+ 
++	/*
++	This hack uses RTC Alarm Hour register to signal if we
++	should enable ACPI or not. This is used to overcome a bug in
++	Kontron pITX-SP and IO-APIC, where we need to boot the
++	kernel without ACPI, reboot and then enable ACPI.
++	*/
++	if (strcmp(arg, "hack") == 0)
++	{
++		outb(0x05 | 0x80, 0x70);
++		if (inb(0x71) == 1)
++		{
++			outb(0x05 | 0x80, 0x70);
++			outb(0x00, 0x71);
++			printk(KERN_WARNING "ACPI: overriding acpi=off\n");
++		}
++		else
++		{
++			outb(0x05 | 0x80, 0x70);
++			outb(0x01, 0x71);
++			printk(KERN_WARNING "ACPI: reboot needed\n");
++			disable_acpi();
++		}
++	}
+ 	/* "acpi=off" disables both ACPI table parsing and interpreter */
+-	if (strcmp(arg, "off") == 0) {
++	else if (strcmp(arg, "off") == 0) {
+ 		disable_acpi();
+ 	}
+ 	/* acpi=force to over-ride black-list */

@@ -1,0 +1,143 @@
+--- /dev/null	2012-10-06 13:48:21.217530758 +0100
++++ linux-3.5.4/arch/arm/mach-omap2/manta-axxx.c	2012-10-08 16:02:17.605353112 +0100
+@@ -0,0 +1,140 @@
++//***************************************************************************
++// Copyright (C) 2010 Laboratório de Sistemas e Tecnologia Subaquática      *
++// Departamento de Engenharia Electrotécnica e de Computadores              *
++// Rua Dr. Roberto Frias, 4200-465 Porto, Portugal                          *
++//***************************************************************************
++// Author: Ricardo Martins                                                  *
++//***************************************************************************
++
++// Linux headers.
++#include <linux/gpio.h>
++#include <linux/gpio_keys.h>
++#include <linux/i2c.h>
++#include <linux/input.h>
++#include <linux/interrupt.h>
++#include <linux/irq.h>
++#include <linux/platform_device.h>
++#include <linux/slab.h>
++#include <linux/time.h>
++#include <linux/timer.h>
++#include <plat/i2c.h>
++#include <linux/pps-gpio.h>
++
++// Machine headers.
++#include "mux.h"
++
++// Buttons
++#define MANTA_AXXX_GPIO_BTN0 139
++#define MANTA_AXXX_GPIO_BTN1 138
++#define MANTA_AXXX_GPIO_BTN2 137
++
++// PPS
++#define MANTA_AXXX_GPIO_PPS0 136
++
++// Transducer connected
++#define MANTA_AXXX_GPIO_TXDC 157
++
++// Outputs
++#define MANTA_AXXX_GPIO_LED0 135
++#define MANTA_AXXX_GPIO_LCDL 133
++
++static struct gpio_keys_button manta_axxx_gpio_buttons[] =
++{
++  {
++    .code	= BTN_0,
++    .gpio	= MANTA_AXXX_GPIO_BTN0,
++    .desc	= "btn0",
++    .wakeup	= 1,
++    .debounce_interval = 2,
++  },
++  {
++    .code	= BTN_1,
++    .gpio	= MANTA_AXXX_GPIO_BTN1,
++    .desc	= "btn1",
++    .wakeup	= 1,
++    .debounce_interval = 2,
++  },
++  {
++    .code	= BTN_2,
++    .gpio	= MANTA_AXXX_GPIO_BTN2,
++    .desc	= "btn2",
++    .wakeup	= 1,
++    .debounce_interval = 2,
++  },
++};
++
++static struct gpio_keys_platform_data manta_axxx_gpio_key_info =
++{
++  .buttons	= manta_axxx_gpio_buttons,
++  .nbuttons	= ARRAY_SIZE(manta_axxx_gpio_buttons),
++};
++
++static struct platform_device manta_axxx_keys_gpio =
++{
++  .name		= "gpio-keys",
++  .id		= -1,
++  .dev		= {
++    .platform_data	= &manta_axxx_gpio_key_info,
++  },
++};
++
++static struct platform_device* manta_axxx_devices[] __initdata =
++{
++  &manta_axxx_keys_gpio
++};
++
++static struct i2c_board_info __initdata i2c_devices[] =
++{
++  {
++    I2C_BOARD_INFO("ds1307", 0x68),
++  },
++};
++
++/* PPS-GPIO platform data */
++static struct pps_gpio_platform_data pps_gpio_info = {
++  .assert_falling_edge = false,
++  .capture_clear = false,
++  .gpio_pin = MANTA_AXXX_GPIO_PPS0,
++  .gpio_label = "PPS",
++};
++
++static struct platform_device pps_gpio_device = {
++  .name = "pps-gpio",
++  .id = -1,
++  .dev = {
++    .platform_data = &pps_gpio_info
++  },
++};
++
++void __init
++manta_axxx_init(void)
++{
++  // Initialize GPIOs.
++  omap_mux_init_gpio(MANTA_AXXX_GPIO_PPS0, OMAP_PIN_INPUT);
++  omap_mux_init_gpio(MANTA_AXXX_GPIO_BTN0, OMAP_PIN_INPUT_PULLDOWN);
++  omap_mux_init_gpio(MANTA_AXXX_GPIO_BTN1, OMAP_PIN_INPUT_PULLDOWN);
++  omap_mux_init_gpio(MANTA_AXXX_GPIO_BTN2, OMAP_PIN_INPUT_PULLDOWN);
++  omap_mux_init_gpio(MANTA_AXXX_GPIO_TXDC, OMAP_PIN_INPUT_PULLUP);
++  omap_mux_init_gpio(MANTA_AXXX_GPIO_LED0, OMAP_PIN_OUTPUT);
++  omap_mux_init_gpio(MANTA_AXXX_GPIO_LCDL, OMAP_PIN_OUTPUT);
++
++  // Initialize PPS.
++  if (platform_device_register(&pps_gpio_device))
++    pr_warning("failed to register PPS GPIO");
++
++  omap_register_i2c_bus(2, 100, i2c_devices, ARRAY_SIZE(i2c_devices));
++
++  if (gpio_request(MANTA_AXXX_GPIO_LED0, "Status LED") == 0)
++  {
++    gpio_direction_output(MANTA_AXXX_GPIO_LED0, 1);
++    gpio_export(MANTA_AXXX_GPIO_LED0, 1);
++  }
++
++  if (gpio_request(MANTA_AXXX_GPIO_LCDL, "LCD Backlight") == 0)
++  {
++    gpio_direction_output(MANTA_AXXX_GPIO_LCDL, 1);
++    gpio_export(MANTA_AXXX_GPIO_LCDL, 1);
++  }
++
++  platform_add_devices(manta_axxx_devices, ARRAY_SIZE(manta_axxx_devices));
++}

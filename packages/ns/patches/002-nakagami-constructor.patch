@@ -1,0 +1,14 @@
+--- ns-2.34/mobile/nakagami.cc	2009-06-14 18:35:45.000000000 +0100
++++ ns-2.34.rasm/mobile/nakagami.cc	2012-09-17 23:58:47.205778273 +0100
+@@ -180,9 +180,9 @@
+  		double resultPower;
+  		
+         if (int_m == m) {
+- 			resultPower = ErlangRandomVariable::ErlangRandomVariable(Pr/m, int_m).value();
++ 			resultPower = ErlangRandomVariable(Pr/m, int_m).value();
+  		} else {
+- 			resultPower = GammaRandomVariable::GammaRandomVariable(m, Pr/m).value();
++ 			resultPower = GammaRandomVariable(m, Pr/m).value();
+  		}
+  		return resultPower;
+ 	}

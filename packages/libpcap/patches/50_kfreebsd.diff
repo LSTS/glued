@@ -1,0 +1,147 @@
+Support for GNU/kFreeBSD, by Aurelien Jarno and others.
+---
+ configure    |   62 ++---------------------------------------------------------
+ configure.in |   19 ++----------------
+ 2 files changed, 6 insertions(+), 75 deletions(-)
+
+--- a/configure.in
++++ b/configure.in
+@@ -104,6 +104,7 @@
+ dnl
+ AC_CHECK_HEADERS(sys/ioccom.h sys/sockio.h limits.h paths.h)
+ AC_CHECK_HEADERS(net/pfvar.h, , , [#include <sys/types.h>
++#include <net/if_pflog.h>
+ #include <sys/socket.h>
+ #include <net/if.h>])
+ if test "$ac_cv_header_net_pfvar_h" = yes; then
+@@ -304,7 +305,7 @@
+ 	#
+ 	V_PCAP=bpf
+ 	AC_DEFINE(HAVE_CLONING_BPF,1,[define if you have a cloning BPF device])
+-elif test -r /dev/bpf0 ; then
++elif test -r /dev/bpf0 || test -r /usr/include/net/bpf.h ; then
+ 	V_PCAP=bpf
+ elif test -r /usr/include/net/pfilt.h ; then
+ 	V_PCAP=pf
+@@ -464,20 +465,6 @@
+ 	#
+ 	AC_CHECK_HEADERS(net/if_media.h)
+ 
+-	AC_MSG_CHECKING(whether the system supports zerocopy BPF)
+-	AC_TRY_COMPILE(
+-	    [#include <sys/socket.h>
+-	    #include <sys/ioctl.h>
+-	    #include <net/if.h>
+-	    #include <net/bpf.h>],
+-	    [return (BIOCROTZBUF + BPF_BUFMODE_ZBUF);],
+-	    [  
+-		AC_MSG_RESULT(yes)
+-		AC_DEFINE(HAVE_ZEROCOPY_BPF, 1,
+-		[define if the system supports zerocopy BPF])
+-	    ],
+-	    AC_MSG_RESULT(no))
+-
+ 	    #
+ 	    # Check whether we have struct BPF_TIMEVAL.
+ 	    #
+@@ -1234,7 +1221,7 @@
+ 	MAN_MISC_INFO=5
+ 	;;
+ 
+-linux*|freebsd*|netbsd*|openbsd*|dragonfly*)
++linux*|freebsd*|netbsd*|openbsd*|dragonfly*|kfreebsd*)
+ 	DYEXT="so"
+ 
+ 	#
+--- a/configure
++++ b/configure
+@@ -5440,6 +5440,7 @@
+ cat >>conftest.$ac_ext <<_ACEOF
+ /* end confdefs.h.  */
+ #include <sys/types.h>
++#include <net/if_pflog.h>
+ #include <sys/socket.h>
+ #include <net/if.h>
+ 
+@@ -6923,7 +6924,7 @@
+ #define HAVE_CLONING_BPF 1
+ _ACEOF
+ 
+-elif test -r /dev/bpf0 ; then
++elif test -r /dev/bpf0 || test -r /usr/include/net/bpf.h ; then
+ 	V_PCAP=bpf
+ elif test -r /usr/include/net/pfilt.h ; then
+ 	V_PCAP=pf
+@@ -7665,63 +7666,6 @@
+ 
+ done
+ 
+-
+-	{ echo "$as_me:$LINENO: checking whether the system supports zerocopy BPF" >&5
+-echo $ECHO_N "checking whether the system supports zerocopy BPF... $ECHO_C" >&6; }
+-	cat >conftest.$ac_ext <<_ACEOF
+-/* confdefs.h.  */
+-_ACEOF
+-cat confdefs.h >>conftest.$ac_ext
+-cat >>conftest.$ac_ext <<_ACEOF
+-/* end confdefs.h.  */
+-#include <sys/socket.h>
+-	    #include <sys/ioctl.h>
+-	    #include <net/if.h>
+-	    #include <net/bpf.h>
+-int
+-main ()
+-{
+-return (BIOCROTZBUF + BPF_BUFMODE_ZBUF);
+-  ;
+-  return 0;
+-}
+-_ACEOF
+-rm -f conftest.$ac_objext
+-if { (ac_try="$ac_compile"
+-case "(($ac_try" in
+-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+-  *) ac_try_echo=$ac_try;;
+-esac
+-eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
+-  (eval "$ac_compile") 2>conftest.er1
+-  ac_status=$?
+-  grep -v '^ *+' conftest.er1 >conftest.err
+-  rm -f conftest.er1
+-  cat conftest.err >&5
+-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+-  (exit $ac_status); } && {
+-	 test -z "$ac_c_werror_flag" ||
+-	 test ! -s conftest.err
+-       } && test -s conftest.$ac_objext; then
+-
+-		{ echo "$as_me:$LINENO: result: yes" >&5
+-echo "${ECHO_T}yes" >&6; }
+-
+-cat >>confdefs.h <<\_ACEOF
+-#define HAVE_ZEROCOPY_BPF 1
+-_ACEOF
+-
+-
+-else
+-  echo "$as_me: failed program was:" >&5
+-sed 's/^/| /' conftest.$ac_ext >&5
+-
+-	{ echo "$as_me:$LINENO: result: no" >&5
+-echo "${ECHO_T}no" >&6; }
+-fi
+-
+-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+-
+ 	    #
+ 	    # Check whether we have struct BPF_TIMEVAL.
+ 	    #
+@@ -9607,7 +9551,7 @@
+ 	MAN_MISC_INFO=5
+ 	;;
+ 
+-linux*|freebsd*|netbsd*|openbsd*|dragonfly*)
++linux*|freebsd*|netbsd*|openbsd*|dragonfly*|kfreebsd*)
+ 	DYEXT="so"
+ 
+ 	#

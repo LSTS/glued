@@ -1,0 +1,23 @@
+diff -Nru xerces-c-src_2_8_0.ori/src/xercesc/Makefile.incl xerces-c-src_2_8_0/src/xercesc/Makefile.incl
+--- xerces-c-src_2_8_0.ori/src/xercesc/Makefile.incl	2007-08-30 13:10:20.000000000 +0100
++++ xerces-c-src_2_8_0/src/xercesc/Makefile.incl	2011-01-21 15:01:12.000000000 +0000
+@@ -531,7 +531,7 @@
+       ifeq (${TRANSCODER}, ICU)
+         ALLLIBS = ${LIBS} -L/usr/lib -L/usr/local/lib -L/usr/ccs/lib -licuuc -licudata
+       else
+-        ALLLIBS = ${LIBS} -L/usr/lib -L/usr/local/lib -L/usr/ccs/lib
++        ALLLIBS = ${LIBS} #-L/usr/lib -L/usr/local/lib -L/usr/ccs/lib
+       endif
+ 
+       ifeq (${MESSAGELOADER}, ICU)
+diff -Nru xerces-c-src_2_8_0.ori/src/xercesc/util/Transcoders/IconvGNU/IconvGNUTransService.cpp xerces-c-src_2_8_0/src/xercesc/util/Transcoders/IconvGNU/IconvGNUTransService.cpp
+--- xerces-c-src_2_8_0.ori/src/xercesc/util/Transcoders/IconvGNU/IconvGNUTransService.cpp	2007-08-28 19:44:40.000000000 +0100
++++ xerces-c-src_2_8_0/src/xercesc/util/Transcoders/IconvGNU/IconvGNUTransService.cpp	2011-01-21 15:01:44.000000000 +0000
+@@ -23,6 +23,7 @@
+ //  Includes
+ // ---------------------------------------------------------------------------
+ #include <ctype.h>
++#include <cstdio>
+ 
+ #include <locale.h>
+ #include <iconv.h>

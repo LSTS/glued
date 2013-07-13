@@ -1,0 +1,4 @@
+ssh             22/tcp                          # The Secure Shell (SSH) Protocol
+ssh             22/udp                          # The Secure Shell (SSH) Protocol
+ntp             123/tcp                         # Network Time Protocol
+ntp             123/udp                         # Network Time Protocol

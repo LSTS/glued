@@ -1,0 +1,14 @@
+diff -Nru u-boot-2013.01.01/board/isee/igep0020/igep0020.h u-boot-2013.01.01.rasm/board/isee/igep0020/igep0020.h
+--- u-boot-2013.01.01/board/isee/igep0020/igep0020.h	2013-01-31 19:47:42.000000000 +0000
++++ u-boot-2013.01.01.rasm/board/isee/igep0020/igep0020.h	2013-06-24 01:56:54.066266486 +0100
+@@ -146,6 +146,10 @@
+ 	MUX_VAL(CP(SYS_BOOT4),      (IEN  | PTD | DIS | M4)) /* GPIO_6 */\
+ 	MUX_VAL(CP(SYS_BOOT5),      (IEN  | PTD | DIS | M4)) /* GPIO_7 */\
+ 	MUX_VAL(CP(SYS_BOOT6),      (IEN  | PTD | DIS | M4)) /* GPIO_8 */\
++	MUX_VAL(CP(MCBSP2_FSX),     (IEN  | PTD | DIS | M0)) /*McBSP2_FSX*/\
++	MUX_VAL(CP(MCBSP2_CLKX),    (IEN  | PTD | DIS | M0)) /*McBSP2_CLKX*/\
++	MUX_VAL(CP(MCBSP2_DR),      (IEN  | PTD | DIS | M0)) /*McBSP2_DR*/\
++	MUX_VAL(CP(MCBSP2_DX),      (IDIS | PTD | DIS | M0)) /*McBSP2_DX*/\
+ 	MUX_VAL(CP(SDRC_CKE0),      (IDIS | PTU | EN  | M0)) /* SDRC_CKE0 */\
+ 	MUX_VAL(CP(SDRC_CKE1),      (IDIS | PTU | EN  | M0)) /* SDRC_CKE1 */
+ #endif

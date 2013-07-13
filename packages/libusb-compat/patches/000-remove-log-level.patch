@@ -1,0 +1,18 @@
+diff -Nru libusb-compat-0.1.4/libusb/core.c libusb-compat-0.1.4.rasm/libusb/core.c
+--- libusb-compat-0.1.4/libusb/core.c	2012-04-24 06:37:34.000000000 +0100
++++ libusb-compat-0.1.4.rasm/libusb/core.c	2012-08-07 01:45:40.251527822 +0100
+@@ -32,12 +32,14 @@
+ static libusb_context *ctx = NULL;
+ static int usb_debug = 0;
+ 
++#if 0
+ enum usbi_log_level {
+ 	LOG_LEVEL_DEBUG,
+ 	LOG_LEVEL_INFO,
+ 	LOG_LEVEL_WARNING,
+ 	LOG_LEVEL_ERROR,
+ };
++#endif
+ 
+ #ifdef ENABLE_LOGGING
+ #define _usbi_log(level, fmt...) usbi_log(level, __FUNCTION__, fmt)

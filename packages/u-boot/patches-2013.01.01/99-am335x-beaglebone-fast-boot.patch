@@ -1,0 +1,56 @@
+--- u-boot-2013.01/include/configs/am335x_evm.h	2013-01-15 21:47:42.000000000 +0000
++++ u-boot-2013.01.rasm/include/configs/am335x_evm.h	2013-04-09 18:25:22.027878365 +0100
+@@ -46,7 +46,9 @@
+ #define CONFIG_VERSION_VARIABLE
+ 
+ /* set to negative value for no autoboot */
+-#define CONFIG_BOOTDELAY		1
++#define CONFIG_BOOTDELAY		0
++#define CONFIG_ZERO_BOOTDELAY_CHECK
++
+ #define CONFIG_ENV_VARS_UBOOT_CONFIG
+ #define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+@@ -241,6 +243,7 @@
+ #define CONFIG_SPL_LDSCRIPT		"$(CPUDIR)/omap-common/u-boot-spl.lds"
+ 
+ #define CONFIG_SPL_BOARD_INIT
++#if 0
+ #define CONFIG_SPL_NAND_AM33XX_BCH
+ #define CONFIG_SPL_NAND_SUPPORT
+ #define CONFIG_SPL_NAND_BASE
+@@ -271,6 +274,7 @@
+ #define	CONFIG_SYS_NAND_U_BOOT_START	CONFIG_SYS_TEXT_BASE
+ 
+ #define CONFIG_SYS_NAND_U_BOOT_OFFS	0x80000
++#endif
+ 
+ /*
+  * 1MB into the SDRAM to allow for SPL's bss at the beginning of SDRAM
+@@ -292,6 +296,7 @@
+ /*
+  * USB configuration
+  */
++#if 0
+ #define CONFIG_USB_MUSB_DSPS
+ #define CONFIG_ARCH_MISC_INIT
+ #define CONFIG_MUSB_GADGET
+@@ -302,6 +307,7 @@
+ #define CONFIG_AM335X_USB0_MODE	MUSB_PERIPHERAL
+ #define CONFIG_AM335X_USB1
+ #define CONFIG_AM335X_USB1_MODE MUSB_HOST
++#endif
+ 
+ #ifdef CONFIG_MUSB_HOST
+ #define CONFIG_CMD_USB
+@@ -334,7 +340,9 @@
+ #define CONFIG_PHY_ADDR			0
+ #define CONFIG_PHY_SMSC
+ 
+-#define CONFIG_NAND
++#undef CONFIG_NAND
++#define CONFIG_ENV_SIZE                        (128 << 10)     /* 128 KiB */
++
+ /* NAND support */
+ #ifdef CONFIG_NAND
+ #define CONFIG_CMD_NAND

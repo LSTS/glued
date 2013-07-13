@@ -1,0 +1,16 @@
+--- linux-omap-2.6.35.9-0.ori/drivers/usb/serial/option.c	2010-11-23 07:41:25.000000000 +0000
++++ linux-omap-2.6.35.9-0/drivers/usb/serial/option.c	2010-12-10 04:07:00.352473367 +0000
+@@ -1050,6 +1050,13 @@
+ 		serial->interface->cur_altsetting->desc.bInterfaceNumber == 1)
+ 		return -ENODEV;
+ 
++	/* Don't bind useless interfaces on Huawei E1550 */
++	if ((serial->dev->descriptor.idVendor == HUAWEI_VENDOR_ID &&
++		serial->dev->descriptor.idProduct == 0x140C) &&
++		(serial->interface->cur_altsetting->desc.bInterfaceNumber == 1 ||
++			serial->interface->cur_altsetting->desc.bInterfaceNumber == 2))
++		return -ENODEV;
++
+ 	data = serial->private = kzalloc(sizeof(struct usb_wwan_intf_private), GFP_KERNEL);
+ 
+ 	if (!data)

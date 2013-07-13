@@ -1,0 +1,11 @@
+--- configure.ac	2012-09-27 11:57:58.190424449 +0200
++++ configure.ac	2012-09-27 12:03:02.599357310 +0200
+@@ -42,6 +42,8 @@
+ DESERT_CPPFLAGS="$DESERT_CPPFLAGS "'-I$(top_srcdir)/mobility/uwdriftposition'
+ DESERT_CPPFLAGS="$DESERT_CPPFLAGS "'-I$(top_srcdir)/mobility/uwgmposition'
+ 
++TCL2CPP="qemu-arm -L ${cfg_dir_rootfs} ${cfg_dir_rootfs}/lib/ld-linux.so.3 ${cfg_dir_toolchain_sysroot}/usr/bin/tcl2c++"
++
+ AC_SUBST(DESERT_CPPFLAGS) 
+ 
+ AC_SUBST(DESERT_LDFLAGS) 

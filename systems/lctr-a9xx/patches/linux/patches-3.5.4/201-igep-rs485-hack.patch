@@ -1,0 +1,30 @@
+diff -Nru linux-3.5.4/arch/arm/mach-omap2/board-igep0020.c linux-3.5.4.rasm/arch/arm/mach-omap2/board-igep0020.c
+--- linux-3.5.4/arch/arm/mach-omap2/board-igep0020.c	2012-09-15 00:28:08.000000000 +0200
++++ linux-3.5.4.rasm/arch/arm/mach-omap2/board-igep0020.c	2012-10-10 19:57:57.928347091 +0200
+@@ -611,6 +611,26 @@
+ 	regulator_register_fixed(1, dummy_supplies, ARRAY_SIZE(dummy_supplies));
+ 	omap3_mux_init(board_mux, OMAP_PACKAGE_CBB);
+ 
++	/* Change ttyO0 from RS485 to RS232. */
++	omap_mux_init_signal("uart1_rts.safe_mode", 0);
++        omap_mux_init_signal("uart1_cts.safe_mode", 0);
++
++        omap_mux_init_gpio(150, OMAP_PIN_INPUT);
++        if (gpio_request(150, "UART1_RTS") == 0)
++        {
++          gpio_direction_input(150);
++          gpio_set_value(150, 0);
++          gpio_export(150, 1);
++        }
++
++        omap_mux_init_gpio(149, OMAP_PIN_INPUT);
++        if (gpio_request(149, "UART1_CTS") == 0)
++        {
++          gpio_direction_input(149);
++          gpio_set_value(149, 0);
++          gpio_export(149, 1);
++        }
++
+ 	/* Get IGEP2 hardware revision */
+ 	igep2_get_revision();
+ 
