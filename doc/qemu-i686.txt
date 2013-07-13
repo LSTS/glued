@@ -1,4 +1,0 @@
-modprobe tun
-vde_switch -tap tap0 -daemon -mod 660 -group kvm
-ifconfig tap0 10.0.2.1 netmask 255.255.255.0
-qemu-system-i386 -enable-kvm -serial telnet:localhost:1200,server -net nic,macaddr=52:54:00:00:EE:03 -net vde -hda disk.img 
