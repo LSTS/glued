@@ -44,6 +44,15 @@ start()
     if [ -n "$cfg_eth_prv_ip" ]; then
         ifconfig eth0:prv "$cfg_eth_prv_ip" up
     fi
+
+    # Static ARP table.
+    if [ -n "$cfg_arp_table" ]; then
+        for e in $cfg_arp_table; do
+            ip="$(echo $e | cut -f1 -d'|')"
+            mac="$(echo $e | cut -f2 -d'|')"
+            arp -s "$ip" "$mac"
+        done
+    fi
 }
 
 stop()
