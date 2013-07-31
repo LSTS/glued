@@ -3,12 +3,14 @@ start()
     if [ -x /usr/bin/dropbearmulti ]; then
         if ! [ -f /etc/dropbear/dropbear_rsa_host_key ]; then
             mount -o remount,rw /
+            mkdir -p /etc/dropbear &&
             dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key
             mount -o remount,ro /
         fi
-        
+
         if ! [ -f /etc/dropbear/dropbear_dss_host_key ]; then
             mount -o remount,rw /
+            mkdir -p /etc/dropbear &&
             dropbearkey -t dss -f /etc/dropbear/dropbear_dss_host_key
             mount -o remount,ro /
         fi
