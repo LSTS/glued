@@ -4,5 +4,6 @@ requires=\
 (
     'base/host'
     'gcc/cross'
+    'eglibc/locales'
     'gdb/cross'
 )
