@@ -27,8 +27,8 @@ host_install()
         gunzip -f "$cfg_dir_toolchain_sysroot/usr/share/i18n/charmaps/ISO-8859-1.gz"
     fi &&
 
-    ./localedef -v -c -i pt_PT -f UTF-8 pt_PT.UTF-8
-    ./localedef -v -c -i ru_RU -f UTF-8 ru_RU.UTF-8
+    ./localedef -v -c -i pt_PT -f UTF-8 pt_PT
+    ./localedef -v -c -i ru_RU -f UTF-8 ru_RU
     true
 }
 
