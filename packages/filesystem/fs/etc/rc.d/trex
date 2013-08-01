@@ -9,7 +9,8 @@ TREX_CFG=xtreme2
 maybe_upgrade()
 {
     if ! [ -f $TREX_HOME/trex-*.tar.bz2 ]; then
-        return 1
+  
+	return 1
     fi
 
     echo -n "* Starting T-REX upgrade... "
@@ -79,6 +80,10 @@ start()
 	fi
     
     amc $TREX_CFG --nice=$TREX_NICE < /dev/null > /dev/null 2>&1 &
+    PID=$!
+    sleep 1
+    track_amc $PID > $TREX_LOG_DIR/latest/track_amc.csv &
+
 }
 
 stop()
@@ -86,7 +91,8 @@ stop()
     while [ 1 ]; do
         echo "* Stopping process..."        
         killall amc > /dev/null 2>&1
-
+	killall -9 track_amc > /dev/null 2>&1
+       
         for r in 0 1 2 3 4 5 6 7 8 9; do
             if [ -n "$(pidof amc)" ]; then
                 echo "* Waiting for process to exit ($r)..."
