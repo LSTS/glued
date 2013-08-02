@@ -30,7 +30,7 @@ start()
     echo "$dune_base/log/core.%t" > /proc/sys/kernel/core_pattern
     maybe_upgrade
     if [ -n "$cfg_dune_i18n" ]; then
-        export LC_ALL="$cfg_dune_i18n"
+        export LC_MESSAGES="$cfg_dune_i18n"
     fi
 
     $dune_base/bin/dune-launcher -m -p Hardware -c "$cfg_dune" < /dev/null > /dev/null 2>&1 &
