@@ -9,7 +9,7 @@ start()
             mkdir -p "$point"
         fi
 
-        n=0; while [ $n -lt 20 ]; do
+        n=0; while [ $n -lt 120 ]; do
             args=''
 
             if [ $fstype = 'ext3' ]; then
