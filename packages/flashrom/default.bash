@@ -1,6 +1,6 @@
 version=\
 (
-    "0.9.5.2"
+    '0.9.5.2'
 )
 
 url=\
@@ -10,12 +10,17 @@ url=\
 
 md5=\
 (
-    "280f8b1d3ef0533d6ec913b0da857477"
+    '280f8b1d3ef0533d6ec913b0da857477'
 )
 
 maintainer=\
 (
-    "Renato Caldas <rmsc@fe.up.pt>"
+    'Renato Caldas <rmsc@fe.up.pt>'
+)
+
+requires=\
+(
+    'pciutils/default'
 )
 
 build()
