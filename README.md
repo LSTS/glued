@@ -18,10 +18,10 @@ terminal:
 ./mkconfig.bash list
 
 Once you have identified the name of the system you want to build,
-issue the following command, replacing <system_name> with the name of
+issue the following command, replacing \<system_name> with the name of
 that system:
 
-./mkconfig.bash <system_name>
+./mkconfig.bash \<system_name>
 
 Building
 ========
@@ -31,7 +31,7 @@ necessary packages.
 
 To start the compilation process, issue the following command:
 
-./mksystem.bash <config_file>
+./mksystem.bash \<config_file>
 
 Archives
 ========
@@ -46,7 +46,7 @@ To create a package containing all the necessary tools to
 cross-compile C/C++ programs for you target system, issue the
 following command:
 
-./pktoolchain.bash <config_file>
+./pktoolchain.bash \<config_file>
 
 Root Filesystem Archive
 -----------------------
@@ -56,7 +56,7 @@ GLUED system. It allows you to upgrade existing GLUED systems and
 initialize storage devices. To create a root filesystem archive, issue
 the following command:
 
-./pkrootfs.bash <config_file>
+./pkrootfs.bash \<config_file>
 
 Initializing Storage Devices
 ============================
@@ -72,7 +72,7 @@ To perform all of the previous steps, you must first identify the
 target block device file and then issue the following command (as
 root):
 
-./mkdisk.bash <config_file> <block_device>
+./mkdisk.bash \<config_file> \<block_device>
 
 Example
 =======
