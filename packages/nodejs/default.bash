@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "http://nodejs.org/dist/v0.10.18/node-v$version.tar.gz"
+    "http://nodejs.org/dist/v$version/node-v$version.tar.gz"
 )
 
 md5=\
