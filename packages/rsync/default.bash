@@ -1,6 +1,6 @@
 version=\
 (
-    "3.0.9"
+    '3.1.0'
 )
 
 url=\
@@ -10,12 +10,12 @@ url=\
 
 md5=\
 (
-    "5ee72266fe2c1822333c407e1761b92b"
+    '3be148772a33224771a8d4d2a028b132'
 )
 
 maintainer=\
 (
-    "Ricardo Martins <rasm@fe.up.pt>"
+    'Ricardo Martins <rasm@fe.up.pt>'
 )
 
 requires=\
