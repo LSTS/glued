@@ -330,7 +330,7 @@ n=0; while [ -n "${requires[$n]}" ]; do
 
     "$0" "$1" "$req"
     if [ $? -ne 0 ]; then
-        err "failed to build dependecy for package $PKG / $PKG_VAR"
+        err "failed to build dependency for package $PKG / $PKG_VAR"
         exit 1
     fi
 done
