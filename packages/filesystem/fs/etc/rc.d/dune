@@ -14,6 +14,7 @@ maybe_upgrade()
     rm -rf $dune_base/.dune-upgrade &&
     mkdir $dune_base/.dune-upgrade &&
     tar -x -C $dune_base/.dune-upgrade -f $dune_base/dune-*.tar.bz2 &&
+    cp "$dune_base/etc/"*-saved.ini "$dune_base/.dune-upgrade/"dune-*/etc 2> /dev/null &&
     rm $dune_base/dune-*.tar.bz2 &&
     for dir in $dune_base/.dune-upgrade/dune-*/*; do
         d="$(basename "$dir")"
