@@ -1,6 +1,6 @@
 version=\
 (
-    '4.6.4'
+    '4.8.2'
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    'b407a3d1480c11667f293bfb1f17d1a4'
+    'a3d7d63b9cb6b6ea049469a0c4a43c9d'
 )
 
 build_dir=$PKG_VAR
