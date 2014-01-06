@@ -91,6 +91,21 @@ download()
         let n++
     done
 
+    n=0; while [ -n "${git[$n]}" ]; do
+        u="$(echo ${git[$n]} | cut -f1 -d'#')"
+        b="$(echo ${git[$n]} | cut -f2 -d'#')"
+        dir=$(basename $u)
+        des="${cfg_dir_builds}/$PKG/$dir-git"
+
+        if [[ "$u" == git* ]]; then
+            git clone --verbose --branch "$b" "$u" "$des"
+        else
+            git clone --verbose               "$u" "$des"
+        fi
+
+        let n++
+    done
+
     return 0
 }
 
