@@ -11,7 +11,7 @@ maintainer=\
 target_install()
 {
     $cmd_mkdir \
-        "$cfg_dir_rootfs"/{dev,boot,proc,sys,etc,bin,sbin,opt,var,root} \
+        "$cfg_dir_rootfs"/{dev,boot,proc,sys,mnt,etc,bin,sbin,opt,var,root} \
         "$cfg_dir_rootfs"/usr/{bin,sbin,lib,lib/firmware} \
         "$cfg_dir_rootfs"/opt \
         "$cfg_dir_rootfs"/dev/{shm,pts} \
