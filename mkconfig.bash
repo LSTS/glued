@@ -88,14 +88,15 @@ if ! [ -f "architectures/$cfg_architecture.cfg" ]; then
 fi
 source "architectures/$cfg_architecture.cfg"
 
-# Creating the mac address if not set in configuration file we create one derivated from the IP address:
-if [ -n $cfg_eth_ext_ip ]; then
-  ips=(`echo $cfg_eth_ext_ip | sed -e 's/\./\n/g'`)
-  for i in "${ips[@]}"
-  do
-    hip=("${hip[@]}" `printf '%x' $i`)
-  done
-  cfg_eth_ext_mac="80:c1:${hip[0]}:${hip[1]}:${hip[2]}:${hip[3]}"
+# Create a MAC address based on the IP address if cfg_eth_ext_soft_mac
+# is set.
+if [ -n "$cfg_eth_ext_ip" ] && [ -n "$cfg_eth_ext_soft_mac" ]; then
+    ips=(`echo $cfg_eth_ext_ip | sed -e 's/\./\n/g'`)
+    for i in "${ips[@]}"
+    do
+        hip=("${hip[@]}" `printf '%x' $i`)
+    done
+    cfg_eth_ext_mac="80:c1:${hip[0]}:${hip[1]}:${hip[2]}:${hip[3]}"
 fi
 
 # Config: system name.
