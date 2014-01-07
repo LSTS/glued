@@ -1,6 +1,6 @@
 version=\
 (
-    "3.1"
+    '3.1'
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    "5d89d64d94bcfefa9ce8f59f4b81bdcb"
+    '5d89d64d94bcfefa9ce8f59f4b81bdcb'
 )
 
 configure()
@@ -23,7 +23,7 @@ configure()
 	--disable-device-mapper       \
 	--disable-shared              \
 	--enable-static               \
-	--disable-nls                 
+	--disable-nls
 }
 
 build()
@@ -35,4 +35,3 @@ host_install()
 {
   $cmd_make install
 }
-
