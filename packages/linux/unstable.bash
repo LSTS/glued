@@ -22,6 +22,5 @@ maintainer=\
 
 requires=\
 (
-    'u-boot'
     'kmod/host'
 )
