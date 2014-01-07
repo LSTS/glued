@@ -1,21 +1,21 @@
 version=\
 (
-    "3.1.6"
+    '4.1.0'
 )
 
 url=\
 (
-    "http://ftp.gnu.org/gnu/gawk/gawk-$version.tar.bz2"
+    "http://ftp.gnu.org/gnu/gawk/gawk-$version.tar.xz"
 )
 
 md5=\
 (
-    "c9926c0bc8c177cb9579708ce67f0d75"
+    'b18992ff8faf3217dab55d2d0aa7d707'
 )
 
 maintainer=\
 (
-    "Ricardo Martins <rasm@fe.up.pt>"
+    'Ricardo Martins <rasm@fe.up.pt>'
 )
 
 configure()
