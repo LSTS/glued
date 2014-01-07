@@ -5,6 +5,10 @@ post_unpack()
     if [ -n "$patches" ]; then
         cat $patches | patch -p1
     fi
+
+    if [ -d "$cfg_dir_toolchain/firmware" ]; then
+        tar -C "$cfg_dir_toolchain/firmware" -c -v -f - . | tar -C firmware -x -v -f -
+    fi
 }
 
 refresh()
@@ -21,7 +25,9 @@ configure()
     $cmd_make \
         ARCH=${cfg_target_linux} \
         mrproper &&
+
     cp "$cfg_dir_system/cfg/linux-${version}.cfg" .config &&
+
     yes '' | $cmd_make \
         CROSS_COMPILE=${cfg_target_canonical}- \
         ARCH=${cfg_target_linux} \
@@ -49,6 +55,22 @@ build()
             uImage
     fi
 
+    # Compressed image.
+    if [ "$(basename $cfg_target_linux_kernel)" = 'zImage' ]; then
+        $cmd_make \
+            CROSS_COMPILE=$cfg_target_canonical- \
+            ARCH=$cfg_target_linux \
+            zImage
+    fi
+
+    # Device tree blob.
+    if [ -n "$cfg_target_linux_dtb" ]; then
+        $cmd_make \
+            CROSS_COMPILE=$cfg_target_canonical- \
+            ARCH=$cfg_target_linux \
+            dtbs
+    fi
+
     if [ -n "${cfg_target_linux_size}" ]; then
         dd if="$cfg_target_linux_kernel" of="${cfg_target_linux_kernel}.padded" \
             ibs="${cfg_target_linux_size}" conv=sync &&
@@ -65,17 +87,15 @@ target_install()
         $strip -s -R .comment "$cfg_target_linux_kernel"
     fi
 
-    case "$cfg_target_linux_kernel_compress" in
-        gzip)
-            gzip "$cfg_target_linux_kernel" -c > "$kernel"
-            ;;
-        *)
-            cp -v "$cfg_target_linux_kernel" "$kernel"
-            ;;
-    esac
+    # Kernel image.
+    if [ -n "$cfg_target_linux_kernel" ]; then
+        cp -v "$cfg_target_linux_kernel" "$kernel"
+        cp -v "$cfg_target_linux_kernel" "$cfg_dir_rootfs/boot/kernel"
+    fi
 
-    if [ -z "$cfg_target_linux_kernel_standalone" ]; then
-        cp "$kernel" $cfg_dir_rootfs/boot/kernel
+    # Device tree blob.
+    if [ -n "$cfg_target_linux_dtb" ]; then
+        cp -v "$cfg_target_linux_dtb" "$cfg_dir_rootfs/boot/board.dtb"
     fi
 
     $cmd_make \
