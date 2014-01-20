@@ -1,16 +1,16 @@
 version=\
 (
-    '3.2.33'
+    '3.10.27'
 )
 
 url=\
 (
-    "http://www.kernel.org/pub/linux/kernel/v3.0/linux-$version.tar.bz2"
+    "https://www.kernel.org/pub/linux/kernel/v3.x/linux-$version.tar.xz"
 )
 
 md5=\
 (
-    '486521c7b00a92fc99e122b84ae9f089'
+    '4edaaea57dc940969c54ac249e49f7e7'
 )
 
 maintainer=\
