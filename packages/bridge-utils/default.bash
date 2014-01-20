@@ -1,26 +1,31 @@
 version=\
 (
-    "1.4"
+    '1.5'
 )
 
 url=\
 (
-    "http://downloads.sourceforge.net/project/bridge/bridge/bridge-utils-$version/bridge-utils-$version.tar.gz"
+    "http://downloads.sourceforge.net/project/bridge/bridge/bridge-utils-$version.tar.gz"
 )
 
 md5=\
 (
-    "0182fcac3a2b307113bbec34e5f1c673"
+    'ec7b381160b340648dede58c31bb2238'
 )
 
 maintainer=\
 (
-    "Ricardo Martins <rasm@fe.up.pt>"
+    'Ricardo Martins <rasm@fe.up.pt>'
 )
 
 post_unpack()
 {
-    cd ../bridge-utils-$version && autoreconf
+    patches=$(ls "$cfg_package_spec_dir/patches-$version/"*.patch 2>/dev/null)
+    if [ -n "$patches" ]; then
+        cat $patches | patch -p1
+    fi &&
+
+    autoreconf
 }
 
 configure()
