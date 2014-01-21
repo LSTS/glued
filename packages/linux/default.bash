@@ -23,4 +23,5 @@ maintainer=\
 requires=\
 (
     'kmod/host'
+    'lz4/host'
 )
