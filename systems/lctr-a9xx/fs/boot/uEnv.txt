@@ -1,4 +1,0 @@
-mmcdev=0:2
-bootfile=/boot/kernel
-mmcrootfstype=ext2 rootwait uboot=ext2
-mmcargs=setenv bootargs console=${console} root=${mmcroot} rootfstype=${mmcrootfstype} dieid=${dieid#}
