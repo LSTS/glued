@@ -2,17 +2,17 @@ source "$PKG_COMMON"
 
 version=\
 (
-    '3.13-rc7'
+    '3.13'
 )
 
 url=\
 (
-    "https://www.kernel.org/pub/linux/kernel/v3.x/testing/linux-$version.tar.xz"
+    "https://www.kernel.org/pub/linux/kernel/v3.x/linux-$version.tar.xz"
 )
 
 md5=\
 (
-    'a9de953c724974f8842328c4f41ec255'
+    '0ecbaf65c00374eb4a826c2f9f37606f'
 )
 
 maintainer=\
