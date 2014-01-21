@@ -36,10 +36,6 @@ configure()
 
 build()
 {
-    if [ -n "$cfg_target_linux_load_addr" ]; then
-        export LOADADDR="$cfg_target_linux_load_addr"
-    fi
-
     $cmd_make \
         CROSS_COMPILE=$cfg_target_canonical- \
         ARCH=$cfg_target_linux &&
