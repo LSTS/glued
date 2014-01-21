@@ -20,11 +20,13 @@ maintainer=\
 
 build()
 {
+    cd "../lz4-r$version" &&
     $cmd_make
 }
 
 host_install()
 {
     $cmd_mkdir "$cfg_dir_toolchain/bin"
+    cd "../lz4-r$version" &&
     cp -v programs/{lz4,lz4c} "$cfg_dir_toolchain/bin"
 }
