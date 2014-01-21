@@ -112,8 +112,8 @@ index 0000000..89c5835
 +#define CONFIG_BOOTCOMMAND                                              \
 +  "setenv bootargs \"console=${console} root=${mmcroot} rootfstype=${mmcrootfstype} rootwait ro quiet\"; " \
 +  "mmc dev 0; "                                                         \
-+  "ext2load mmc0 0:2 ${loadaddr} /boot/kernel; "                        \
-+  "ext2load mmc0 0:2 ${fdtaddr} /boot/board.dtb; "                      \
++  "ext4load mmc0 0:2 ${loadaddr} /boot/kernel; "                        \
++  "ext4load mmc0 0:2 ${fdtaddr} /boot/board.dtb; "                      \
 +  "bootz ${loadaddr} - ${fdtaddr}; "
 +
 +#endif
