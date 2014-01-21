@@ -5,14 +5,13 @@ cfg_services0='dropbear network storage upgrade syslog'
 cfg_services1='huawei ntpd'
 cfg_services2='dune'
 cfg_packages='u-boot dropbear rsync busybox linux uswitch ppp iptables socat bridge-utils ntp e2fsprogs i2c-tools iperf dnsmasq'
-cfg_target_linux_kernel='arch/arm/boot/uImage'
+cfg_target_linux_kernel='arch/arm/boot/zImage'
+cfg_target_linux_dtb='arch/arm/boot/dts/omap3-igep0020.dtb'
+cfg_target_uboot_config='igep0020_lsts'
 cfg_terminal='ttyO2'
 cfg_ntpd_config='/etc/ntp/server.cfg'
-cfg_dtnd_config='/opt/lsts/dtn/etc/dtn.conf'
 cfg_eth_ext_mk='255.255.0.0'
 cfg_eth_ext_gw='10.0.0.1'
-cfg_target_uboot_config='igep0020_config'
-cfg_target_linux_load_addr=0x80008000
 cfg_partitions=\
 (
     x-boot  boot0  512B    32MiB
