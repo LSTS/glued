@@ -2,7 +2,7 @@ source "$PKG_COMMON"
 
 version=\
 (
-    '2014.01-rc3'
+    '2014.01'
 )
 
 url=\
@@ -12,5 +12,5 @@ url=\
 
 md5=\
 (
-    'f32ec4529a622a0b8619babf0e5f3c80'
+    'e531307578f6d32a7ccb1d04f1e08cbc'
 )
