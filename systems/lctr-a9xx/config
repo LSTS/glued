@@ -12,6 +12,7 @@ cfg_terminal='ttyO2'
 cfg_ntpd_config='/etc/ntp/server.cfg'
 cfg_eth_ext_mk='255.255.0.0'
 cfg_eth_ext_gw='10.0.0.1'
+cfg_eth_ext_soft_mac='true'
 cfg_partitions=\
 (
     x-boot  boot0  512B    32MiB
