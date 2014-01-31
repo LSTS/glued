@@ -2,7 +2,7 @@ source "$PKG_COMMON"
 
 version=\
 (
-    '3.13'
+    '3.13.1'
 )
 
 url=\
@@ -12,7 +12,7 @@ url=\
 
 md5=\
 (
-    '0ecbaf65c00374eb4a826c2f9f37606f'
+    '18f528e5632f0096e642c511722630dc'
 )
 
 maintainer=\
