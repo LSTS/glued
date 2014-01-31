@@ -1,0 +1,10 @@
+--- linux-3.13/arch/arm/boot/dts/Makefile	2014-01-20 02:40:07.000000000 +0000
++++ linux-3.13.rasm/arch/arm/boot/dts/Makefile	2014-01-31 03:29:41.495659458 +0000
+@@ -185,6 +185,7 @@
+ 	omap3-tobi.dtb \
+ 	omap3-gta04.dtb \
+ 	omap3-igep0020.dtb \
++	omap3-igep0020-manta.dtb \
+ 	omap3-igep0030.dtb \
+ 	omap3-zoom3.dtb \
+ 	omap4-panda.dtb \
