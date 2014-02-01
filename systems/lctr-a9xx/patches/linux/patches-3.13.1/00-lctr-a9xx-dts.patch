@@ -1,6 +1,18 @@
---- linux-3.13/arch/arm/boot/dts/omap3-igep0020-manta.dts	1970-01-01 01:00:00.000000000 +0100
-+++ linux-3.13.rasm/arch/arm/boot/dts/omap3-igep0020-manta.dts	2014-01-31 03:30:13.453357542 +0000
-@@ -0,0 +1,113 @@
+diff -Nru linux-3.13.1/arch/arm/boot/dts/Makefile linux-3.13.1.rasm/arch/arm/boot/dts/Makefile
+--- linux-3.13.1/arch/arm/boot/dts/Makefile	2014-01-29 13:06:37.000000000 +0000
++++ linux-3.13.1.rasm/arch/arm/boot/dts/Makefile	2014-02-01 23:49:34.138870922 +0000
+@@ -186,6 +186,7 @@
+ 	omap3-gta04.dtb \
+ 	omap3-igep0020.dtb \
+ 	omap3-igep0030.dtb \
++	omap3-lctr-a9xx.dtb \
+ 	omap3-zoom3.dtb \
+ 	omap4-panda.dtb \
+ 	omap4-panda-a4.dtb \
+diff -Nru linux-3.13.1/arch/arm/boot/dts/omap3-lctr-a9xx.dts linux-3.13.1.rasm/arch/arm/boot/dts/omap3-lctr-a9xx.dts
+--- linux-3.13.1/arch/arm/boot/dts/omap3-lctr-a9xx.dts	1970-01-01 01:00:00.000000000 +0100
++++ linux-3.13.1.rasm/arch/arm/boot/dts/omap3-lctr-a9xx.dts	2014-02-01 23:49:40.019073833 +0000
+@@ -0,0 +1,110 @@
 +/*
 + * Copyright (C) 2014 Universidade do Porto - Faculdade de Engenharia
 + *
@@ -15,7 +27,7 @@
 +/ {
 +	model = "Manta A2XX/A3XX";
 +	compatible = "isee,omap3-igep0020", "ti,omap3";
-+	
++
 +	leds {
 +		boot {
 +			linux,default-trigger = "heartbeat";
@@ -25,30 +37,30 @@
 +	gpio_keys {
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&gpio_keys_pins>;
-+		compatible = "gpio-keys";		
++		compatible = "gpio-keys";
 +
-+		button0 {
++		button@0 {
 +			label = "Button 0";
 +			gpios = <&gpio5 11 GPIO_ACTIVE_HIGH>;	/* gpio_139 */
 +			linux,code = <BTN_0>;
 +			debounce-interval = <5>;
 +		};
 +
-+		button1 {
++		button@1 {
 +			label = "Button 1";
 +			gpios = <&gpio5 10 GPIO_ACTIVE_HIGH>;	/* gpio_138 */
 +			linux,code = <BTN_1>;
 +			debounce-interval = <5>;
 +		};
 +
-+		button2 {
++		button@2 {
 +			label = "Button 2";
 +			gpios = <&gpio5 9 GPIO_ACTIVE_HIGH>;	/* gpio_137 */
 +			linux,code = <BTN_2>;
-+			debounce-interval = <5>;			
++			debounce-interval = <5>;
 +		};
 +	};
-+	
++
 +	pps {
 +		compatible = "pps-gpio";
 +		pinctrl-names = "default";
@@ -59,6 +71,24 @@
 +};
 +
 +&omap3_pmx_core {
++	pinctrl-names = "default";
++	pinctrl-0 = <&board_pins>;
++	
++	board_pins: pinmux_board_pins {
++		pinctrl-single,pins = <
++			/* gpio_133 - panel backlight */
++			0x130 (PIN_OUTPUT | MUX_MODE4)
++			/* gpio_135 - panel LED */
++			0x132 (PIN_OUTPUT | MUX_MODE4)
++			/* gpio_157 - transducer */
++			0x15e (PIN_INPUT_PULLUP | MUX_MODE4)
++			/* uart1_cts / gpio_150 / UART1 RS232. */
++			0x150 (PIN_INPUT | MUX_MODE4)
++			/* uart1_rts / gpio_149 / UART1 RS232. */			
++			0x14e (PIN_INPUT | MUX_MODE4)
++		>;
++	};
++	
 +	gpio_keys_pins: pinmux_gpio_keys_pins {
 +		pinctrl-single,pins = <
 +			0x136 (PIN_INPUT_PULLDOWN | MUX_MODE4)	/* gpio_137 - button 2 */
@@ -66,30 +96,10 @@
 +			0x13a (PIN_INPUT_PULLDOWN | MUX_MODE4)	/* gpio_139 - button 0 */
 +		>;
 +	};
-+	
++
 +	pps_pins: pinmux_pps_pins {
 +		pinctrl-single,pins = <
 +			0x134 (PIN_INPUT_PULLDOWN | MUX_MODE4)	/* gpio_136 */
-+		>;
-+	};	
-+	
-+	panel_pins: pinmux_panel_pins {
-+		pinctrl-single,pins = <
-+			0x130 (PIN_OUTPUT | MUX_MODE4)		/* gpio_133 - panel backlight */
-+			0x132 (PIN_OUTPUT | MUX_MODE4)		/* gpio_135 - panel LED */
-+		>;
-+	};	
-+	
-+	txd_pins: pinmux_txd_pins {
-+		pinctrl-single,pins = <
-+			0x15e (PIN_INPUT_PULLUP | MUX_MODE4)	/* gpio_157 */
-+		>;
-+	};
-+	
-+	uart1_rs232_pins: pinmux_uart1_rs232_pins {
-+		pinctrl-single,pins = <
-+			0x150 (PIN_INPUT | MUX_MODE4)		/* uart1_cts.gpio_150 */
-+			0x14e (PIN_INPUT | MUX_MODE4)		/* uart1_rts.gpio_149 */
 +		>;
 +	};
 +};
@@ -113,4 +123,3 @@
 +&lbee1usjyc_vmmc {
 +	status = "disabled";
 +};
-+
