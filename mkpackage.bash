@@ -300,14 +300,14 @@ fi
 
 export pkg
 export pkg_var
-export pkg_common="$cfg_dir_packages/$pkg/common.bash"
+export pkg_common="$cfg_dir_rules/$pkg/common.bash"
 
-if ! [ -d "$cfg_dir_packages/$pkg" ]; then
+if ! [ -d "$cfg_dir_rules/$pkg" ]; then
     echo "ERROR: package '$pkg' does not exist."
     exit 1
 fi
 
-if ! [ -f "$cfg_dir_packages/$pkg/$pkg_var.bash" ]; then
+if ! [ -f "$cfg_dir_rules/$pkg/$pkg_var.bash" ]; then
     echo "ERROR: variant '$pkg_var' of package '$pkg' does not exist."
     exit 1
 fi
@@ -320,9 +320,9 @@ fi
 
 mkdir -p "$cfg_dir_downloads" "$cfg_dir_rootfs" "$cfg_dir_toolchain" "$cfg_dir_builds/$pkg"
 
-export cfg_package_spec_dir="$cfg_dir_base/packages/$pkg"
+export cfg_package_spec_dir="$cfg_dir_rules/$pkg"
 
-. "$cfg_dir_packages/$pkg/$pkg_var.bash"
+. "$cfg_dir_rules/$pkg/$pkg_var.bash"
 
 # Postconfiguration:
 if [ -e "$cfg_dir_postconfiguration/$pkg/$cfg_sys_name.bash" ]; then

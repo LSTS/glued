@@ -1,4 +1,4 @@
-source "$cfg_dir_packages/$pkg/default.bash"
+source "$cfg_package_spec_dir/default.bash"
 
 host_install()
 {

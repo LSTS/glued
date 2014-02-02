@@ -112,7 +112,7 @@ cfg_dir_base="$PWD"
 # Config: system configuration folder.
 cfg_dir_system="$cfg_dir_base/$family_dir"
 # Config: package rules folder.
-cfg_dir_packages="$cfg_dir_base/packages"
+cfg_dir_rules="$cfg_dir_base/rules"
 # Config: configuration rules folder.
 cfg_dir_postconfiguration="$cfg_dir_base/postconfiguration"
 # Config: package sources folder.
