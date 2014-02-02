@@ -1,6 +1,6 @@
 ###########################################################################
 # GLUED: GNU/Linux Uniform Environment Distribution                       #
-# Copyright (C) 2007-2013 Universidade do Porto - Faculdade de Engenharia #
+# Copyright (C) 2007-2014 Universidade do Porto - Faculdade de Engenharia #
 # Laboratório de Sistemas e Tecnologia Subaquática (LSTS)                 #
 ###########################################################################
 # This program is free software; you can redistribute it and/or modify    #
@@ -17,6 +17,8 @@
 # along with this program; if not, write to the Free Software             #
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA           #
 # 02110-1301 USA.                                                         #
+###########################################################################
+# Author: Ricardo Martins                                                 #
 ###########################################################################
 
 nfo1()
