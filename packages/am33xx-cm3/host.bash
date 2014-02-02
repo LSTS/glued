@@ -15,7 +15,7 @@ maintainer=\
 
 download()
 {
-    git clone "$url" "$cfg_dir_builds/$PKG/$PKG-$version"
+    git clone "$url" "$cfg_dir_builds/$pkg/$pkg-$version"
 }
 
 unpack()

@@ -12,7 +12,7 @@ md5=\
 unpack()
 {
     cd  ${pkg_build_dir}/..
-    unzip ${cfg_dir_downloads}/${PKG}-${version}.zip
+    unzip ${cfg_dir_downloads}/${pkg}-${version}.zip
 }
 
 requires=\
@@ -40,7 +40,7 @@ build()
     cd  ${pkg_build_dir}/../build-neon &&
     $cmd_make janus-rx &&
     $cmd_make janus-tx
-    
+
 }
 
 host_install()
@@ -120,4 +120,3 @@ janusn-rx \${PARAMETERS_RX}
 " > "$cfg_dir_rootfs/usr/bin/janusn_wtest.sh"
 
 }
-

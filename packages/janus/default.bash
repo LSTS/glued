@@ -13,7 +13,7 @@ md5=\
 unpack()
 {
     cd  ${pkg_build_dir}/..
-    unzip ${cfg_dir_downloads}/${PKG}-${version}.zip
+    unzip ${cfg_dir_downloads}/${pkg}-${version}.zip
 }
 
 requires=\
@@ -118,4 +118,3 @@ janus-rx \${PARAMETERS_RX}
 " > "$cfg_dir_rootfs/usr/bin/janus_wtest.sh"
 
 }
-

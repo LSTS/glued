@@ -97,7 +97,7 @@ download()
         u="$(echo ${git[$n]} | cut -f1 -d'#')"
         b="$(echo ${git[$n]} | cut -f2 -d'#')"
         dir=$(basename $u)
-        des="${cfg_dir_builds}/$PKG/$dir-git"
+        des="${cfg_dir_builds}/$pkg/$dir-git"
 
         if [[ "$u" == git* ]]; then
             git clone --verbose --branch "$b" "$u" "$des"
@@ -125,10 +125,10 @@ unpack()
 
         case $file in
             *tar*|*tgz|*tbz*)
-                tar -C "$cfg_dir_builds/$PKG" -x -f "$cfg_dir_downloads/$file" || exit 1
+                tar -C "$cfg_dir_builds/$pkg" -x -f "$cfg_dir_downloads/$file" || exit 1
                 ;;
             *zip)
-                unzip "$cfg_dir_downloads/$file" -d "$cfg_dir_builds/$PKG" || exit 1
+                unzip "$cfg_dir_downloads/$file" -d "$cfg_dir_builds/$pkg" || exit 1
                 ;;
             *)
                 echo "File $file can't be handled."
@@ -139,11 +139,11 @@ unpack()
 
     dir_gnu_cfg="$cfg_dir_toolchain/share/gnu-config"
     if [ "$cfg_dir_cfg/config.sub" ]; then
-        find "$cfg_dir_builds/$PKG" -name config.sub -exec install -v -m 0755 "$dir_gnu_cfg/config.sub" '{}' \;
+        find "$cfg_dir_builds/$pkg" -name config.sub -exec install -v -m 0755 "$dir_gnu_cfg/config.sub" '{}' \;
     fi
 
     if [ "$cfg_dir_cfg/config.guess" ]; then
-        find "$cfg_dir_builds/$PKG" -name config.guess -exec install -v -m 0755 "$dir_gnu_cfg/config.guess" '{}' \;
+        find "$cfg_dir_builds/$pkg" -name config.guess -exec install -v -m 0755 "$dir_gnu_cfg/config.guess" '{}' \;
     fi
 
     return 0
@@ -181,48 +181,48 @@ postconfigure()
 
 perform_clean()
 {
-    rm -rf "$cfg_dir_builds/$PKG/$pkg_var"
+    rm -rf "$cfg_dir_builds/$pkg/$pkg_var"
 }
 
 perform_all()
 {
     start="$(date +%s)"
-    nfo1 "$PKG / $pkg_var"
+    nfo1 "$pkg / $pkg_var"
 
-    export pkg_build_dir="$cfg_dir_builds/$PKG/$pkg_var"
+    export pkg_build_dir="$cfg_dir_builds/$pkg/$pkg_var"
 
     for rule in download unpack post_unpack refresh configure build host_install target_install postconfigure; do
         case $rule in
             download | unpack | post_unpack)
-                marker="$cfg_dir_builds/$PKG/.$rule"
+                marker="$cfg_dir_builds/$pkg/.$rule"
                 ;;
             *)
-                marker="$cfg_dir_builds/$PKG/$pkg_var/.$rule"
+                marker="$cfg_dir_builds/$pkg/$pkg_var/.$rule"
                 ;;
         esac
 
-        mkdir -p "$cfg_dir_builds/$PKG/$pkg_var" && cd "$cfg_dir_builds/$PKG/$pkg_var"
+        mkdir -p "$cfg_dir_builds/$pkg/$pkg_var" && cd "$cfg_dir_builds/$pkg/$pkg_var"
 
         if [ -z "$build_dir" ]; then
-            build_dir="$PKG-$version"
+            build_dir="$pkg-$version"
         fi
 
         if [ -n "$build_dir" ]; then
-            mkdir -p "$cfg_dir_builds/$PKG/$build_dir" && cd "$cfg_dir_builds/$PKG/$build_dir"
+            mkdir -p "$cfg_dir_builds/$pkg/$build_dir" && cd "$cfg_dir_builds/$pkg/$build_dir"
         fi
 
         if [ -n "$build_always" ] || [ "$rule" = 'refresh' ]; then
             nfo2 "$rule"
-            $rule > "$cfg_dir_builds/$PKG/$pkg_var/$rule.log" 2>&1
+            $rule > "$cfg_dir_builds/$pkg/$pkg_var/$rule.log" 2>&1
         else
             if ! [ -f "$marker" ]; then
                 nfo2 "$rule"
-                $rule > "$cfg_dir_builds/$PKG/$pkg_var/$rule.log" 2>&1
+                $rule > "$cfg_dir_builds/$pkg/$pkg_var/$rule.log" 2>&1
                 if [ $? -eq 0 ]; then
                     touch "$marker"
                 else
-                    err "failed to execute rule $rule of $PKG / $pkg_var"
-                    tail "$cfg_dir_builds/$PKG/$pkg_var/$rule.log"
+                    err "failed to execute rule $rule of $pkg / $pkg_var"
+                    tail "$cfg_dir_builds/$pkg/$pkg_var/$rule.log"
                     exit 1
                 fi
             fi
@@ -231,7 +231,7 @@ perform_all()
 
     elapsed=$[ $(date +%s)-$start ]
     ok "completed in ${elapsed}s"
-    touch "$cfg_dir_builds/$PKG/$pkg_var/.complete"
+    touch "$cfg_dir_builds/$pkg/$pkg_var/.complete"
 }
 
 # Check shell.
@@ -298,17 +298,17 @@ if [ "$pkg_var" = "$pkg" ]; then
     pkg_var='default'
 fi
 
-export PKG="$pkg"
-export pkg_var="$pkg_var"
-export pkg_common="$cfg_dir_packages/$PKG/common.bash"
+export pkg
+export pkg_var
+export pkg_common="$cfg_dir_packages/$pkg/common.bash"
 
-if ! [ -d "$cfg_dir_packages/$PKG" ]; then
-    echo "ERROR: package '$PKG' does not exist."
+if ! [ -d "$cfg_dir_packages/$pkg" ]; then
+    echo "ERROR: package '$pkg' does not exist."
     exit 1
 fi
 
-if ! [ -f "$cfg_dir_packages/$PKG/$pkg_var.bash" ]; then
-    echo "ERROR: variant '$pkg_var' of package '$PKG' does not exist."
+if ! [ -f "$cfg_dir_packages/$pkg/$pkg_var.bash" ]; then
+    echo "ERROR: variant '$pkg_var' of package '$pkg' does not exist."
     exit 1
 fi
 
@@ -318,18 +318,18 @@ else
     rule="$3"
 fi
 
-mkdir -p "$cfg_dir_downloads" "$cfg_dir_rootfs" "$cfg_dir_toolchain" "$cfg_dir_builds/$PKG"
+mkdir -p "$cfg_dir_downloads" "$cfg_dir_rootfs" "$cfg_dir_toolchain" "$cfg_dir_builds/$pkg"
 
-export cfg_package_spec_dir="$cfg_dir_base/packages/$PKG"
+export cfg_package_spec_dir="$cfg_dir_base/packages/$pkg"
 
-. "$cfg_dir_packages/$PKG/$pkg_var.bash"
+. "$cfg_dir_packages/$pkg/$pkg_var.bash"
 
 # Postconfiguration:
-if [ -e "$cfg_dir_postconfiguration/$PKG/$cfg_sys_name.bash" ]; then
-#    echo "ERROR: postconfiguration exists '$PKG'."
-#    echo "$cfg_dir_postconfiguration/$PKG/$cfg_sys_name.bash"
+if [ -e "$cfg_dir_postconfiguration/$pkg/$cfg_sys_name.bash" ]; then
+#    echo "ERROR: postconfiguration exists '$pkg'."
+#    echo "$cfg_dir_postconfiguration/$pkg/$cfg_sys_name.bash"
 #    exit 1
-. "$cfg_dir_postconfiguration/$PKG/$cfg_sys_name.bash"
+. "$cfg_dir_postconfiguration/$pkg/$cfg_sys_name.bash"
 fi
 
 # Handle dependencies.
@@ -347,7 +347,7 @@ n=0; while [ -n "${requires[$n]}" ]; do
 
     "$0" "$1" "$req"
     if [ $? -ne 0 ]; then
-        err "failed to build dependency for package $PKG / $pkg_var"
+        err "failed to build dependency for package $pkg / $pkg_var"
         exit 1
     fi
 done
