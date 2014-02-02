@@ -12,7 +12,7 @@ diff -Nru linux-3.13.1/arch/arm/boot/dts/Makefile linux-3.13.1.rasm/arch/arm/boo
 diff -Nru linux-3.13.1/arch/arm/boot/dts/omap3-lctr-a9xx.dts linux-3.13.1.rasm/arch/arm/boot/dts/omap3-lctr-a9xx.dts
 --- linux-3.13.1/arch/arm/boot/dts/omap3-lctr-a9xx.dts	1970-01-01 01:00:00.000000000 +0100
 +++ linux-3.13.1.rasm/arch/arm/boot/dts/omap3-lctr-a9xx.dts	2014-02-01 23:49:40.019073833 +0000
-@@ -0,0 +1,110 @@
+@@ -0,0 +1,107 @@
 +/*
 + * Copyright (C) 2014 Universidade do Porto - Faculdade de Engenharia
 + *
@@ -25,9 +25,6 @@ diff -Nru linux-3.13.1/arch/arm/boot/dts/omap3-lctr-a9xx.dts linux-3.13.1.rasm/a
 +#include "omap3-igep0020.dts"
 +
 +/ {
-+	model = "Manta A2XX/A3XX";
-+	compatible = "isee,omap3-igep0020", "ti,omap3";
-+
 +	leds {
 +		boot {
 +			linux,default-trigger = "heartbeat";
@@ -71,9 +68,9 @@ diff -Nru linux-3.13.1/arch/arm/boot/dts/omap3-lctr-a9xx.dts linux-3.13.1.rasm/a
 +};
 +
 +&omap3_pmx_core {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&board_pins>;
-+	
++	pinctrl-names = "default", "board";
++	pinctrl-0 = <&hsusbb1_pins &board_pins>;
++
 +	board_pins: pinmux_board_pins {
 +		pinctrl-single,pins = <
 +			/* gpio_133 - panel backlight */
@@ -84,11 +81,11 @@ diff -Nru linux-3.13.1/arch/arm/boot/dts/omap3-lctr-a9xx.dts linux-3.13.1.rasm/a
 +			0x15e (PIN_INPUT_PULLUP | MUX_MODE4)
 +			/* uart1_cts / gpio_150 / UART1 RS232. */
 +			0x150 (PIN_INPUT | MUX_MODE4)
-+			/* uart1_rts / gpio_149 / UART1 RS232. */			
++			/* uart1_rts / gpio_149 / UART1 RS232. */
 +			0x14e (PIN_INPUT | MUX_MODE4)
 +		>;
 +	};
-+	
++
 +	gpio_keys_pins: pinmux_gpio_keys_pins {
 +		pinctrl-single,pins = <
 +			0x136 (PIN_INPUT_PULLDOWN | MUX_MODE4)	/* gpio_137 - button 2 */
