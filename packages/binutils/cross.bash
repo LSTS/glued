@@ -18,7 +18,7 @@ maintainer=\
     "Ricardo Martins <rasm@fe.up.pt>"
 )
 
-build_dir=$PKG_VAR
+build_dir=$pkg_var
 
 configure()
 {

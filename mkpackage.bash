@@ -181,15 +181,15 @@ postconfigure()
 
 perform_clean()
 {
-    rm -rf "$cfg_dir_builds/$PKG/$PKG_VAR"
+    rm -rf "$cfg_dir_builds/$PKG/$pkg_var"
 }
 
 perform_all()
 {
     start="$(date +%s)"
-    nfo1 "$PKG / $PKG_VAR"
+    nfo1 "$PKG / $pkg_var"
 
-    export pkg_build_dir="$cfg_dir_builds/$PKG/$PKG_VAR"
+    export pkg_build_dir="$cfg_dir_builds/$PKG/$pkg_var"
 
     for rule in download unpack post_unpack refresh configure build host_install target_install postconfigure; do
         case $rule in
@@ -197,11 +197,11 @@ perform_all()
                 marker="$cfg_dir_builds/$PKG/.$rule"
                 ;;
             *)
-                marker="$cfg_dir_builds/$PKG/$PKG_VAR/.$rule"
+                marker="$cfg_dir_builds/$PKG/$pkg_var/.$rule"
                 ;;
         esac
 
-        mkdir -p "$cfg_dir_builds/$PKG/$PKG_VAR" && cd "$cfg_dir_builds/$PKG/$PKG_VAR"
+        mkdir -p "$cfg_dir_builds/$PKG/$pkg_var" && cd "$cfg_dir_builds/$PKG/$pkg_var"
 
         if [ -z "$build_dir" ]; then
             build_dir="$PKG-$version"
@@ -213,16 +213,16 @@ perform_all()
 
         if [ -n "$build_always" ] || [ "$rule" = 'refresh' ]; then
             nfo2 "$rule"
-            $rule > "$cfg_dir_builds/$PKG/$PKG_VAR/$rule.log" 2>&1
+            $rule > "$cfg_dir_builds/$PKG/$pkg_var/$rule.log" 2>&1
         else
             if ! [ -f "$marker" ]; then
                 nfo2 "$rule"
-                $rule > "$cfg_dir_builds/$PKG/$PKG_VAR/$rule.log" 2>&1
+                $rule > "$cfg_dir_builds/$PKG/$pkg_var/$rule.log" 2>&1
                 if [ $? -eq 0 ]; then
                     touch "$marker"
                 else
-                    err "failed to execute rule $rule of $PKG / $PKG_VAR"
-                    tail "$cfg_dir_builds/$PKG/$PKG_VAR/$rule.log"
+                    err "failed to execute rule $rule of $PKG / $pkg_var"
+                    tail "$cfg_dir_builds/$PKG/$pkg_var/$rule.log"
                     exit 1
                 fi
             fi
@@ -231,7 +231,7 @@ perform_all()
 
     elapsed=$[ $(date +%s)-$start ]
     ok "completed in ${elapsed}s"
-    touch "$cfg_dir_builds/$PKG/$PKG_VAR/.complete"
+    touch "$cfg_dir_builds/$PKG/$pkg_var/.complete"
 }
 
 # Check shell.
@@ -299,7 +299,7 @@ if [ "$pkg_var" = "$pkg" ]; then
 fi
 
 export PKG="$pkg"
-export PKG_VAR="$pkg_var"
+export pkg_var="$pkg_var"
 export PKG_COMMON="$cfg_dir_packages/$PKG/common.bash"
 
 if ! [ -d "$cfg_dir_packages/$PKG" ]; then
@@ -307,8 +307,8 @@ if ! [ -d "$cfg_dir_packages/$PKG" ]; then
     exit 1
 fi
 
-if ! [ -f "$cfg_dir_packages/$PKG/$PKG_VAR.bash" ]; then
-    echo "ERROR: variant '$PKG_VAR' of package '$PKG' does not exist."
+if ! [ -f "$cfg_dir_packages/$PKG/$pkg_var.bash" ]; then
+    echo "ERROR: variant '$pkg_var' of package '$PKG' does not exist."
     exit 1
 fi
 
@@ -322,7 +322,7 @@ mkdir -p "$cfg_dir_downloads" "$cfg_dir_rootfs" "$cfg_dir_toolchain" "$cfg_dir_b
 
 export cfg_package_spec_dir="$cfg_dir_base/packages/$PKG"
 
-. "$cfg_dir_packages/$PKG/$PKG_VAR.bash"
+. "$cfg_dir_packages/$PKG/$pkg_var.bash"
 
 # Postconfiguration:
 if [ -e "$cfg_dir_postconfiguration/$PKG/$cfg_sys_name.bash" ]; then
@@ -347,7 +347,7 @@ n=0; while [ -n "${requires[$n]}" ]; do
 
     "$0" "$1" "$req"
     if [ $? -ne 0 ]; then
-        err "failed to build dependency for package $PKG / $PKG_VAR"
+        err "failed to build dependency for package $PKG / $pkg_var"
         exit 1
     fi
 done

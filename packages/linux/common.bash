@@ -14,8 +14,8 @@ post_unpack()
 refresh()
 {
     for rule in configure build target_install; do
-        if [ "$cfg_dir_system/cfg/linux-${version}.cfg" -nt "$cfg_dir_builds/linux/$PKG_VAR/.$rule" ]; then
-            rm "$cfg_dir_builds/linux/$PKG_VAR/.$rule"
+        if [ "$cfg_dir_system/cfg/linux-${version}.cfg" -nt "$cfg_dir_builds/linux/$pkg_var/.$rule" ]; then
+            rm "$cfg_dir_builds/linux/$pkg_var/.$rule"
         fi
     done
 }

@@ -13,7 +13,7 @@ md5=\
     'a3d7d63b9cb6b6ea049469a0c4a43c9d'
 )
 
-build_dir=$PKG_VAR
+build_dir=$pkg_var
 
 post_unpack()
 {
