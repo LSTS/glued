@@ -1,5 +1,5 @@
 # Following indication from: http://randomsplat.com/id5-cross-compiling-python-for-embedded-linux.html
-source $PKG_COMMON
+source $pkg_common
 
 requires=\
 (

@@ -300,7 +300,7 @@ fi
 
 export PKG="$pkg"
 export pkg_var="$pkg_var"
-export PKG_COMMON="$cfg_dir_packages/$PKG/common.bash"
+export pkg_common="$cfg_dir_packages/$PKG/common.bash"
 
 if ! [ -d "$cfg_dir_packages/$PKG" ]; then
     echo "ERROR: package '$PKG' does not exist."

@@ -1,4 +1,4 @@
-source $PKG_COMMON
+source $pkg_common
 
 # We need to build it once on our host system in order to create the "protoc" file used by the second step.
 configure()

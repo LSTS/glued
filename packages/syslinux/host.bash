@@ -1,4 +1,4 @@
-source $PKG_COMMON
+source $pkg_common
 
 host_install()
 {
