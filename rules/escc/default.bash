@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    '0a454e472f61606bdad4d2f197678179'
+    'b9ee6a3d921643535c336b7c740b2c60'
 )
 
 if [ -d "$cfg_dir_builds/linux/linux-"* ]; then
