@@ -15,7 +15,7 @@ md5=\
 
 post_unpack()
 {
-    patch -d ../fconfig -p1 < "$cfg_package_spec_dir"/patches/limits.patch
+    patch -d ../fconfig -p1 < "$pkg_dir"/patches/limits.patch
 }
 
 build()

@@ -23,7 +23,7 @@ post_unpack()
     chmod -v 644 Makefile.SH &&
     chmod -v 644 utils/Makefile.SH
 
-    patches=$(ls "$cfg_package_spec_dir"/patches-${version}/*.patch)
+    patches=$(ls "$pkg_dir"/patches-${version}/*.patch)
     if [ -n "$patches" ]; then
         cat $patches | patch -p1
     fi

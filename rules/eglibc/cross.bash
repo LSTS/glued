@@ -13,7 +13,7 @@ build()
 host_install()
 {
     $cmd_make install_root="$cfg_dir_toolchain_sysroot" -j1 install &&
-    cp "$cfg_package_spec_dir"/files/timepps.h "$cfg_dir_toolchain_sysroot/usr/include"
+    cp "$pkg_dir"/files/timepps.h "$cfg_dir_toolchain_sysroot/usr/include"
 }
 
 target_install()
@@ -33,5 +33,5 @@ target_install()
 
     $cmd_target_strip -v --strip-unneeded "elf/ldconfig" \
         -o "$cfg_dir_rootfs/sbin/ldconfig" &&
-    tar -C "$cfg_package_spec_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
+    tar -C "$pkg_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
 }

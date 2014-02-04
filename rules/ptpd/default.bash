@@ -26,5 +26,5 @@ build()
 target_install()
 {
     $cmd_target_strip src/ptpd2 -o $cfg_dir_rootfs/usr/bin/ptpd2 &&
-    tar -C "$cfg_package_spec_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
+    tar -C "$pkg_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
 }

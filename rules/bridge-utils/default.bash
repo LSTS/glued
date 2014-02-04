@@ -20,7 +20,7 @@ maintainer=\
 
 post_unpack()
 {
-    patches=$(ls "$cfg_package_spec_dir/patches-$version/"*.patch 2>/dev/null)
+    patches=$(ls "$pkg_dir/patches-$version/"*.patch 2>/dev/null)
     if [ -n "$patches" ]; then
         cat $patches | patch -p1
     fi &&

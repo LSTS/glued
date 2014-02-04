@@ -320,7 +320,7 @@ fi
 
 mkdir -p "$cfg_dir_downloads" "$cfg_dir_rootfs" "$cfg_dir_toolchain" "$cfg_dir_builds/$pkg"
 
-export cfg_package_spec_dir="$cfg_dir_rules/$pkg"
+export pkg_dir="$cfg_dir_rules/$pkg"
 
 . "$cfg_dir_rules/$pkg/$pkg_var.bash"
 

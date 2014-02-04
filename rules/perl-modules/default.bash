@@ -47,7 +47,7 @@ requires=\
 
 post_unpack()
 {
-    sed "s!%cfg_dir_rootfs%!$cfg_dir_rootfs!g" "$cfg_package_spec_dir"/perl.in > "$pkg_build_dir"/perl &&
+    sed "s!%cfg_dir_rootfs%!$cfg_dir_rootfs!g" "$pkg_dir"/perl.in > "$pkg_build_dir"/perl &&
     chmod 0755 "$pkg_build_dir"/perl
 }
 

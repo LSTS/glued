@@ -34,7 +34,7 @@ target_install()
     $cmd_mkdir "$cfg_dir_rootfs"/root/.ssh &&
     chmod 0700 "$cfg_dir_rootfs"/root/.ssh &&
 
-    tar -C "$cfg_package_spec_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
+    tar -C "$pkg_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
 
     if [ -d "$cfg_dir_system/fs" ]; then
         tar -C "$cfg_dir_system/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -

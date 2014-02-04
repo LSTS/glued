@@ -14,8 +14,8 @@ configure()
   echo "Configure is in $(pwd)"
 
   # We are patching the source as python needs python to compile python for our target:
-  patch -p1 < "${cfg_package_spec_dir}/patches/Python-${version}-xcompile.patch"
-  patch -p1 < "${cfg_package_spec_dir}/patches/001-Enable-zlib-bz2.patch"
+  patch -p1 < "${pkg_dir}/patches/Python-${version}-xcompile.patch"
+  patch -p1 < "${pkg_dir}/patches/001-Enable-zlib-bz2.patch"
 
   export CC="$cfg_target_canonical-gcc"
   export CXX="$cfg_target_canonical-g++"

@@ -41,5 +41,5 @@ target_install()
         $cmd_target_strip "$l" -o $cfg_dir_rootfs/usr/lib/"$(basename $l)"
     done
 
-    cp "$cfg_package_spec_dir"/services/gpsd "$cfg_dir_rootfs/etc/rc.d"
+    cp "$pkg_dir"/services/gpsd "$cfg_dir_rootfs/etc/rc.d"
 }

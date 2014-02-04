@@ -26,7 +26,7 @@ requires=\
 
 post_unpack()
 {
-    for patch in "$cfg_package_spec_dir"/patches/*; do
+    for patch in "$pkg_dir"/patches/*; do
         patch -p1 < "$patch" || return 1
     done
 }

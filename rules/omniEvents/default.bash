@@ -25,7 +25,7 @@ md5=\
 
 post_unpack()
 {
-  patches=$(ls "$cfg_package_spec_dir"/patches-${version}/*.patch)
+  patches=$(ls "$pkg_dir"/patches-${version}/*.patch)
   if [ -n "$patches" ]; then
 #    echo " cat $patches | patch -p1 "
     cat $patches | patch -p1
@@ -58,8 +58,8 @@ target_install()
 {
   # Log:
   $cmd_mkdir "${cfg_dir_rootfs}/var/lib/omniEvents/"
-  $cmd_cp    "${cfg_package_spec_dir}/fs/etc/rc.d/omniEvents"    "$cfg_dir_rootfs/etc/rc.d/omniEvents"
-  $cmd_cp    "${cfg_package_spec_dir}/fs/etc/omniorb-eventservice"    "${cfg_dir_rootfs}/etc/"
+  $cmd_cp    "${pkg_dir}/fs/etc/rc.d/omniEvents"    "$cfg_dir_rootfs/etc/rc.d/omniEvents"
+  $cmd_cp    "${pkg_dir}/fs/etc/omniorb-eventservice"    "${cfg_dir_rootfs}/etc/"
 
   # Binaries:
   $cmd_cp "${cfg_dir_toolchain_sysroot}/usr/lib/lib"*"omniEvents"* "${cfg_dir_rootfs}/usr/lib"

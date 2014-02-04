@@ -15,7 +15,7 @@ md5=\
 
 post_unpack()
 {
-    patches=$(ls "$cfg_package_spec_dir"/patches/*.patch)
+    patches=$(ls "$pkg_dir"/patches/*.patch)
 
     if [ -n "$patches" ]; then
         cat $patches | patch -p1
@@ -24,7 +24,7 @@ post_unpack()
 
 configure()
 {
-    cp "$cfg_package_spec_dir"/config .config &&
+    cp "$pkg_dir"/config .config &&
     yes '' | $cmd_make CROSS_COMPILE="$cfg_target_canonical"- oldconfig
 }
 
@@ -36,5 +36,5 @@ build()
 target_install()
 {
     $cmd_make CROSS_COMPILE="$cfg_target_canonical"- CONFIG_PREFIX=$cfg_dir_rootfs install &&
-    tar -C "$cfg_package_spec_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
+    tar -C "$pkg_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
 }

@@ -36,5 +36,5 @@ build()
 target_install()
 {
     $cmd_target_strip setserial -o $cfg_dir_rootfs/usr/bin/setserial
-    cp "$cfg_package_spec_dir"/services/setserial "$cfg_dir_rootfs/etc/rc.d"
+    cp "$pkg_dir"/services/setserial "$cfg_dir_rootfs/etc/rc.d"
 }

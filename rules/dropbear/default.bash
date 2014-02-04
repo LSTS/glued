@@ -25,7 +25,7 @@ requires=\
 
 post_unpack()
 {
-    patches=$(ls "$cfg_package_spec_dir/patches/"*.patch)
+    patches=$(ls "$pkg_dir/patches/"*.patch)
     if [ -n "$patches" ]; then
         cat $patches | patch -p1
     fi
@@ -62,5 +62,5 @@ target_install()
     ln -fs dropbearmulti "$cfg_dir_rootfs/usr/bin/ssh" &&
     ln -fs dropbearmulti "$cfg_dir_rootfs/usr/bin/dbclient" &&
     ln -fs ../bin/dropbearmulti "$cfg_dir_rootfs/usr/sbin/dropbear" &&
-    tar -C "$cfg_package_spec_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
+    tar -C "$pkg_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
 }

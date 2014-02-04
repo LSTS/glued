@@ -15,7 +15,7 @@ md5=\
 
 post_unpack()
 {
-    patch -p1 < "$cfg_package_spec_dir"/patches/libxslt-configure.patch
+    patch -p1 < "$pkg_dir"/patches/libxslt-configure.patch
 }
 
 requires=\

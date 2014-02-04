@@ -24,7 +24,7 @@ post_unpack()
 {
     ln -fs ../ports ../eglibc-$version/libc/ports
 
-    patches=$(ls "$cfg_package_spec_dir"/patches/*.patch)
+    patches=$(ls "$pkg_dir"/patches/*.patch)
 
     cd ../eglibc-$version
     if [ -n "$patches" ]; then

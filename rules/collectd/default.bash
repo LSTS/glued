@@ -88,7 +88,7 @@ target_install()
   # Collectd:
   $cmd_mkdir "$cfg_dir_rootfs/usr/share/"
   $cmd_cp    "$cfg_dir_toolchain_sysroot/usr/share/collectd/" "$cfg_dir_rootfs/usr/share/"
-  $cmd_cp    "${cfg_package_spec_dir}/fs/etc/rc.d/collectd"   "$cfg_dir_rootfs/etc/rc.d/"
+  $cmd_cp    "${pkg_dir}/fs/etc/rc.d/collectd"   "$cfg_dir_rootfs/etc/rc.d/"
 
   # Configuration:
   echo "# Client

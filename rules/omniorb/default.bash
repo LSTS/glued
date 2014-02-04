@@ -89,8 +89,8 @@ target_install()
     $cmd_cp "$cfg_dir_toolchain_sysroot/usr/bin/catior"        "$cfg_dir_rootfs/usr/bin"
 
     # Specific configuration:
-    $cmd_cp "${cfg_package_spec_dir}/fs/etc/rc.d/omninames"    "$cfg_dir_rootfs/etc/rc.d/omninames"
-    $cmd_cp "${cfg_package_spec_dir}/fs/etc/omniORB.cfg"       "$cfg_dir_rootfs/etc/omniORB.cfg"
+    $cmd_cp "${pkg_dir}/fs/etc/rc.d/omninames"    "$cfg_dir_rootfs/etc/rc.d/omninames"
+    $cmd_cp "${pkg_dir}/fs/etc/omniORB.cfg"       "$cfg_dir_rootfs/etc/omniORB.cfg"
 
     # Log:
     $cmd_mkdir "${cfg_dir_rootfs}/var/omninames/"

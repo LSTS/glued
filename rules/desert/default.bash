@@ -25,7 +25,7 @@ requires=\
 
 post_unpack()
 {
-    patches=$(ls "$cfg_package_spec_dir/patches/"*.patch)
+    patches=$(ls "$pkg_dir/patches/"*.patch)
     if [ -n "$patches" ]; then
         cat $patches | patch -p0
     fi

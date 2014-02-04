@@ -24,7 +24,7 @@ target_install()
     $cmd_target_strip extlinux/extlinux -o $cfg_dir_rootfs/usr/sbin/extlinux &&
     $cmd_mkdir $cfg_dir_rootfs/boot/extlinux &&
     cp -d mbr/mbr.bin $cfg_dir_rootfs/boot/extlinux &&
-    (echo $console ; cat "$cfg_package_spec_dir"/extlinux.conf) \
+    (echo $console ; cat "$pkg_dir"/extlinux.conf) \
          | sed "s%\$cfg_kernel_extra_args%$cfg_kernel_extra_args%g" \
          | sed "s%\$cfg_kernel_boot_dev%$cfg_kernel_boot_dev%g" \
          >  "$cfg_dir_rootfs/boot/extlinux/extlinux.conf"

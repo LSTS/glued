@@ -17,7 +17,7 @@ build_dir=$pkg_var
 
 post_unpack()
 {
-    patches=$(ls "$cfg_package_spec_dir/patches-${version}/"*.patch)
+    patches=$(ls "$pkg_dir/patches-${version}/"*.patch)
     if [ -n "$patches" ]; then
         cd "../gcc-$version" &&  cat $patches | patch -p1
     fi
