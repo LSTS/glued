@@ -6,5 +6,8 @@ start()
     echo 0 > /sys/kernel/debug/omap_mux/uart1_txd &&
     echo 20 > /sys/kernel/debug/omap_mux/uart1_rxd &&
 
+    # Camera/Strobe
+    echo 0x07 > /sys/kernel/debug/omap_mux/lcd_data6 &&
+
     umount /sys/kernel/debug
 }
