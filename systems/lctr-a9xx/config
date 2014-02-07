@@ -11,6 +11,7 @@ cfg_ntpd_config='/etc/ntp/server.cfg'
 cfg_dtnd_config='/opt/lsts/dtn/etc/dtn.conf'
 cfg_eth_ext_mk='255.255.0.0'
 cfg_eth_ext_gw='10.0.0.1'
+cfg_eth_ext_soft_mac='true'
 cfg_target_uboot_config='igep0020_config'
 cfg_target_linux_load_addr=0x80008000
 cfg_partitions=\
