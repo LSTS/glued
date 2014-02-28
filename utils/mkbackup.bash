@@ -27,7 +27,7 @@ tar czf "$1/${backupsystem}_backup/${backupfile}" \
   architectures \
   scripts \
   product \
-  packages \
+  rules \
   systems
 
 echo "Done ... "

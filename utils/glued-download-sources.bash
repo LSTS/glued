@@ -22,11 +22,11 @@
 
 if [ -f 'functions.bash' ]; then
     DST='downloads'
-    PKGS='packages'
+    PKGS='rules'
     source 'functions.bash'
 elif [ -f '../functions.bash' ]; then
     DST='../downloads'
-    PKGS='../packages'
+    PKGS='../rules'
     source '../functions.bash'
 else
     echo "ERROR: unable to find functions.bash."
