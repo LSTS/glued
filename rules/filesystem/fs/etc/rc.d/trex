@@ -79,6 +79,7 @@ start()
     	export PYTHONPATH=${py_libs}
 	fi
     
+    track_amc wait
     amc $TREX_CFG --nice=$TREX_NICE < /dev/null > /dev/null 2>&1 &
     PID=$!
     sleep 1
