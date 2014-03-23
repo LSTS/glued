@@ -1,63 +1,110 @@
-trex_base='/opt/lsts/trex'
+TREX_HOME='/opt/lsts/trex'
+EUROPA_HOME=/usr/share/europa
+TREX_LIBS=$TREX_HOME/lib:/usr/lib
+TREX_BINS=$TREX_HOME/bin
+TREX_SHARED=$TREX_HOME/share/trex
+TREX_NICE=10
+TREX_CFG=xtreme2
 
 maybe_upgrade()
 {
-    echo -n "* Searching TREX upgrade... "
-    if ! [ -f $trex_base/trex-*.tar.gz ]; then
-        echo "none found"
-        return 1
+    if ! [ -f $TREX_HOME/trex-*.tar.bz2 ]; then
+  
+	return 1
     fi
-    echo "found"
 
-    echo -n "* Starting TREX upgrade... "
-    rm -rf $trex_base/.trex-upgrade &&
-    mkdir $trex_base/.trex-upgrade &&
-    tar -x -C $trex_base/.trex-upgrade -f $trex_base/trex-*.tar.gz &&
-    rm $trex_base/trex-*.tar.gz &&
-    for dir in $trex_base/.trex-upgrade/trex-*/*; do
+    echo -n "* Starting T-REX upgrade... "
+    rm -rf $TREX_HOME/.trex-upgrade &&
+    mkdir $TREX_HOME/.trex-upgrade &&
+    tar -x -C $TREX_HOME/.trex-upgrade -f $TREX_HOME/trex-*.tar.bz2 &&
+    rm $TREX_HOME/trex-*.tar.bz2 &&
+    for dir in $TREX_HOME/.trex-upgrade/trex-*/*; do
         d="$(basename "$dir")"
-        rm -rf "$trex_base/$d"
-        mv -v "$dir" $trex_base
+        rm -rf "$TREX_HOME/$d"
+        mv "$dir" $TREX_HOME
     done
-    
-    rm -rf $trex_base/.trex-upgrade
+
+    rm -rf $TREX_HOME/.trex-upgrade
     echo "done"
 }
 
 start()
 {
-    maybe_upgrade
+    maybe_upgrade    
 
-    export TREX_LOG_DIR=$trex_base/log
-    export TREX_EXTRA=$trex_base
-    export EUROPA_HOME='/usr/share/europa'
-    mkdir -p "$TREX_LOG_DIR"
+	if [ -d "${EUROPA_HOME}" ]; then 
+    	export EUROPA_HOME
+    	TREX_LIBS=${TREX_LIBS}:$EUROPA_HOME/lib
+	fi
 
-    if [ -z "$cfg_trex_config" ]; then
-        export cfg_trex_config="$TREX_EXTRA/cfg/lsts.cfg"
-    fi
+	platform='unknown'
+	lib_path_var=LD_LIBRARY_PATH
+	unamestr=`uname`
+	if [ "$unamestr" = 'Darwin' ]; then
+    	if [ -n "${DYLD_FALLBACK_LIBRARY_PATH+x}" ]; then
+			export DYLD_FALLBACK_LIBRARY_PATH=${DYLD_FALLBACK_LIBRARY_PATH}:${TREX_LIBS}
+    	else
+			export DYLD_FALLBACK_LIBRARY_PATH=${TREX_LIBS}
+    	fi
+    	export DYLD_BIND_AT_LAUNCH=YES
+	else 
+    	if [ -n "${LD_LIBRARY_PATH+x}" ]; then
+			export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${TREX_LIBS}
+    	else
+			export LD_LIBRARY_PATH=${TREX_LIBS}
+    	fi
+	fi
+   
+	if [ -n "${PATH+x}" ]; then
+    	export PATH=${PATH}:${TREX_BINS}
+	else 
+    	export PATH=${TREX_BINS}
+	fi
 
-    export TREX_PATH=$PATH:$TREX_EXTRA/cfg:$TREX_EXTRA/plugins:$EUROPA_HOME/lib
-    /usr/bin/amc "$cfg_trex_config" < /dev/null > /dev/null 2>&1 &
+	if [ -n "${TREX_PATH+x}" ]; then
+    	export TREX_PATH=${TREX_PATH}:${TREX_SHARED}/cfg:${TREX_SHARED}/plugins
+	else
+    	export TREX_PATH=${TREX_SHARED}/cfg:${TREX_SHARED}/plugins
+	fi
+
+	if [ -z "${TREX_LOG_DIR+x}" ]; then
+    	export TREX_LOG_DIR=${TREX_SHARED}/log
+	fi
+
+	py_libs=${TREX_SHARED}/python
+
+	if [ -n "${PYTHONPATH+x}" ]; then 
+    	export PYTHONPATH=${py_libs}:${PYTHONPATH}
+	else
+    	export PYTHONPATH=${py_libs}
+	fi
+    
+    track_amc wait
+    amc $TREX_CFG --nice=$TREX_NICE < /dev/null > /dev/null 2>&1 &
+    PID=$!
+    sleep 1
+    track_amc $PID > $TREX_LOG_DIR/latest/track_amc.csv &
+
 }
 
 stop()
 {
     while [ 1 ]; do
-        echo "* Stopping TREX..."
+        echo "* Stopping process..."        
         killall amc > /dev/null 2>&1
-
+	killall -9 track_amc > /dev/null 2>&1
+       
         for r in 0 1 2 3 4 5 6 7 8 9; do
             if [ -n "$(pidof amc)" ]; then
-                echo "* Waiting for TREX to exit ($r)..."
+                echo "* Waiting for process to exit ($r)..."
                 sleep 1
             else
-                echo "* TREX not running."
+                echo "* Process not running."
                 return 1
             fi
         done
 
-        echo "* Forcing TREX to exit..."
+        echo "* Forcing exit..."
         killall -9 amc > /dev/null 2>&1
         sleep 1
     done
