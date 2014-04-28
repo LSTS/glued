@@ -46,5 +46,6 @@ build()
 
 target_install()
 {
-    $cmd_target_strip rsync -o "$cfg_dir_rootfs/usr/bin/rsync"
+    $cmd_target_strip rsync -o "$cfg_dir_rootfs/usr/bin/rsync" &&
+    tar -C "$pkg_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
 }
