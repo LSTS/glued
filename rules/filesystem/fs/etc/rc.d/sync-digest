@@ -7,7 +7,7 @@ start()
 
 stop()
 {
-    pids="$(echo $(ps | grep /sbin/sync-digest | grep -v grep | cut -f1 -dr))"
+    pids="$(echo $(ps | grep '/sbin/sync-digest ' | grep -v grep | cut -f1 -dr))"
     if [ -n "$pids" ]; then
         kill $pids
     fi
