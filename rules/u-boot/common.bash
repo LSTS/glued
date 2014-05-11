@@ -12,7 +12,7 @@ configure()
     $cmd_make \
         ARCH="$cfg_target_uboot_arch" \
         CROSS_COMPILE="$cfg_target_canonical"- \
-        "$cfg_target_uboot_config"
+        "${cfg_target_uboot_config}_config"
 }
 
 build()
