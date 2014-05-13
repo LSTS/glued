@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "http://www.eu.apache.org/dist/ant/binaries/apache-ant-$version-bin.tar.bz2"
+    "http://www.lsts.pt/glued/apache-ant-$version-bin.tar.bz2"
 )
 
 md5=\
