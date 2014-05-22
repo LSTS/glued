@@ -21,7 +21,7 @@
 ###########################################################################
 
 # Config: GLUED version.
-cfg_glued_version='1.9.x'
+cfg_glued_version='1.9.10'
 # Config: GLUED vendor.
 cfg_glued_vendor='lsts'
 
