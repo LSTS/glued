@@ -22,6 +22,7 @@ maintainer=\
 
 requires=\
 (
+    'bc/host'
     'kmod/host'
     'lz4/host'
 )
