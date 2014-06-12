@@ -18,6 +18,11 @@ maintainer=\
     'Ricardo Martins <rasm@fe.up.pt>'
 )
 
+requires=\
+(
+    'flex/host'
+)
+
 configure()
 {
     ./configure \
