@@ -1,6 +1,6 @@
 version=\
 (
-    '1.22.0'
+    '1.22.1'
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    'ac1881d1cdeb0729b22c663feaf1c663'
+    '337d1a15ab1cb1d4ed423168b1eb7d7e'
 )
 
 post_unpack()
