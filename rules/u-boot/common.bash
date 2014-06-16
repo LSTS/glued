@@ -7,19 +7,12 @@ post_unpack()
     fi
 }
 
-configure()
-{
-    $cmd_make \
-        ARCH="$cfg_target_uboot_arch" \
-        CROSS_COMPILE="$cfg_target_canonical"- \
-        "${cfg_target_uboot_config}_config"
-}
-
 build()
 {
     $cmd_make \
         ARCH="$cfg_target_uboot_arch" \
-        CROSS_COMPILE="$cfg_target_canonical"-
+        CROSS_COMPILE="$cfg_target_canonical"- \
+        "$cfg_target_uboot_config"
 }
 
 host_install()
