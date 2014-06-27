@@ -25,4 +25,5 @@ requires=\
     'texinfo/host'
     'parted/host'
     'dosfstools/host'
+    'e2fsprogs/host'
 )
