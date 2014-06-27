@@ -95,7 +95,7 @@ create_part_root()
         || die
 
     nfo2 "Creating filesystem"
-    mkfs.ext2 -q -L "$part_label" "$part_dev" || die
+    "$cmd_mkfs_ext2" -q -F -L "$part_label" "$part_dev" > /dev/null 2>&1 || die
 
     nfo2 "Populating filesystem"
     cmd_mount ext2 "$part_dev" || die
@@ -128,7 +128,7 @@ create_part_data()
         || die
 
     nfo2 "Creating filesystem"
-    mkfs.ext4 -q -L "$part_label" -O dir_index "$part_dev" || die
+    "$cmd_mkfs_ext4" -q -F -L "$part_label" -O dir_index "$part_dev" > /dev/null 2>&1 || die
 
     nfo2 "Populating filesystem"
     cmd_mount ext4 "$part_dev" || die
@@ -172,6 +172,20 @@ if [ -x "$cfg_dir_toolchain/sbin/mkdosfs" ]; then
 else
     echo "Warning: using system mkdosfs, this might lead to errors"
     cmd_mkdosfs="mkdosfs"
+fi
+
+if [ -x "$cfg_dir_toolchain/sbin/mkfs.ext2" ]; then
+    cmd_mkfs_ext2="$cfg_dir_toolchain/sbin/mkfs.ext2"
+else
+    echo "Warning: using system mkfs.ext2, this might lead to errors"
+    cmd_mkfs_ext2="mkfs.ext2"
+fi
+
+if [ -x "$cfg_dir_toolchain/sbin/mkfs.ext4" ]; then
+    cmd_mkfs_ext4="$cfg_dir_toolchain/sbin/mkfs.ext4"
+else
+    echo "Warning: using system mkfs.ext4, this might lead to errors"
+    cmd_mkfs_ext4="mkfs.ext4"
 fi
 
 source "functions.bash"
