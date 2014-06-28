@@ -1,17 +1,4 @@
-version=\
-(
-    '1.3.1'
-)
-
-url=\
-(
-  "ftp://ftp.gnu.org/gnu/termcap/termcap-$version.tar.gz"
-)
-
-md5=\
-(
-  'ffe6f86e63a3a29fa53ac645faaabdfa'
-)
+source "$pkg_common"
 
 configure()
 {
@@ -35,7 +22,7 @@ host_install()
 
 target_install()
 {
-  # Libs: 
+  # Libs:
   for f in "$cfg_dir_toolchain_sysroot/usr/lib/"libtermcap*; do
     if [ -L "$f" ]; then
       $cmd_cp "$f" "$cfg_dir_rootfs/usr/lib"
