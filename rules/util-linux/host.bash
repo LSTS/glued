@@ -1,5 +1,10 @@
 source "$pkg_common"
 
+requires=\
+(
+    'termcap/host'
+)
+
 configure()
 {
     cd "$pkg_build_dir" &&
