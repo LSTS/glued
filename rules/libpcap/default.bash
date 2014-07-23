@@ -1,6 +1,6 @@
 version=\
 (
-    "1.1.1"
+    "1.6.1"
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    "1bca27d206970badae248cfa471bbb47"
+    "5eb05edf6b6c6e63d536d1c9fbfb2f7c"
 )
 
 maintainer=\
@@ -26,9 +26,12 @@ requires=\
 
 post_unpack()
 {
-    for patch in "$pkg_dir"/patches/*; do
-        patch -p1 < "$patch" || return 1
-    done
+    if [ -d "$pkg_dir"/patches/${version} ];
+    then
+	for patch in "$pkg_dir"/patches/${version}/*; do
+            patch -p1 < "$patch" || return 1
+	done
+    fi
 }
 
 configure()
@@ -56,7 +59,10 @@ build()
 
 host_install()
 {
-    $cmd_make install
+    $cmd_make install &&
+    mv -v \
+        "$cfg_dir_toolchain_sysroot/usr/bin/pcap-config" \
+        "$cfg_dir_toolchain/bin/$cfg_target_canonical-pcap-config"
 }
 
 target_install()
