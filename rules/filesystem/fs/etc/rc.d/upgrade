@@ -109,24 +109,19 @@ kernel_upgrade()
     fi
 }
 
-bbb_boot_upgrade()
+uboot_part_upgrade()
 {
-    # Check if board is a BeagleBone black.
-    dmesg | grep -i 'machine model' | grep -i beaglebone
-    if [ $? -ne 0 ]; then
-        return 0
-    fi
+    label="$1"
+    dev="$2"
 
-    dev='/dev/mmcblk1p1'
-
-    echo -en '* BeagleBone Black: checking eMMC device... '
+    echo -en "* $label: probing bootloader partition... "
     if ! [ -b "$dev" ]; then
         echo 'not present'
         return 0
     fi
     echo 'present'
 
-    echo -en "* BeagleBone Black: mounting bootloader partition... "
+    echo -en "* $label: mounting bootloader partition... "
     mount -t vfat "$dev" /mnt > /dev/null 2>&1
     if [ $? -ne 0 ]; then
         echo "failed"
@@ -136,13 +131,13 @@ bbb_boot_upgrade()
 
     for f in MLO u-boot.img; do
         if [ -f /mnt/MLO ]; then
-            echo -en "* BeagleBone Black: Replacing $f... "
+            echo -en "* $label: Replacing $f... "
             cp "$base/.glued-new/boot/$f" /mnt
             echo 'done'
         fi
     done
 
-    echo -en "* BeagleBone Black: unmounting bootloader partition... "
+    echo -en "* $label: unmounting bootloader partition... "
     umount /mnt > /dev/null 2>&1
     if [ $? -ne 0 ]; then
         echo 'failed'
@@ -151,6 +146,25 @@ bbb_boot_upgrade()
 
     sync && sync && sync && sync
     echo 'done'
+    return 0
+}
+
+uboot_part_upgrade_check()
+{
+    # Check if board is a BeagleBone black.
+    dmesg | grep -i 'machine model' | grep -i beaglebone
+    if [ $? -eq 0 ]; then
+        uboot_part_upgrade 'BeagleBone Black' '/dev/mmcblk1p1'
+        return 0
+    fi
+
+    # Check if board is a IGEPv2.
+    dmesg | grep -i 'machine model' | grep -i igepv2
+    if [ $? -ne 0 ]; then
+        uboot_part_upgrade 'IGEPv2' '/dev/mmcblk0p1'
+        return 0
+    fi
+
     return 0
 }
 
@@ -201,7 +215,7 @@ start()
     version || return 1
     kernel_dst || return 1
     new_unpack || return 1
-    bbb_boot_upgrade || return 1
+    uboot_part_upgrade_check || return 1
     kernel_upgrade || return 1
     old_move || return 1
 }
