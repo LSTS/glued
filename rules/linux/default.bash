@@ -2,7 +2,7 @@ source "$pkg_common"
 
 version=\
 (
-    '3.13.11'
+    '3.14.15'
 )
 
 url=\
@@ -12,7 +12,7 @@ url=\
 
 md5=\
 (
-    'd4e06af8b674ac74ba745d52e4382bd3'
+    '89c2aaa23f95ca13447c35e514038472'
 )
 
 maintainer=\
