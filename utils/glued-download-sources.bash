@@ -47,7 +47,10 @@ find "$PKGS" -name '*.bash' | while read file; do
         if [ "$fh" != "$m" ]; then
             nfo1 "Downloading $f"
             echo ""
-            wget -P "$DST" -4 -c "$u"
+            wget \
+                --timeout=30 \
+                --tries 1 \
+                -P "$DST" -4 -c "$u"
             echo ""
         fi
         let n++
