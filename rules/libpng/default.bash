@@ -1,6 +1,6 @@
 version=\
 (
-    '1.6.8'
+    '1.6.12'
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    '51ce71a1642cdde1f4485a7ff82193c0'
+    'ee752da8aa75076500e4cf31318e636e'
 )
 
 configure()
