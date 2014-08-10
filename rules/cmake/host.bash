@@ -26,10 +26,12 @@ configure()
 
 build()
 {
+    # Remove the trailling 'ncurses' folder from the CURSES_INCLUDE_PATH
+    cat CMakeCache.txt | sed  '/^CURSES_INCLUDE_PATH/s/\/ncurses$/\//g' > CMakeCache.txt  &&
     $cmd_make
 }
 
 host_install()
 {
-    $cmd_make install
+    $cmd_make DESTDIR="$cfg_dir_toolchain" install
 }
