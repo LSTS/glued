@@ -1,18 +1,15 @@
 diff --git a/boards.cfg b/boards.cfg
-index 2128996..0d9abd8 100644
+index 1ba2081..08dc221 100644
 --- a/boards.cfg
 +++ b/boards.cfg
-@@ -256,6 +256,7 @@ Active  arm         armv7          am33xx      siemens         dxr2
- Active  arm         armv7          am33xx      siemens         pxm2                pxm2                                 -                                                                                                                                 Roger Meier <r.meier@siemens.com>
- Active  arm         armv7          am33xx      siemens         rut                 rut                                  -                                                                                                                                 Roger Meier <r.meier@siemens.com>
- Active  arm         armv7          am33xx      ti              am335x              am335x_boneblack                     am335x_evm:SERIAL1,CONS_INDEX=1,EMMC_BOOT                                                                                         Tom Rini <trini@ti.com>
-+Active  arm         armv7          am33xx      ti              am335x              am335x_bbb                           am335x_bbb:SERIAL1,CONS_INDEX=1                                                                                                   Ricardo Martins <rasm@fe.up.pt>
- Active  arm         armv7          am33xx      ti              am335x              am335x_evm                           am335x_evm:SERIAL1,CONS_INDEX=1,NAND                                                                                              Tom Rini <trini@ti.com>
- Active  arm         armv7          am33xx      ti              am335x              am335x_evm_nor                       am335x_evm:SERIAL1,CONS_INDEX=1,NAND,NOR                                                                                          Tom Rini <trini@ti.com>
- Active  arm         armv7          am33xx      ti              am335x              am335x_evm_norboot                   am335x_evm:SERIAL1,CONS_INDEX=1,NOR,NOR_BOOT                                                                                      Tom Rini <trini@ti.com>
+@@ -1218,3 +1218,4 @@ Orphan  powerpc     ppc4xx         -           sandburst       metrobox
+ # The following were move to "Orphan" in September, 2013
+ Orphan  arm         arm1136        mx31        -               imx31_phycore       imx31_phycore_eet                     imx31_phycore:IMX31_PHYCORE_EET                                                                                                   (resigned) Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+ Orphan  arm         arm1136        mx31        freescale       mx31ads             mx31ads                               -                                                                                                                                 (resigned) Guennadi Liakhovetski <g.liakhovetski@gmx.de>
++Active  arm         armv7          am33xx      ti              am335x              am335x_bbb                           am335x_bbb:SERIAL1,CONS_INDEX=1                                                                                                    Ricardo Martins <rasm@fe.up.pt>
 diff --git a/include/configs/am335x_bbb.h b/include/configs/am335x_bbb.h
 new file mode 100644
-index 0000000..89c5835
+index 0000000..9e00817
 --- /dev/null
 +++ b/include/configs/am335x_bbb.h
 @@ -0,0 +1,135 @@
