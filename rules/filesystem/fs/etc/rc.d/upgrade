@@ -150,14 +150,19 @@ uboot_part_upgrade()
 uboot_part_upgrade_check()
 {
     # Check if board is a BeagleBone black.
-    dmesg | grep -i 'machine model' | grep -i beaglebone
+    dmesg | grep -i 'machine model' | grep -i beaglebone > /dev/null 2>&1
     if [ $? -eq 0 ]; then
         uboot_part_upgrade 'BeagleBone Black' '/dev/mmcblk1p1'
         return 0
     fi
 
     # Check if board is a IGEPv2.
-    dmesg | grep -i 'machine model' | grep -i igepv2
+    dmesg | grep -i 'machine model' | grep -i igepv2 > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        uboot_part_upgrade 'IGEPv2' '/dev/mmcblk0p1'
+        return 0
+    fi
+    grep "IGEP v2" /proc/cpuinfo > /dev/null 2>&1
     if [ $? -eq 0 ]; then
         uboot_part_upgrade 'IGEPv2' '/dev/mmcblk0p1'
         return 0
