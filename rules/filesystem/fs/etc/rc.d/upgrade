@@ -130,11 +130,9 @@ uboot_part_upgrade()
     echo 'done'
 
     for f in MLO u-boot.img; do
-        if [ -f /mnt/MLO ]; then
-            echo -en "* $label: Replacing $f... "
-            cp "$base/.glued-new/boot/$f" /mnt
-            echo 'done'
-        fi
+        echo -en "* $label: Replacing $f... "
+        cp "$base/.glued-new/boot/$f" /mnt
+        echo 'done'
     done
 
     echo -en "* $label: unmounting bootloader partition... "
@@ -160,7 +158,7 @@ uboot_part_upgrade_check()
 
     # Check if board is a IGEPv2.
     dmesg | grep -i 'machine model' | grep -i igepv2
-    if [ $? -ne 0 ]; then
+    if [ $? -eq 0 ]; then
         uboot_part_upgrade 'IGEPv2' '/dev/mmcblk0p1'
         return 0
     fi
