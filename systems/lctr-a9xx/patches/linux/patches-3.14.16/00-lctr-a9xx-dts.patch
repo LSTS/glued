@@ -12,7 +12,7 @@ diff -Nru linux-3.13.1/arch/arm/boot/dts/Makefile linux-3.13.1.rasm/arch/arm/boo
 diff -Nru linux-3.13.1/arch/arm/boot/dts/omap3-lctr-a9xx.dts linux-3.13.1.rasm/arch/arm/boot/dts/omap3-lctr-a9xx.dts
 --- linux-3.13.1/arch/arm/boot/dts/omap3-lctr-a9xx.dts	1970-01-01 01:00:00.000000000 +0100
 +++ linux-3.13.1.rasm/arch/arm/boot/dts/omap3-lctr-a9xx.dts	2014-02-01 23:49:40.019073833 +0000
-@@ -0,0 +1,107 @@
+@@ -0,0 +1,103 @@
 +/*
 + * Copyright (C) 2014 Universidade do Porto - Faculdade de Engenharia
 + *
@@ -79,10 +79,6 @@ diff -Nru linux-3.13.1/arch/arm/boot/dts/omap3-lctr-a9xx.dts linux-3.13.1.rasm/a
 +			0x132 (PIN_OUTPUT | MUX_MODE4)
 +			/* gpio_157 - transducer */
 +			0x15e (PIN_INPUT_PULLUP | MUX_MODE4)
-+			/* uart1_cts / gpio_150 / UART1 RS232. */
-+			0x150 (PIN_INPUT | MUX_MODE4)
-+			/* uart1_rts / gpio_149 / UART1 RS232. */
-+			0x14e (PIN_INPUT | MUX_MODE4)
 +		>;
 +	};
 +

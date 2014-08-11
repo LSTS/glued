@@ -7,8 +7,8 @@ index 181f81f..d1320a1 100644
  	MUX_VAL(CP(MMC1_DAT2),      (IEN  | PTU | EN  | M0)) /* MMC1_DAT2 */\
  	MUX_VAL(CP(MMC1_DAT3),      (IEN  | PTU | EN  | M0)) /* MMC1_DAT3 */\
 +	MUX_VAL(CP(UART1_TX),       (IDIS | PTD | DIS | M0)) /* UART1_TX */\
-+	MUX_VAL(CP(UART1_RTS),      (IDIS | PTD | DIS | M0)) /* UART1_RTS */\
-+	MUX_VAL(CP(UART1_CTS),      (IEN  | PTU | DIS | M0)) /* UART1_CTS */\
++	MUX_VAL(CP(UART1_RTS),      (IEN  | PTD | DIS | M4)) /* UART1_RTS */\
++	MUX_VAL(CP(UART1_CTS),      (IEN  | PTU | DIS | M4)) /* UART1_CTS */\
 +	MUX_VAL(CP(UART1_RX),       (IEN  | PTD | DIS | M0)) /* UART1_RX */\
  	MUX_VAL(CP(UART3_TX_IRTX),  (IDIS | PTD | DIS | M0)) /* UART3_TX */\
  	MUX_VAL(CP(UART3_RX_IRRX),  (IEN  | PTD | DIS | M0)) /* UART3_RX */\
@@ -31,7 +31,7 @@ index 79daabd..f1b5bb1 100644
 @@ -10,6 +10,8 @@
  #ifndef __IGEP00X0_H
  #define __IGEP00X0_H
- 
+
 +#undef CONFIG_BOOT_ONENAND
 +
  #ifdef CONFIG_BOOT_NAND
@@ -40,7 +40,7 @@ index 79daabd..f1b5bb1 100644
 @@ -201,4 +203,42 @@
  #define CONFIG_NAND_OMAP_ECCSCHEME	OMAP_ECC_HAM1_CODE_HW
  #endif
- 
+
 +#undef CONFIG_EXTRA_ENV_SETTINGS
 +#define CONFIG_EXTRA_ENV_SETTINGS                                       \
 +  "bootdelay=0\0"                                                       \
