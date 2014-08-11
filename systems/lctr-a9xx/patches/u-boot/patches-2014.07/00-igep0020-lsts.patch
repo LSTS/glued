@@ -1,0 +1,82 @@
+diff --git a/board/isee/igep00x0/igep00x0.h b/board/isee/igep00x0/igep00x0.h
+index 181f81f..d1320a1 100644
+--- a/board/isee/igep00x0/igep00x0.h
++++ b/board/isee/igep00x0/igep00x0.h
+@@ -131,6 +131,10 @@ static void setup_net_chip(void);
+ 	MUX_VAL(CP(MMC1_DAT1),      (IEN  | PTU | EN  | M0)) /* MMC1_DAT1 */\
+ 	MUX_VAL(CP(MMC1_DAT2),      (IEN  | PTU | EN  | M0)) /* MMC1_DAT2 */\
+ 	MUX_VAL(CP(MMC1_DAT3),      (IEN  | PTU | EN  | M0)) /* MMC1_DAT3 */\
++	MUX_VAL(CP(UART1_TX),       (IDIS | PTD | DIS | M0)) /* UART1_TX */\
++	MUX_VAL(CP(UART1_RTS),      (IDIS | PTD | DIS | M0)) /* UART1_RTS */\
++	MUX_VAL(CP(UART1_CTS),      (IEN  | PTU | DIS | M0)) /* UART1_CTS */\
++	MUX_VAL(CP(UART1_RX),       (IEN  | PTD | DIS | M0)) /* UART1_RX */\
+ 	MUX_VAL(CP(UART3_TX_IRTX),  (IDIS | PTD | DIS | M0)) /* UART3_TX */\
+ 	MUX_VAL(CP(UART3_RX_IRRX),  (IEN  | PTD | DIS | M0)) /* UART3_RX */\
+ 	MUX_VAL(CP(I2C1_SCL),       (IEN  | PTU | EN  | M0)) /* I2C1_SCL */\
+@@ -145,6 +149,10 @@ static void setup_net_chip(void);
+ 	MUX_VAL(CP(SYS_BOOT4),      (IEN  | PTD | DIS | M4)) /* GPIO_6 */\
+ 	MUX_VAL(CP(SYS_BOOT5),      (IEN  | PTD | DIS | M4)) /* GPIO_7 */\
+ 	MUX_VAL(CP(SYS_BOOT6),      (IEN  | PTD | DIS | M4)) /* GPIO_8 */\
++	MUX_VAL(CP(MCBSP2_FSX),     (IEN  | PTD | DIS | M0)) /* McBSP2_FSX */\
++	MUX_VAL(CP(MCBSP2_CLKX),    (IEN  | PTD | DIS | M0)) /* McBSP2_CLKX */\
++	MUX_VAL(CP(MCBSP2_DR),      (IEN  | PTD | DIS | M0)) /* McBSP2_DR */\
++	MUX_VAL(CP(MCBSP2_DX),      (IDIS | PTD | DIS | M0)) /* McBSP2_DX */\
+ 	MUX_VAL(CP(SDRC_CKE0),      (IDIS | PTU | EN  | M0)) /* SDRC_CKE0 */\
+ 	MUX_VAL(CP(SDRC_CKE1),      (IDIS | PTU | EN  | M0)) /* SDRC_CKE1 */
+ #endif
+diff --git a/include/configs/omap3_igep00x0.h b/include/configs/omap3_igep00x0.h
+index 79daabd..f1b5bb1 100644
+--- a/include/configs/omap3_igep00x0.h
++++ b/include/configs/omap3_igep00x0.h
+@@ -10,6 +10,8 @@
+ #ifndef __IGEP00X0_H
+ #define __IGEP00X0_H
+ 
++#undef CONFIG_BOOT_ONENAND
++
+ #ifdef CONFIG_BOOT_NAND
+ #define CONFIG_NAND
+ #endif
+@@ -201,4 +203,42 @@
+ #define CONFIG_NAND_OMAP_ECCSCHEME	OMAP_ECC_HAM1_CODE_HW
+ #endif
+ 
++#undef CONFIG_EXTRA_ENV_SETTINGS
++#define CONFIG_EXTRA_ENV_SETTINGS                                       \
++  "bootdelay=0\0"                                                       \
++  "loadaddr=0x80200000\0"                                               \
++  "dtbaddr=0x81600000\0"                                                \
++  "ipaddr=192.168.1.90\0"                                               \
++  "serverip=192.168.1.147\0"                                            \
++  "ethaddr=00:50:da:4b:5a:67\0"                                         \
++  "console=ttyO2,115200n8\0"                                            \
++  "mmcroot=/dev/mmcblk0p2\0"                                            \
++  "mmcrootfstype=ext4\0"
++
++#undef CONFIG_BOOTCOMMAND
++#define CONFIG_BOOTCOMMAND                                              \
++  "dcache on;"                                                          \
++  "icache on;"                                                          \
++  "setenv bootargs \"console=${console} root=${mmcroot} rootfstype=${mmcrootfstype} rootwait ro quiet\"; " \
++  "mmc dev 0; "                                                         \
++  "ext4load mmc0 0:2 ${loadaddr} /boot/kernel; "                        \
++  "ext4load mmc0 0:2 ${dtbaddr} /boot/board.dtb; "                      \
++  "bootz ${loadaddr} - ${dtbaddr}; " \
++
++#undef CONFIG_ENV_SIZE
++#define CONFIG_ENV_SIZE			(128 << 10)
++
++#define CONFIG_ENV_IS_NOWHERE
++#define CONFIG_ZERO_BOOTDELAY_CHECK
++
++/* USB */
++#undef CONFIG_MUSB_UDC
++#undef CONFIG_USB_OMAP3
++#undef CONFIG_TWL4030_USB
++
++/* USB device configuration */
++#undef CONFIG_USB_DEVICE
++#undef CONFIG_USB_TTY
++#undef CONFIG_SYS_CONSOLE_IS_IN_ENV
++
+ #endif /* __IGEP00X0_H */
