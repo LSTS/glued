@@ -1,29 +1,28 @@
 diff --git a/board/isee/igep00x0/igep00x0.h b/board/isee/igep00x0/igep00x0.h
-index 181f81f..d1320a1 100644
+index 181f81f..fe643e4 100644
 --- a/board/isee/igep00x0/igep00x0.h
 +++ b/board/isee/igep00x0/igep00x0.h
-@@ -131,6 +131,10 @@ static void setup_net_chip(void);
- 	MUX_VAL(CP(MMC1_DAT1),      (IEN  | PTU | EN  | M0)) /* MMC1_DAT1 */\
- 	MUX_VAL(CP(MMC1_DAT2),      (IEN  | PTU | EN  | M0)) /* MMC1_DAT2 */\
- 	MUX_VAL(CP(MMC1_DAT3),      (IEN  | PTU | EN  | M0)) /* MMC1_DAT3 */\
+@@ -146,7 +146,19 @@ static void setup_net_chip(void);
+ 	MUX_VAL(CP(SYS_BOOT5),      (IEN  | PTD | DIS | M4)) /* GPIO_7 */\
+ 	MUX_VAL(CP(SYS_BOOT6),      (IEN  | PTD | DIS | M4)) /* GPIO_8 */\
+ 	MUX_VAL(CP(SDRC_CKE0),      (IDIS | PTU | EN  | M0)) /* SDRC_CKE0 */\
+-	MUX_VAL(CP(SDRC_CKE1),      (IDIS | PTU | EN  | M0)) /* SDRC_CKE1 */
++	MUX_VAL(CP(SDRC_CKE1),      (IDIS | PTU | EN  | M0)) /* SDRC_CKE1 */\
 +	MUX_VAL(CP(UART1_TX),       (IDIS | PTD | DIS | M0)) /* UART1_TX */\
 +	MUX_VAL(CP(UART1_RTS),      (IEN  | PTD | DIS | M4)) /* UART1_RTS */\
 +	MUX_VAL(CP(UART1_CTS),      (IEN  | PTU | DIS | M4)) /* UART1_CTS */\
 +	MUX_VAL(CP(UART1_RX),       (IEN  | PTD | DIS | M0)) /* UART1_RX */\
- 	MUX_VAL(CP(UART3_TX_IRTX),  (IDIS | PTD | DIS | M0)) /* UART3_TX */\
- 	MUX_VAL(CP(UART3_RX_IRRX),  (IEN  | PTD | DIS | M0)) /* UART3_RX */\
- 	MUX_VAL(CP(I2C1_SCL),       (IEN  | PTU | EN  | M0)) /* I2C1_SCL */\
-@@ -145,6 +149,10 @@ static void setup_net_chip(void);
- 	MUX_VAL(CP(SYS_BOOT4),      (IEN  | PTD | DIS | M4)) /* GPIO_6 */\
- 	MUX_VAL(CP(SYS_BOOT5),      (IEN  | PTD | DIS | M4)) /* GPIO_7 */\
- 	MUX_VAL(CP(SYS_BOOT6),      (IEN  | PTD | DIS | M4)) /* GPIO_8 */\
++	MUX_VAL(CP(MMC2_DAT1),      (IDIS | PTD | DIS | M4)) /* GPIO_133 */\
++	MUX_VAL(CP(MMC2_DAT3),      (IDIS | PTD | DIS | M4)) /* GPIO_135 */\
++	MUX_VAL(CP(MCBSP1_FSR),     (IEN  | PTD | DIS | M4)) /* GPIO_157 */\
 +	MUX_VAL(CP(MCBSP2_FSX),     (IEN  | PTD | DIS | M0)) /* McBSP2_FSX */\
 +	MUX_VAL(CP(MCBSP2_CLKX),    (IEN  | PTD | DIS | M0)) /* McBSP2_CLKX */\
 +	MUX_VAL(CP(MCBSP2_DR),      (IEN  | PTD | DIS | M0)) /* McBSP2_DR */\
-+	MUX_VAL(CP(MCBSP2_DX),      (IDIS | PTD | DIS | M0)) /* McBSP2_DX */\
- 	MUX_VAL(CP(SDRC_CKE0),      (IDIS | PTU | EN  | M0)) /* SDRC_CKE0 */\
- 	MUX_VAL(CP(SDRC_CKE1),      (IDIS | PTU | EN  | M0)) /* SDRC_CKE1 */
++	MUX_VAL(CP(MCBSP2_DX),      (IDIS | PTD | DIS | M0)) /* McBSP2_DX */
++
  #endif
+
+ #define MUX_IGEP0020() \
 diff --git a/include/configs/omap3_igep00x0.h b/include/configs/omap3_igep00x0.h
 index 79daabd..f1b5bb1 100644
 --- a/include/configs/omap3_igep00x0.h
