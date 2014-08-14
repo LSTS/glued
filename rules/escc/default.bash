@@ -1,6 +1,6 @@
 version=\
 (
-    '1.0.4'
+    '1.0.5'
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    'b9ee6a3d921643535c336b7c740b2c60'
+    '8400860f2daa98d559b1b9b6fcc630c2'
 )
 
 if [ -d "$cfg_dir_builds/linux/linux-"* ]; then
