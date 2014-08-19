@@ -15,8 +15,8 @@ md5=\
 
 post_unpack()
 {
-    patches=$(ls "$pkg_dir/patches-$version/"*.patch\
-	"$cfg_dir_system/patches/u-boot/patches-${version}/"*.patch 2>/dev/null)
+    patches=$(ls "$pkg_dir/patches/$version/"*.patch\
+	"$cfg_dir_system/patches/u-boot/$version/"*.patch 2>/dev/null)
     if [ -n "$patches" ]; then
         cat $patches | patch -p1
     fi
