@@ -1,6 +1,6 @@
 version=\
 (
-    '1.0.3'
+    '1.0.6'
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    'd8729636cc2d7f46f62141d392898bfa'
+    '07783e66e27601ab0a8250c328b3d6bf'
 )
 
 if [ -d "$cfg_dir_builds/linux/linux-"* ]; then
@@ -25,7 +25,7 @@ build()
         M=`pwd` \
         -C "$kernel" &&
 
-    for util in setescc esccclock esccsettings; do
+    for util in setescc esccclock esccsettings esccfs6131; do
         make CC="$cmd_target_cc" -C "utils/$util"
     done
 }
@@ -40,7 +40,7 @@ target_install()
         -C "$kernel" \
         modules_install &&
 
-    for util in setescc esccclock esccsettings; do
+    for util in setescc esccclock esccsettings esccfs6131; do
         $cmd_target_strip "utils/$util/$util" -o "$cfg_dir_rootfs/usr/bin/$util"
     done &&
 
