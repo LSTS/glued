@@ -167,6 +167,13 @@ else
     cmd_parted="parted"
 fi
 
+if [ -x "$cfg_dir_toolchain/sbin/fdisk" ]; then
+    cmd_fdisk="$cfg_dir_toolchain/sbin/fdisk"
+else
+    echo "Warning: using system fdisk, this might lead to errors"
+    cmd_fdisk="fdisk"
+fi
+
 if [ -x "$cfg_dir_toolchain/sbin/mkdosfs" ]; then
     cmd_mkdosfs="$cfg_dir_toolchain/sbin/mkdosfs"
 else
@@ -229,6 +236,7 @@ cmd_parted "$dev_loop" \
     || die
 
 part_nr=1
+xboot_system_id=0
 for ((i = 0; i < ${#cfg_partitions[@]}; i += 4)); do
     part_type="${cfg_partitions[$i+0]}"
     part_label="${cfg_partitions[$i+1]}"
@@ -239,6 +247,7 @@ for ((i = 0; i < ${#cfg_partitions[@]}; i += 4)); do
     case $part_type in
         'x-boot')
             create_part_xboot
+            xboot_system_id=1
             ;;
         'root')
             create_part_root
@@ -263,6 +272,11 @@ fi
 nfo1 "Synchronizing caches"
 sync && sync && sync && sync && sync && sync
 blockdev --flushbufs "$dev_loop" || die
+
+# Make sure the partition has 0x0e type.
+if [ $xboot_system_id -eq 1 ]; then
+    echo -en "t\n1\ne\nw\n" | $cmd_fdisk "$dev_loop" > /dev/null 2>&1
+fi
 
 nfo1 "Detaching loop device $dev_loop"
 losetup -v -d "$dev_loop"
