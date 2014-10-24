@@ -101,6 +101,15 @@ build()
     fi
 }
 
+host_install()
+{
+    # Device tree blobs.
+    if [ -n "$cfg_target_linux_dtb" ]; then
+        $cmd_mkdir "$cfg_dir_toolchain/boot" &&
+            cp -v "$(dirname $cfg_target_linux_dtb)/"*.dtb "$cfg_dir_toolchain/boot"
+    fi
+}
+
 target_install()
 {
     kernel="$cfg_dir_base/${cfg_sys_family}/glued-${cfg_glued_version}-${cfg_sys_family}-kernel.bin"
@@ -114,11 +123,6 @@ target_install()
     if [ -n "$cfg_target_linux_kernel" ]; then
         cp -v "$cfg_target_linux_kernel" "$kernel"
         cp -v "$cfg_target_linux_kernel" "$cfg_dir_rootfs/boot/kernel"
-    fi
-
-    # Device tree blob.
-    if [ -n "$cfg_target_linux_dtb" ]; then
-        cp -v "$cfg_target_linux_dtb" "$cfg_dir_rootfs/boot/board.dtb"
     fi
 
     $cmd_make \
