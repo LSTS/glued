@@ -1,6 +1,6 @@
 version=\
 (
-    "2.8.8"
+    "2.8.9"
 )
 
 version_major=\
@@ -15,7 +15,7 @@ url=\
 
 md5=\
 (
-    "ba74b22c788a0c8547976b880cd02b17"
+    "801f4c87f8b604f727df5bf1f05a59e7"
 )
 
 configure()
