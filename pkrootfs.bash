@@ -58,6 +58,11 @@ for d in dev boot etc; do
     $fakeroot -- chmod -vR 0644 "$cfg_dir_rootfs"/$d/*
 done
 
+# Copy DTB.
+if [ -n "$cfg_target_linux_dtb" ]; then
+    cp -v "$cfg_dir_toolchain/boot/$(basename $cfg_target_linux_dtb)" "$cfg_dir_rootfs/boot/board.dtb"
+fi
+
 # Write config vars.
 set | sort | grep ^cfg_ | egrep -v '^cfg_dir|^cfg_target|^cfg_host_|^cfg_toolchain|^cfg_rootfs_tar|^cfg_partitions' > "$cfg_dir_rootfs/etc/config"
 
