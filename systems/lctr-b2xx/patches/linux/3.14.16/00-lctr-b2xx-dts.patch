@@ -12,7 +12,7 @@ diff -Nru linux-3.13.1/arch/arm/boot/dts/Makefile linux-3.13.1.rasm/arch/arm/boo
 diff -Nru linux-3.13.1/arch/arm/boot/dts/am335x-lctr-b2xx.dts linux-3.13.1.rasm/arch/arm/boot/dts/am335x-lctr-b2xx.dts
 --- linux-3.13.1/arch/arm/boot/dts/am335x-lctr-b2xx.dts	1970-01-01 01:00:00.000000000 +0100
 +++ linux-3.13.1.rasm/arch/arm/boot/dts/am335x-lctr-b2xx.dts	2014-02-01 06:51:48.273816483 +0000
-@@ -0,0 +1,60 @@
+@@ -0,0 +1,77 @@
 +/*
 + * Copyright (C) 2014 Universidade do Porto - Faculdade de Engenharia
 + *
@@ -65,11 +65,28 @@ diff -Nru linux-3.13.1/arch/arm/boot/dts/am335x-lctr-b2xx.dts linux-3.13.1.rasm/
 +			0x184 (PIN_OUTPUT_PULLDOWN | MUX_MODE0)
 +		>;
 +	};
++
++	/* UART2. */
++	uart2_pins: pinmux_uart2_pins {
++		pinctrl-single,pins = <
++			/* uart2_rxd */
++			0x150 (PIN_INPUT_PULLUP | MUX_MODE1)
++			/* uart2_txd */
++			0x154 (PIN_OUTPUT_PULLDOWN | MUX_MODE1)
++		>;
++	};
 +};
 +
 +/* Enable UART1. */
 +&uart1 {
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&uart1_pins>;
++	status = "okay";
++};
++
++/* Enable UART2 (actual UART3). */
++&uart2 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart2_pins>;
 +	status = "okay";
 +};
