@@ -27,10 +27,13 @@ fi
 
 source "$1"
 
+toolchain_prefix="glued-$cfg_glued_version-$cfg_sys_family-toolchain-$cfg_host_canonical-$cfg_target_canonical"
+
 tar \
     -v \
     -j \
     -c \
+    --transform="s,^\./,$toolchain_prefix/," \
     -C "$cfg_dir_toolchain" \
     -f "$cfg_toolchain_tar" \
     .
