@@ -8,7 +8,6 @@ cfg_packages='u-boot dropbear rsync busybox linux uswitch ppp iptables socat bri
 cfg_target_linux_kernel='arch/arm/boot/uImage'
 cfg_terminal='ttyO2'
 cfg_ntpd_config='/etc/ntp/server.cfg'
-cfg_dtnd_config='/opt/lsts/dtn/etc/dtn.conf'
 cfg_eth_ext_mk='255.255.0.0'
 cfg_eth_ext_gw='10.0.0.1'
 cfg_eth_ext_soft_mac='true'
