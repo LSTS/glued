@@ -1,27 +1,27 @@
 version=\
 (
-    "5.0.4"
+    '5.0.4'
 )
 
 url=\
 (
-    "ftp://ftp.gmplib.org/pub/gmp-$version/gmp-$version.tar.bz2"
+    "http://ftp.gnu.org/pub/gnu/gmp/gmp-$version.tar.bz2"
 )
 
 md5=\
 (
-    "50c3edcb7c9438e04377ee9a1a061b79"
+    '50c3edcb7c9438e04377ee9a1a061b79'
 )
 
 maintainer=\
 (
-    "Ricardo Martins <rasm@fe.up.pt>"
+    'Ricardo Martins <rasm@oceanscan-mst.com>'
 )
 
 configure()
 {
     ./configure \
-        --prefix="${cfg_dir_toolchain}" \
+        --prefix="$cfg_dir_toolchain" \
         --disable-shared \
         --enable-static
 }
