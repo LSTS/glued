@@ -11,6 +11,7 @@ configure()
     "../gcc-$version/configure" $cfg_target_gcc_configure_flags \
         --target="$cfg_target_canonical" \
         --prefix="$cfg_dir_toolchain" \
+        --with-build-sysroot="$cfg_dir_toolchain_sysroot" \
         --with-sysroot="$cfg_dir_toolchain_sysroot" \
         --with-mpfr="$cfg_dir_toolchain" \
         --with-gmp="$cfg_dir_toolchain" \
