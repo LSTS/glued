@@ -2,7 +2,7 @@ source $pkg_common
 
 requires=\
 (
-    'eglibc/headers'
+    'glibc/headers'
 )
 
 configure()

@@ -2,7 +2,7 @@ source $pkg_common
 
 requires=\
 (
-    'eglibc/cross'
+    'glibc/cross'
 )
 
 configure()
