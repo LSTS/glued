@@ -1,6 +1,6 @@
 version=\
 (
-    '2012.55'
+    '2015.67'
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    '8c784baec3054cdb1bb4bfa792c87812'
+    'e967e320344cd4bfebe321e3ab8514d6'
 )
 
 maintainer=\
@@ -43,7 +43,7 @@ configure()
         --target="$cfg_target_canonical" \
         --host="$cfg_target_canonical" \
         --build="$cfg_host_canonical" \
-        --with-zlib="$cfg_dir_toolchain"
+        --with-zlib="$cfg_dir_toolchain_sysroot/usr"
 }
 
 build()
