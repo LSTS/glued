@@ -1,6 +1,6 @@
 version=\
 (
-    "2.22"
+    '2.25'
 )
 
 url=\
@@ -10,30 +10,26 @@ url=\
 
 md5=\
 (
-    "ee0f10756c84979622b992a4a61ea3f5"
+    'd9f3303f802a5b6b0bb73a335ab89d66'
 )
 
 maintainer=\
 (
-    "Ricardo Martins <rasm@fe.up.pt>"
+    'Ricardo Martins <rasm@fe.up.pt>'
 )
 
 build_dir=$pkg_var
 
 configure()
 {
-    ../binutils-$version/configure $extra_flags \
-        --prefix=$cfg_dir_toolchain \
-        --target=${cfg_target_canonical} \
-        --host=${cfg_host_canonical} \
-        --build=${cfg_host_canonical} \
-        --with-sysroot=$cfg_dir_toolchain_sysroot \
-        --with-mpfr=${cfg_dir_toolchain} \
-        --with-gmp=${cfg_dir_toolchain} \
-        --with-mpc=${cfg_dir_toolchain} \
-        --disable-nls \
-        --disable-werror \
-        --disable-multilib
+    "../binutils-$version/configure" \
+        --prefix="$cfg_dir_toolchain" \
+        --target="$cfg_target_canonical" \
+        --host="$cfg_host_canonical" \
+        --build="$cfg_host_canonical" \
+        --with-sysroot="$cfg_dir_toolchain_sysroot" \
+        --disable-multilib \
+        --disable-nls
 }
 
 build()
@@ -43,6 +39,5 @@ build()
 
 host_install()
 {
-    $cmd_make install
-    rm -rf $cfg_dir_toolchain/{info,man}
+    $cmd_make install-strip
 }
