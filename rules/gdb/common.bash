@@ -1,14 +1,14 @@
 version=\
 (
-    '7.7.1'
+    '7.8.2'
 )
 
 url=\
 (
-    "http://ftp.gnu.org/gnu/gdb/gdb-$version.tar.bz2"
+    "http://ftp.gnu.org/gnu/gdb/gdb-$version.tar.xz"
 )
 
 md5=\
 (
-    '77b20b515e7c25f032cb9732a66620fe'
+    'a80cf252ed2e775d4e4533341bbf2459'
 )
