@@ -1,6 +1,6 @@
 version=\
 (
-    '4.8.2'
+    '4.9.2'
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    'a3d7d63b9cb6b6ea049469a0c4a43c9d'
+    '4df8ee253b7f3863ad0b86359cd39c43'
 )
 
 build_dir=$pkg_var

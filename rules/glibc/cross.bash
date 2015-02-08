@@ -7,13 +7,12 @@ requires=\
 
 build()
 {
-    $cmd_make -j1
+    $cmd_make
 }
 
 host_install()
 {
-    $cmd_make install_root="$cfg_dir_toolchain_sysroot" -j1 install &&
-    cp "$pkg_dir"/files/timepps.h "$cfg_dir_toolchain_sysroot/usr/include"
+    $cmd_make install_root="$cfg_dir_toolchain_sysroot" install
 }
 
 target_install()

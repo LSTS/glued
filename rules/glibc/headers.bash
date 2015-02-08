@@ -21,4 +21,6 @@ EOF
     $cmd_make csu/subdir_lib &&
     cp csu/crt1.o csu/crti.o csu/crtn.o "$cfg_dir_toolchain_sysroot/usr/lib" &&
     $cmd_target_cc -nostdlib -nostartfiles -shared -x c /dev/null -o "$cfg_dir_toolchain_sysroot/usr/lib/libc.so"
+    $cmd_mkdir "$cfg_dir_toolchain_sysroot/usr/include/gnu" &&
+    touch "$cfg_dir_toolchain_sysroot/usr/include/gnu/stubs.h"
 }

@@ -21,6 +21,7 @@ target_install()
     ln -fs dev/shm "$cfg_dir_rootfs"/tmp &&
     ln -fs ../tmp "$cfg_dir_rootfs"/var/tmp &&
     ln -fs ../tmp "$cfg_dir_rootfs"/var/run &&
+    ln -fs ../tmp "$cfg_dir_rootfs"/var/lib &&
     ln -fs ../tmp "$cfg_dir_rootfs"/var/log &&
     ln -fs ../tmp "$cfg_dir_rootfs"/var/lock &&
     ln -fs /sbin/init "$cfg_dir_rootfs"/init &&
