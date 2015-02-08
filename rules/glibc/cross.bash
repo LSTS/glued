@@ -7,12 +7,12 @@ requires=\
 
 build()
 {
-    $cmd_make -j1
+    $cmd_make
 }
 
 host_install()
 {
-    $cmd_make install_root="$cfg_dir_toolchain_sysroot" -j1 install
+    $cmd_make install_root="$cfg_dir_toolchain_sysroot" install
 }
 
 target_install()

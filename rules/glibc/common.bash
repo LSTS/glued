@@ -1,6 +1,6 @@
 version=\
 (
-    '2.20'
+    '2.21'
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    '948a6e06419a01bd51e97206861595b0'
+    '9cb398828e8f84f57d1f7d5588cf40cd'
 )
 
 maintainer=\
@@ -55,5 +55,6 @@ configure()
         --with-tls \
         --enable-kernel=2.6.32 \
         --disable-nls \
-        --enable-static-nss
+        --enable-static-nss \
+        --disable-werror
 }
