@@ -130,9 +130,11 @@ uboot_part_upgrade()
     echo 'done'
 
     for f in MLO u-boot.img; do
-        echo -en "* $label: Replacing $f... "
-        cp "$base/.glued-new/boot/$f" /mnt
-        echo 'done'
+        if [ -f "/mnt/$f" ]; then
+            echo -en "* $label: Replacing $f... "
+            cp "$base/.glued-new/boot/$f" /mnt
+            echo 'done'
+        fi
     done
 
     echo -en "* $label: unmounting bootloader partition... "
@@ -152,7 +154,8 @@ uboot_part_upgrade_check()
     # Check if board is a BeagleBone black.
     dmesg | grep -i 'machine model' | grep -i beaglebone > /dev/null 2>&1
     if [ $? -eq 0 ]; then
-        uboot_part_upgrade 'BeagleBone Black' '/dev/mmcblk1p1'
+        dev="$(ls /sys/class/mmc_host/mmc?/mmc?:0001/block)"
+        uboot_part_upgrade 'BeagleBone Black' "/dev/${dev}p1"
         return 0
     fi
 
