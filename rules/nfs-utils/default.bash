@@ -46,10 +46,11 @@ build()
 
 target_install()
 {
-    $cmd_target_strip -v "utils/mount/mount.nfs" -o "$cfg_dir_rootfs/usr/bin/mount.nfs"
-    ln -fs mount.nfs "$cfg_dir_rootfs/usr/bin/unmount.nfs"
-    $cmd_target_strip -v "utils/exportfs/exportfs" -o "$cfg_dir_rootfs/usr/bin/exportfs"
-    $cmd_target_strip -v "utils/mountd/mountd" -o "$cfg_dir_rootfs/usr/bin/rpc.mountd"
-    $cmd_target_strip -v "utils/nfsd/nfsd" -o "$cfg_dir_rootfs/usr/bin/rpc.nfsd"
-    $cmd_target_strip -v "utils/statd/statd" -o "$cfg_dir_rootfs/usr/bin/rpc.statd"
+    $cmd_target_strip -v "utils/mount/mount.nfs" -o "$cfg_dir_rootfs/usr/bin/mount.nfs" &&
+    ln -fs mount.nfs "$cfg_dir_rootfs/usr/bin/unmount.nfs" &&
+    $cmd_target_strip -v "utils/exportfs/exportfs" -o "$cfg_dir_rootfs/usr/bin/exportfs" &&
+    $cmd_target_strip -v "utils/mountd/mountd" -o "$cfg_dir_rootfs/usr/bin/rpc.mountd" &&
+    $cmd_target_strip -v "utils/nfsd/nfsd" -o "$cfg_dir_rootfs/usr/bin/rpc.nfsd" &&
+    $cmd_target_strip -v "utils/statd/statd" -o "$cfg_dir_rootfs/usr/bin/rpc.statd" &&
+    tar -C "$pkg_dir/fs" -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f  -
 }
