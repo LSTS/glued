@@ -56,5 +56,7 @@ configure()
         --enable-kernel=2.6.32 \
         --disable-nls \
         --enable-static-nss \
-        --disable-werror
+        --disable-werror \
+        --enable-obsolete-rpc \
+        --enable-bind-now
 }
