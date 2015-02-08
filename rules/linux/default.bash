@@ -55,6 +55,13 @@ configure()
 
     cp "$cfg_dir_system/cfg/linux-${version}.cfg" .config &&
 
+    if [ "$cfg_dir_system/files/initramfs_init.sh" ]; then
+        $cmd_mkdir initramfs &&
+        $cmd_cp "$pkg_dir/files/initramfs.conf" . &&
+        $cmd_cp "$cfg_dir_system/files/initramfs_init.sh" initramfs/init.sh &&
+        $cmd_cp "$cfg_dir_rootfs/bin/busybox" initramfs/busybox
+    fi
+
     yes '' | $cmd_make \
         CROSS_COMPILE=${cfg_target_canonical}- \
         ARCH=${cfg_target_linux} \
