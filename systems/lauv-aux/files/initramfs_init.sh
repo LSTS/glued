@@ -7,10 +7,10 @@ mount -t sysfs sysfs /sys
 mount -t devtmpfs devtmpfs /dev
 
 while [ 1 ]; do
-    dev="$(ls /sys/class/mmc_host/mmc?/mmc?:0001/block)"
+    dev="$(ls /sys/class/mmc_host/mmc?/mmc?:0001/block 2> /dev/null)"
 
     if [ -n "$dev" ]; then
-        mount -o ro "/dev/${dev}p2" /mnt && break
+        mount -o ro -t ext2,relatime "/dev/${dev}p2" /mnt && break
     fi
 
     usleep 100000
