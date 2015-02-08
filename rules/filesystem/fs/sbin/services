@@ -30,7 +30,7 @@ sysinit()
     # Mount pseudo-filesystems.
     mount -t sysfs sysfs /sys &&
     mount -t proc proc /proc &&
-    mkdir /dev/shm /dev/pts &&
+    mkdir -p /dev/shm /dev/pts &&
     mount -t tmpfs -o size="$cfg_tmpfs_size" tmpfs /dev/shm &&
     mount -t devpts devpts /dev/pts &&
 
