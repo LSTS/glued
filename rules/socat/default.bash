@@ -1,6 +1,6 @@
 version=\
 (
-    "1.7.2.1"
+    "1.7.3.0"
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    "7ddfea7e9e85f868670f94d3ea08358b"
+    "b607edb65bc6c57f4a43f06247504274"
 )
 
 maintainer=\
@@ -18,19 +18,29 @@ maintainer=\
     "Ricardo Martins <rasm@fe.up.pt>"
 )
 
+post_unpack()
+{
+    patches=$(ls "$pkg_dir"/patches/*.patch)
+
+    cd "../socat-$version"
+    if [ -n "$patches" ]; then
+        cat $patches | patch -p1
+    fi
+}
+
 configure()
 {
     export sc_cv_sys_crdly_shift=9
     export sc_cv_sys_tabdly_shift=11
     export sc_cv_sys_csize_shift=4
     export ac_cv_ispeed_offset=13
-    ../socat-$version/configure \
+    "../socat-$version/configure" \
         --prefix="$cfg_dir_toolchain_sysroot/usr" \
-        --disable-static \
-        --enable-shared \
         --target=$cfg_target_canonical \
         --host=$cfg_target_canonical \
-        --build=$cfg_host_canonical
+        --build=$cfg_host_canonical \
+        --disable-static \
+        --enable-shared
 }
 
 build()
