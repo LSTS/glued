@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "http://www.dest-unreach.org/socat/download/socat-$version.tar.bz2"
+    "http://www.lsts.pt/glued/socat-$version.tar.bz2"
 )
 
 md5=\
