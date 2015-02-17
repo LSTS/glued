@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "ftp://ftp.samba.org/pub/ppp/ppp-$version.tar.gz"
+    "https://ftp.samba.org/pub/ppp/ppp-$version.tar.gz"
 )
 
 md5=\
