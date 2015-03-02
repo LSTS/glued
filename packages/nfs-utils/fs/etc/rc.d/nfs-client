@@ -1,0 +1,20 @@
+start()
+{
+    /usr/bin/rpcbind
+    if [ $? -ne 0 ]; then
+        echo "ERROR: failed to start rpcbind."
+        return 1
+    fi
+
+    /usr/bin/rpc.statd
+    if [ $? -ne 0 ]; then
+        echo "ERROR: failed to start rpc.statd."
+        return 1
+    fi
+}
+
+stop()
+{
+    killall rpc.mountd
+    killall rpc.statd
+}
