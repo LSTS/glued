@@ -18,12 +18,13 @@ configure()
     ./configure \
         --sysroot="$cfg_dir_toolchain_sysroot" \
         --prefix="$cfg_dir_rootfs/usr" \
-	--enable-cross-compile \
+        --incdir="$cfg_dir_toolchain_sysroot/usr/include" \
+        --enable-cross-compile \
         --cross-prefix="$cfg_target_canonical-" \
         --target-os="linux" \
         --enable-shared \
-	--disable-static \
-	--enable-pic \
+        --disable-static \
+        --enable-pic \
         --enable-gpl \
         --arch=$cfg_architecture
 }
@@ -33,8 +34,14 @@ build()
     $cmd_make
 }
 
+host_install()
+{
+    $cmd_make \
+        install-headers
+}
+
 target_install()
 {
     $cmd_make \
-        install
+        install-libs
 }
