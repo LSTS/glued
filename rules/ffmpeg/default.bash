@@ -1,6 +1,6 @@
 version=\
 (
-    "1.0"
+    "2.6"
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    3ed526cea20c1bffb5a37f7730f710bd
+    '5bf6097833a3fea6a9e51b0a456c6922'
 )
 
 configure()
@@ -18,10 +18,12 @@ configure()
     ./configure \
         --sysroot="$cfg_dir_toolchain_sysroot" \
         --prefix="$cfg_dir_rootfs/usr" \
+	--enable-cross-compile \
         --cross-prefix="$cfg_target_canonical-" \
         --target-os="linux" \
-        --enable-memalign-hack \
         --enable-shared \
+	--disable-static \
+	--enable-pic \
         --enable-gpl \
         --arch=$cfg_architecture
 }
