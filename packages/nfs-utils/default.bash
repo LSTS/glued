@@ -52,5 +52,7 @@ target_install()
     $cmd_target_strip -v "utils/mountd/mountd" -o "$cfg_dir_rootfs/usr/bin/rpc.mountd" &&
     $cmd_target_strip -v "utils/nfsd/nfsd" -o "$cfg_dir_rootfs/usr/bin/rpc.nfsd" &&
     $cmd_target_strip -v "utils/statd/statd" -o "$cfg_dir_rootfs/usr/bin/rpc.statd" &&
-    tar -C "$cfg_package_spec_dir/fs" -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f  -
+    if [ -d "$cfg_package_spec_dir/fs" ]; then
+        tar -C "$cfg_package_spec_dir/fs" -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f  -
+    fi
 }
