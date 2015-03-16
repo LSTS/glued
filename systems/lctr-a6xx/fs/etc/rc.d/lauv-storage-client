@@ -1,0 +1,45 @@
+mount_path()
+{
+    rpath="$cfg_lauv_storage_host:$1"
+    lpath="$1"
+
+    mkdir -p "$lpath"
+
+    mount -t nfs -o wsize=32768 "$rpath" "$lpath"
+    if [ $? -eq 0 ]; then
+        echo "* Mounted '$rpath' in '$lpath'"
+        return 0
+    fi
+
+    return 1
+}
+
+start()
+{
+    /usr/bin/rpcbind
+    if [ $? -ne 0 ]; then
+        echo "ERROR: failed to start rpcbind."
+        return 1
+    fi
+
+    for path in $cfg_lauv_storage_paths; do
+        n=0; while [ $n -lt "$cfg_lauv_storage_timeout" ]; do
+                 mount_path "$path"
+                 if [ $? -eq 0 ]; then
+                     break
+                 fi
+
+                 let n++
+                 sleep 1
+             done
+    done
+}
+
+stop()
+{
+    killall rpcbind
+
+    for path in $cfg_lauv_storage_server_paths; do
+        umount "$path"
+    done
+}
