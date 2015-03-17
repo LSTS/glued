@@ -37,6 +37,7 @@ build()
 host_install()
 {
     $cmd_make \
+	LIBDIR="$cfg_dir_toolchain_sysroot/usr/lib" \
         install-headers
 }
 
