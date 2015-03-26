@@ -23,6 +23,7 @@ target_install()
     ln -fs ../tmp "$cfg_dir_rootfs"/var/run &&
     ln -fs ../tmp "$cfg_dir_rootfs"/var/log &&
     ln -fs ../tmp "$cfg_dir_rootfs"/var/lock &&
+    ln -fs ../tmp "$cfg_dir_rootfs"/var/lib &&
     ln -fs /sbin/init "$cfg_dir_rootfs"/init &&
     ln -fs /tmp/resolv.conf "$cfg_dir_rootfs"/etc/resolv.conf &&
     ln -fs /proc/self/mounts "$cfg_dir_rootfs"/etc/mtab &&
