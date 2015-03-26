@@ -26,5 +26,6 @@ build()
 
 target_install()
 {
-    $cmd_target_strip src/dnsmasq -o "$cfg_dir_rootfs/usr/sbin/dnsmasq"
+    $cmd_target_strip src/dnsmasq -o "$cfg_dir_rootfs/usr/sbin/dnsmasq" &&
+        tar -C "$cfg_package_spec_dir/fs" -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
 }
