@@ -34,4 +34,5 @@ build()
 host_install()
 {
     $cmd_make install
+    cd "$cfg_dir_toolchain/bin" && ln -s make gmake
 }
