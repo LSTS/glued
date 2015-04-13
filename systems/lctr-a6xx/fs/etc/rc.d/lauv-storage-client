@@ -39,7 +39,7 @@ stop()
 {
     killall rpcbind
 
-    for path in $cfg_lauv_storage_server_paths; do
+    for path in $cfg_lauv_storage_paths; do
         umount "$path"
     done
 }
