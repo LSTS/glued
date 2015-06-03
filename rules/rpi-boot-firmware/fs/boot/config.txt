@@ -1,1 +1,1 @@
-arm_freq=900
+arm_freq=1000
