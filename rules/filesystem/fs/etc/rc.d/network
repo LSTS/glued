@@ -1,5 +1,14 @@
 start()
 {
+    if [ -n "$cfg_eth_ext_ip$cfg_eth_prv_ip" ]; then
+        while [ 1 ]; do
+            echo "* Waiting for eth0 device..."
+            ifconfig eth0 > /dev/null 2>&1
+            [ $? -eq 0 ] && break
+            usleep 250000
+        done
+    fi
+
     if [ -n "$cfg_bridge0_ip" ]; then
         for itf in $cfg_bridge0_itfs; do
             ifconfig $itf 0.0.0.0
