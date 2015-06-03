@@ -84,6 +84,42 @@ create_part_xboot()
     cmd_parted "$dev_loop" print > /dev/null
 }
 
+create_part_rpiboot()
+{
+    nfo1 "RPi-Boot partition ($part_label)"
+
+    nfo2 "Creating partition"
+    cmd_parted "$dev_loop" \
+        mkpart primary fat32 "$part_start" "$part_end" \
+        set "$part_nr" boot on \
+        align-check minimal "$part_nr" \
+        || die
+
+    nfo2 "Creating filesystem"
+    $cmd_mkdosfs -n "$part_label" "$part_dev" > /dev/null || die
+
+    nfo2 "Populating filesystem"
+    cmd_mount vfat "$part_dev" || die
+
+    for f in "$cfg_sys_family/rootfs/boot/"*; do
+        nfo2 installing $f to boot partition
+        cp "$f" mount || die
+    done
+
+    nfo2 renaming kernel to kernel7.img
+    mv mount/kernel mount/kernel7.img
+
+    dtb=$(basename "$cfg_target_linux_dtb")
+    nfo2 renaming board.dtb to "$dtb"
+    mv "mount/board.dtb" "mount/$dtb"
+
+    cmd_parted "$dev_loop" \
+        set "$part_nr" lba on \
+        || die
+
+    cmd_parted "$dev_loop" print > /dev/null
+}
+
 create_part_root()
 {
     nfo1 "Root partition ($part_label)"
@@ -247,6 +283,10 @@ for ((i = 0; i < ${#cfg_partitions[@]}; i += 4)); do
     case $part_type in
         'x-boot')
             create_part_xboot
+            xboot_system_id=1
+            ;;
+        'rpi-boot')
+            create_part_rpiboot
             xboot_system_id=1
             ;;
         'root')
