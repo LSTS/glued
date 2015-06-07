@@ -21,6 +21,7 @@ maintainer=\
 requires=\
 (
     'tcl/default'
+    'tk/default'
     'xorg-libx11/default'
     'xorg-libxt/default'
 )
