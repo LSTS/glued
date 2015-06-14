@@ -1,6 +1,6 @@
 version=\
 (
-    "1.53.0"
+    "1.55.0"
 )
 
 vendor_version="$(echo $version | tr . _)"
@@ -17,7 +17,7 @@ maintainer=\
 
 md5=\
 (
-    "a00d22605d5dbcfb4c9936a9b35bc4c2"
+    "d6eef4b4cacb2183f2bf265a5a03a354"
 )
 
 requires=\
