@@ -82,7 +82,7 @@ start_nfs_server()
 
     echo "* Exporting NFS filesystems..."
     /usr/bin/exportfs \
-        -o rw,sync,no_root_squash,no_subtree_check \
+        -o rw,async,no_root_squash,no_subtree_check \
         10.0.0.0/16:"$cfg_lauv_storage_dir"
     if [ $? -ne 0 ]; then
         echo "ERROR: failed to export filesystems."
