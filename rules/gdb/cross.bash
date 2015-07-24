@@ -8,7 +8,9 @@ requires=\
 configure()
 {
     cd "$pkg_build_dir" &&
-	"../gdb-$version/configure" \
+        LDFLAGS="-static -L$cfg_dir_toolchain/lib" \
+        CFLAGS="-I$cfg_dir_toolchain/include" \
+       "../gdb-$version/configure" \
         --prefix="$cfg_dir_toolchain" \
         --target="$cfg_target_canonical" \
         --host="$cfg_host_canonical" \
