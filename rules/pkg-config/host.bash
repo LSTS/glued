@@ -23,7 +23,8 @@ configure()
     ./configure \
         --prefix="${cfg_dir_toolchain}" \
         --disable-shared \
-        --enable-static
+        --enable-static \
+        --with-internal-glib
 }
 
 build()
