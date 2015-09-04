@@ -1,52 +1,50 @@
 version=\
 (
-  "1.0.1c"
+    '1.0.2d'
 )
 
 url=\
 (
-  "http://www.openssl.org/source/openssl-$version.tar.gz"
+    "https://www.openssl.org/source/openssl-$version.tar.gz"
 )
 
 md5=\
 (
-  "ae412727c8c15b67880aef7bd2999b2e"
+    '38dd619b2e77cbac69b99f52a053d25a'
 )
 
 requires=\
 (
-  'zlib/default'
+    'zlib/default'
 )
 
 configure()
 {
-  ./Configure \
-    --prefix="${cfg_dir_toolchain_sysroot}/usr" \
-    shared \
-    dist
+    ./Configure linux-generic32 --cross-compile-prefix="$cfg_target_canonical-" \
+                --prefix="$cfg_dir_toolchain_sysroot/usr" \
+                --openssldir="$cfg_dir_toolchain_sysroot/usr" \
+                shared
 }
 
 build()
 {
-  CC="${cmd_target_cc}"         \
-  CXX="${cmd_target_cpp}"       \
-  AR="${cmd_target_ar}"         \
-  RANLIB="${cmd_target_ranlib}" \
-  ARFLAGS="${cfg_target_ar_flags}" \
-  $cmd_make build_libs
+    $cmd_make depend &&
+    $cmd_make all
 }
 
 host_install()
 {
-# Can not use the install as it throws an error.
-#  $cmd_make install
-  $cmd_cp include/ ${cfg_dir_toolchain_sysroot}/usr
-  $cmd_cp lib* ${cfg_dir_toolchain_sysroot}/usr/lib
+    $cmd_make -j1 install
 }
 
 target_install()
 {
-  $cmd_cp lib*so* ${cfg_dir_toolchain_sysroot}/usr/lib
-  $cmd_cp lib*.a ${cfg_dir_toolchain_sysroot}/usr/lib
+    for f in $cfg_dir_toolchain_sysroot/usr/lib/{libcrypto.so*,libssl.so*}; do
+        name="$cfg_dir_rootfs/lib/$(basename $f)"
+        if [ -f "$f" ]; then
+            $cmd_target_strip "$f" -o "$name"
+        else
+            $cmd_cp "$f" "$name"
+        fi
+    done
 }
-
