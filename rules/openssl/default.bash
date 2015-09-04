@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "https://www.openssl.org/source/openssl-$version.tar.gz"
+    "http://www.openssl.org/source/openssl-$version.tar.gz"
 )
 
 md5=\
