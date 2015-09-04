@@ -1,21 +1,21 @@
 version=\
 (
-    '3.1.2'
+    '3.1.3'
 )
 
 url=\
 (
-    "http://www.mpfr.org/mpfr-current/mpfr-$version.tar.bz2"
+    "http://www.mpfr.org/mpfr-$version/mpfr-$version.tar.bz2"
 )
 
 md5=\
 (
-    "ee2c3ac63bf0c2359bf08fc3ee094c19"
+    '5fdfa3cfa5c86514ee4a241a1affa138'
 )
 
 maintainer=\
 (
-    "Ricardo Martins <rasm@fe.up.pt>"
+    'Ricardo Martins <rasm@fe.up.pt>'
 )
 
 requires=\
@@ -26,8 +26,8 @@ requires=\
 configure()
 {
     ./configure \
-        --prefix="${cfg_dir_toolchain}" \
-        --with-gmp="${cfg_dir_toolchain}" \
+        --prefix="$cfg_dir_toolchain" \
+        --with-gmp="$cfg_dir_toolchain" \
         --disable-shared \
         --enable-static
 }
