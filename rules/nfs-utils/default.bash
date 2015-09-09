@@ -23,6 +23,16 @@ requires=\
     'libtirpc/default'
 )
 
+post_unpack()
+{
+    patches=$(ls "$pkg_dir/patches/$version"/*.patch)
+
+    cd ../nfs-utils-$version
+    if [ -n "$patches" ]; then
+        cat $patches | patch -p1
+    fi
+}
+
 configure()
 {
     "../nfs-utils-$version/configure" \
@@ -48,9 +58,10 @@ target_install()
 {
     $cmd_target_strip -v "utils/mount/mount.nfs" -o "$cfg_dir_rootfs/usr/bin/mount.nfs" &&
         ln -fs mount.nfs "$cfg_dir_rootfs/usr/bin/unmount.nfs" &&
-    $cmd_target_strip -v "utils/exportfs/exportfs" -o "$cfg_dir_rootfs/usr/bin/exportfs" &&
-    $cmd_target_strip -v "utils/mountd/mountd" -o "$cfg_dir_rootfs/usr/bin/rpc.mountd" &&
-    $cmd_target_strip -v "utils/nfsd/nfsd" -o "$cfg_dir_rootfs/usr/bin/rpc.nfsd" &&
-    $cmd_target_strip -v "utils/statd/statd" -o "$cfg_dir_rootfs/usr/bin/rpc.statd" &&
-    touch "$cfg_dir_rootfs/etc/exports"
+        $cmd_target_strip -v "utils/exportfs/exportfs" -o "$cfg_dir_rootfs/usr/bin/exportfs" &&
+        $cmd_target_strip -v "utils/mountd/mountd" -o "$cfg_dir_rootfs/usr/bin/rpc.mountd" &&
+        $cmd_target_strip -v "utils/nfsd/nfsd" -o "$cfg_dir_rootfs/usr/bin/rpc.nfsd" &&
+        $cmd_target_strip -v "utils/statd/statd" -o "$cfg_dir_rootfs/usr/bin/rpc.statd" &&
+        $cmd_target_strip -v "utils/statd/sm-notify" -o "$cfg_dir_rootfs/usr/sbin/sm-notify" &&
+        touch "$cfg_dir_rootfs/etc/exports"
 }
