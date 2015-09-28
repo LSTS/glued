@@ -1,6 +1,6 @@
 version=\
 (
-    '0.1.4'
+    '0.1.5'
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    '2ca521fffadd0c28fdf174e6ec73865b'
+    '2780b6a758a1e2c2943bdbf7faf740e4'
 )
 
 maintainer=\
@@ -20,7 +20,7 @@ maintainer=\
 
 requires=\
 (
-    'libusbx/default'
+    'libusb/default'
 )
 
 post_unpack()
