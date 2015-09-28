@@ -20,7 +20,7 @@ maintainer=\
 
 requires=\
 (
-    'libusbx/default'
+    'libusb/default'
 )
 
 build()
