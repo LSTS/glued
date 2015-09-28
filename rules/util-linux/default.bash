@@ -1,7 +1,12 @@
 source "$pkg_common"
 
+requires=\
+(
+  'ncurses/default'
+)
+
 configure()
-{ 
+{
   ./configure                                 \
     --prefix="$cfg_dir_toolchain_sysroot/usr" \
     --build="${cfg_host_canonical}"           \
