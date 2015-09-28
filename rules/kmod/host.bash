@@ -1,25 +1,9 @@
-version=\
-(
-    '9'
-)
-
-url=\
-(
-    "ftp://ftp.kernel.org/pub/linux/utils/kernel/kmod/kmod-$version.tar.bz2"
-)
-
-md5=\
-(
-    '29bd0fec976c1664a4abc83f1c7e57ed'
-)
-
-maintainer=\
-(
-    'Ricardo Martins <rasm@fe.up.pt>'
-)
+. "$pkg_common"
 
 configure()
 {
+    make distclean
+
     ./configure \
         --prefix="$cfg_dir_toolchain"
 }
