@@ -20,7 +20,7 @@ maintainer=\
 
 requires=\
 (
-    'libusbx/default'
+    'libusb/default'
 )
 
 configure()
@@ -46,7 +46,7 @@ host_install()
     export PKG_CONFIG="${cfg_dir_toolchain}/bin/pkg-config"
     export PKG_CONFIG_PATH="$cfg_dir_toolchain_sysroot/usr/lib/pkgconfig"
     $cmd_make prefix="$cfg_dir_toolchain_sysroot/usr" install &&
-    ( test -e "${cfg_dir_toolchain_sysroot}/usr/share/pkgconfig/usbutils.pc" && mv "${cfg_dir_toolchain_sysroot}/usr/share/pkgconfig/usbutils.pc" ${PKG_CONFIG_PATH} ) 
+    ( test -e "${cfg_dir_toolchain_sysroot}/usr/share/pkgconfig/usbutils.pc" && mv "${cfg_dir_toolchain_sysroot}/usr/share/pkgconfig/usbutils.pc" ${PKG_CONFIG_PATH} )
     rmdir --ignore-fail-on-non-empty "${cfg_dir_toolchain_sysroot}/usr/share/pkgconfig"
 }
 

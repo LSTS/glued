@@ -15,7 +15,7 @@ md5=\
 
 requires=\
 (
-    'libusbx'
+    'libusb'
     'libusb-compat'
 )
 
@@ -48,7 +48,7 @@ host_install()
 
 target_install()
 {
-  # Libs: 
+  # Libs:
   for f in "$cfg_dir_toolchain_sysroot/usr/lib/"librtlsdr*.so*; do
     if [ -L "$f" ]; then
       $cmd_cp "$f" "$cfg_dir_rootfs/usr/lib"
@@ -57,7 +57,7 @@ target_install()
     fi
   done
 
-  # Bins: 
+  # Bins:
   for f in "$cfg_dir_toolchain_sysroot/usr/bin/"rtl_*; do
     if [ -L "$f" ]; then
       $cmd_cp "$f" "$cfg_dir_rootfs/usr/bin"
@@ -69,4 +69,3 @@ target_install()
 
 
 }
-

@@ -1,32 +1,33 @@
 version=\
 (
-    '1.0.12'
+    '1.0.20'
 )
 
 url=\
 (
-    "http://downloads.sourceforge.net/libusbx/libusbx-$version.tar.bz2"
+    "http://downloads.sourceforge.net/libusb/libusb-$version.tar.bz2"
 )
 
 md5=\
 (
-    'c41352ac755c7992edfcbb2ea4ad1349'
+    '1d4eb194eaaa2bcfbba28102768c7dbf'
 )
 
 maintainer=\
 (
-    'Ricardo Martins <rasm@fe.up.pt>'
+    'Ricardo Martins <rasm@oceanscan-mst.com>'
 )
 
 configure()
 {
     export PKG_CONFIG="${cfg_dir_toolchain}/bin/pkg-config"
     export PKG_CONFIG_PATH="$cfg_dir_toolchain_sysroot/usr/lib/pkgconfig"
-    "../libusbx-$version/configure" \
+    "../libusb-$version/configure" \
         --prefix="$cfg_dir_toolchain_sysroot/usr" \
         --target="$cfg_target_canonical" \
         --host="$cfg_target_canonical" \
         --build="$cfg_host_canonical" \
+        --disable-udev \
         --disable-static \
         --enable-shared
 }
