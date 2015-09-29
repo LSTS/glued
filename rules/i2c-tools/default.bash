@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "http://dl.lm-sensors.org/i2c-tools/releases/i2c-tools-$version.tar.bz2"
+    "http://www.lsts.pt/glued/i2c-tools-$version.tar.bz2"
 )
 
 md5=\
