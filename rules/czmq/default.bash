@@ -35,8 +35,8 @@ host_install()
 
 requires=\
 (
+    'libtool/host'
     'zeromq'
-    'libtool'
 )
 
 target_install()
