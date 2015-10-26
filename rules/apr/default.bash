@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "http://www.eu.apache.org/dist/apr/apr-$version.tar.bz2"
+    "http://archive.apache.org/dist/apr/apr-$version.tar.bz2"
 )
 
 md5=\
