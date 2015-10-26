@@ -26,11 +26,12 @@ requires=\
 configure()
 {
     ./configure \
-        --prefix="$cfg_dir_toolchain_sysroot/usr" \
+        --prefix="${cfg_dir_toolchain_sysroot}/usr" \
         --target="$cfg_target_canonical" \
         --host="$cfg_target_canonical" \
         --build="$cfg_host_canonical" \
         --disable-strip
+        
 }
 
 build()
