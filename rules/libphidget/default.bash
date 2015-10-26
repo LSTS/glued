@@ -20,7 +20,7 @@ maintainer=\
 
 requires=\
 (
-    'libusbx'
+    'libusb'
 )
 
 configure()
