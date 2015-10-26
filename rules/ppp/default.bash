@@ -1,21 +1,21 @@
 version=\
 (
-    "2.4.5"
+    '2.4.5'
 )
 
 url=\
 (
-    "ftp://ftp.samba.org/pub/ppp/ppp-$version.tar.gz"
+    "http://ftp.samba.org/pub/ppp/ppp-$version.tar.gz"
 )
 
 md5=\
 (
-    "4621bc56167b6953ec4071043fe0ec57"
+    '4621bc56167b6953ec4071043fe0ec57'
 )
 
 maintainer=\
 (
-    "Ricardo Martins <rasm@fe.up.pt>"
+    'Ricardo Martins <rasm@fe.up.pt>'
 )
 
 requires=\
