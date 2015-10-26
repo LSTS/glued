@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    '89c1348aa79e898d7c34a6206311c9c2'
+    '6f3417691c7a27090f36e7cf4d94b36e'
 )
 
 maintainer=\
