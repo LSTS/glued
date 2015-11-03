@@ -5,6 +5,9 @@ version=\
 
 requires=\
 (
+    'jansson/default'
+    'czmq/default'
+    'boost/default'
     'cmake/host'
     'dune/default'
 )
