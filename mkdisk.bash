@@ -24,16 +24,16 @@
 
 cmd_parted()
 {
-    dev="$1"; shift
-    "$cmd_parted" "$dev" -a cylinder -s -- $@
+    bdev="$1"; shift
+    "$cmd_parted" "$bdev" -a cylinder -s -- $@
 }
 
 cmd_mount()
 {
     fs="$1"
-    dev="$2"
+    bdev="$2"
     mkdir -p mount &&
-    mount -t "$fs" "$dev" mount
+    mount -t "$fs" "$bdev" mount
 }
 
 cmd_unmount()
@@ -47,7 +47,7 @@ cmd_unmount()
 
 die()
 {
-    umount mount > /dev/null 2>&1
+    umount -v mount > /dev/null 2>&1
     rmdir mount > /dev/null 2>&1
     [ -n "$dev_loop" ] && losetup -d "$dev_loop"
     exit 1
@@ -253,27 +253,46 @@ if [ -z "$cfg_partitions" ]; then
     )
 fi
 
-# Loop device.
-dev_loop="$(losetup -f)"
+cmd_loop_attach()
+{
+    export dev="$1"
+    export dev_loop="$(losetup -f)"
 
-nfo1 "Attaching $dev to $dev_loop"
-losetup -v "$dev_loop" "$dev"
-if [ $? -ne 0 ]; then
+    nfo1 "Attaching $dev to $dev_loop"
+    losetup -v "$dev_loop" "$dev"
+    if [ $? -ne 0 ]; then
+        unset dev_loop
+        die
+    fi
+}
+
+cmd_loop_detach()
+{
+    nfo1 "Detaching $dev_loop"
+    sync && sync && sync && sync
+    blockdev --flushbufs "$dev_loop"
+    losetup -v -d "$dev_loop"
+    sync && sync && sync && sync
     unset dev_loop
-    die
-fi
+}
 
 nfo1 "Obliterating partition table"
+cmd_loop_attach "$dev"
 dd if=/dev/zero of="$dev_loop" bs=1 count=1M count=32 > /dev/null 2>&1 || die
+losetup -a
+cmd_loop_detach
+losetup -a
 
 nfo1 "Creating empty partition table"
-cmd_parted "$dev_loop" \
-    mklabel msdos \
-    || die
+cmd_loop_attach "$dev"
+cmd_parted "$dev_loop" mklabel msdos || die
+cmd_loop_detach
 
 part_nr=1
 xboot_system_id=0
 for ((i = 0; i < ${#cfg_partitions[@]}; i += 4)); do
+    cmd_loop_attach "$dev"
+
     part_type="${cfg_partitions[$i+0]}"
     part_label="${cfg_partitions[$i+1]}"
     part_start="${cfg_partitions[$i+2]}"
@@ -301,22 +320,23 @@ for ((i = 0; i < ${#cfg_partitions[@]}; i += 4)); do
             ;;
     esac
 
+    cmd_loop_detach
     let part_nr++
 done
 
 if [ -f "$cfg_sys_family/rootfs/boot/extlinux/mbr.bin" ]; then
     nfo1 "Installing bootloader in MBR..."
+    cmd_loop_attach "$dev"
     dd if="$cfg_sys_family/rootfs/boot/extlinux/mbr.bin" of="$dev_loop" > /dev/null 2>&1
+    cmd_loop_detach
 fi
 
 nfo1 "Synchronizing caches"
 sync && sync && sync && sync && sync && sync
-blockdev --flushbufs "$dev_loop" || die
 
 # Make sure the partition has 0x0e type.
 if [ $xboot_system_id -eq 1 ]; then
+    cmd_loop_attach "$dev"
     echo -en "t\n1\ne\nw\n" | $cmd_fdisk "$dev_loop" > /dev/null 2>&1
+    cmd_loop_detach
 fi
-
-nfo1 "Detaching loop device $dev_loop"
-losetup -v -d "$dev_loop"
