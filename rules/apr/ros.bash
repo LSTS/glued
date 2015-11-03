@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "http://mirror.nohup.it/apache/apr/apr-$version.tar.bz2"
+    "http://archive.apache.org/dist/apr/apr-$version.tar.bz2"
 )
 
 md5=\
@@ -14,7 +14,6 @@ md5=\
 )
 
 # @todo patch.
-
 
 configure()
 {

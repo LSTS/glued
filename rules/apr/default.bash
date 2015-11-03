@@ -5,12 +5,12 @@ version=\
 
 url=\
 (
-    "http://www.eu.apache.org/dist/apr/apr-$version.tar.bz2"
+    "http://archive.apache.org/dist/apr/apr-$version.tar.bz2"
 )
 
 md5=\
 (
-    'ffee70a111fd07372982b0550bbb14b7'
+    '5486180ec5a23efb5cae6d4292b300ab'
 )
 
 maintainer=\

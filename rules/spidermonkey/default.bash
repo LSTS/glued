@@ -1,16 +1,16 @@
 version=\
 (
-    "1.8.5"
+    '1.8.5'
 )
 
 url=\
 (
-    "ftp://ftp.mozilla.org/pub/mozilla.org/js/js185-1.0.0.tar.gz"
+    "http://ftp.mozilla.org/pub/mozilla.org/js/js185-1.0.0.tar.gz"
 )
 
 md5=\
 (
-    "a4574365938222adca0a6bd33329cb32"
+    'a4574365938222adca0a6bd33329cb32'
 )
 
 configure()
