@@ -34,14 +34,14 @@ configure()
 
 build()
 {
-    $cmd_make
+    $cmd_make -j1
 }
 
 host_install()
 {
     export PKG_CONFIG="${cfg_dir_toolchain}/bin/pkg-config"
     export PKG_CONFIG_PATH="$cfg_dir_toolchain_sysroot/usr/lib/pkgconfig"
-    $cmd_make install
+    $cmd_make -j1 install
 }
 
 target_install()
