@@ -34,7 +34,7 @@ configure()
 
 build()
 {
-    $cmd_make
+    make
 }
 
 host_install()
