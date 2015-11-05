@@ -70,7 +70,7 @@ target_install()
     $cmd_target_strip "${cfg_dir_rootfs}/usr/bin/rtkrcv" 
     
     # Copy configurations and run-time commands
-    $cmd_mkdir "${cfg_dir_rootfs}/opt/lsts/rtklib/conf" &&
-    cp -a $cfg_dir_builds/rtklib/$build_dir/data ${cfg_dir_rootfs}/opt/lsts/rtklib 
+    $cmd_mkdir "${cfg_dir_rootfs}/etc/rtklib/conf" &&
+    cp -a $cfg_dir_builds/rtklib/$build_dir/data ${cfg_dir_rootfs}/etc/rtklib
 }
 
