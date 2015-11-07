@@ -39,6 +39,17 @@ configure()
         ../source
 }
 
+refresh()
+{
+  cd ../default
+  rm .build .host_install .target_install .postconfigure
+  cd -
+  cd source && git pull && cd - &&
+  for r in duneplatform integration missionplanner perception vehicleplanner initialization; do
+            cd "source/src/Modules/$r" && git pull && cd -
+        done
+}
+
 build()
 {
     $cmd_make -C build
