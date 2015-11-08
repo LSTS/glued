@@ -1,6 +1,6 @@
 version=\
 (
-    'master'
+    'HEAD'
 )
 
 requires=\
@@ -15,10 +15,10 @@ requires=\
 download()
 {
     git clone "git@necsave.info:necsave/communications.git" source &&
-        cd source && git checkout "$version" && cd - &&
-        for r in duneplatform integration missionplanner perception vehicleplanner initialization; do
+        cd source && cd - &&
+        for r in duneplatform missionplanner perception vehicleplanner; do
             git clone "git@necsave.info:necsave/$r.git" "source/src/Modules/$r"
-            cd "source/src/Modules/$r" && git checkout "$version" && cd -
+            cd "source/src/Modules/$r" && cd -
         done
 }
 
@@ -45,7 +45,7 @@ refresh()
   rm .build .host_install .target_install .postconfigure
   cd -
   cd source && git pull && cd - &&
-  for r in duneplatform integration missionplanner perception vehicleplanner initialization; do
+  for r in duneplatform missionplanner perception vehicleplanner; do
             cd "source/src/Modules/$r" && git pull && cd -
         done
 }
