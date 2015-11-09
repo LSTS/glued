@@ -63,5 +63,6 @@ host_install()
 target_install()
 {
     rm -rf "$cfg_dir_rootfs/usr/necsave" &&
-        $cmd_cp -r "$cfg_dir_toolchain_sysroot/usr/necsave" "$cfg_dir_rootfs/usr"
+        $cmd_cp -r "$cfg_dir_toolchain_sysroot/usr/necsave" "$cfg_dir_rootfs/usr" &&
+        ln -fs /opt/lsts/necsave/log "$cfg_dir_rootfs/usr/necsave/log"
 }
