@@ -165,7 +165,7 @@ uboot_part_upgrade_check()
         uboot_part_upgrade 'IGEPv2' '/dev/mmcblk0p1'
         return 0
     fi
-    grep "IGEP v2" /proc/cpuinfo > /dev/null 2>&1
+    dmesg | grep Machine | grep 'IGEP v2' > /dev/null 2>&1
     if [ $? -eq 0 ]; then
         uboot_part_upgrade 'IGEPv2' '/dev/mmcblk0p1'
         return 0
