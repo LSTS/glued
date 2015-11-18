@@ -11,7 +11,7 @@ git=\
 
 git_hash=\
 (
-    c07cc29932b453544a46cd5efae4f815a93c2b35
+    ec4c2a46eca3cfd98fd2a9a7402bc172ae663858
 )
 
 maintainer=\
