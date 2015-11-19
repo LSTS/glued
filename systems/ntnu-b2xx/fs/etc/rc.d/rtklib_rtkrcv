@@ -1,6 +1,6 @@
 start()
 {
-    rtkrcv -s -o /etc/rtklib/conf/rtkrcv.conf  < /dev/null > /dev/null 2>&1 &
+    (cd /opt/lsts/rtklib/ && exec rtkrcv -s -o /etc/rtklib/conf/rtkrcv.conf -d /tmp/ttyC0 < /dev/null > /opt/lsts/rtklib/startlog.log 2>&1 &)
 }
 
 stop()
