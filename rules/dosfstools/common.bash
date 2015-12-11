@@ -5,12 +5,12 @@ version=\
 
 url=\
 (
-    "http://daniel-baumann.ch/files/software/dosfstools/dosfstools-$version.tar.gz"
+    "http://www.lsts.pt/glued/dosfstools-3.0.20.tar.gz"
 )
 
 md5=\
 (
-    '7f1c1afd4ae4622e07b24ec0ddfc4184'
+    '4bb205c2908eeb097dc08103a8c1ef37'
 )
 
 maintainer=\
