@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "http://www.lsts.pt/glued/dosfstools-3.0.20.tar.gz"
+    "http://www.lsts.pt/glued/dosfstools-$version.tar.gz"
 )
 
 md5=\
