@@ -31,7 +31,6 @@ else
     exit 1
 fi
 
-nf=0
 list=()
 
 while read file; do
@@ -43,22 +42,31 @@ while read file; do
         u="${url[$n]}"
         f="$(basename $u)"
         nfo1 "Checking $f"
-	if ! [[ `wget -S --spider $u 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
-	    ((nf++))
-	    list+=("$f")
-	    err "Not available"
+	if [[ `echo $u | grep -i 'ftp://'` ]]; then
+	    # FTP
+	    echo "ftp - $u"
+	    if ! [[ `wget -S --spider $u 2>&1 | grep "File.*$f.*exists"` ]]; then
+		list+=("$f")
+		err "Not available"
+	    fi
+	else
+	    # HTTP
+	    if ! [[ `wget -S --spider $u 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
+		echo $u
+		list+=("$f")
+		err "Not available"
+	    fi
 	fi
         let n++
     done
 done < <(find "$PKGS" -name '*.bash' )
 
-if [ $nf -eq 0 ]; then
+if [ ${#list[@]} -eq 0 ]; then
     ok "All sources are available"
 else
-    err "Missing sources ($nf):"
-    for item in ${list[*]}
+    err "Missing sources (${#list[@]}):"
+    for item in ${list[*]};
     do
 	nfo2 $item
     done
 fi
-
