@@ -1,16 +1,16 @@
 version=\
 (
-    '3.0.20'
+    '3.0.28'
 )
 
 url=\
 (
-    "http://www.lsts.pt/glued/dosfstools-$version.tar.gz"
+    "https://github.com/dosfstools/dosfstools/releases/download/v$version/dosfstools-$version.tar.xz"
 )
 
 md5=\
 (
-    '4bb205c2908eeb097dc08103a8c1ef37'
+    '6a047a6c65186b9ebb1853709adb36db'
 )
 
 maintainer=\
