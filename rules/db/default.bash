@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "ftp://mirror.ovh.net/gentoo-distfiles/distfiles/db-$version.tar.gz"
+    "http://download.oracle.com/berkeley-db/db-$version.tar.gz"
 )
 
 md5=\
