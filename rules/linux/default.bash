@@ -119,8 +119,6 @@ host_install()
 
 target_install()
 {
-    kernel="$cfg_dir_base/${cfg_sys_family}/glued-${cfg_glued_version}-${cfg_sys_family}-kernel.bin"
-
     if [ -n "$(file "$cfg_target_linux_kernel" | grep ELF)" ]; then
         strip="$(echo $cfg_dir_toolchain/bin/*-strip)"
         $strip -s -R .comment "$cfg_target_linux_kernel"
@@ -128,8 +126,10 @@ target_install()
 
     # Kernel image.
     if [ -n "$cfg_target_linux_kernel" ]; then
-        cp -v "$cfg_target_linux_kernel" "$kernel"
         cp -v "$cfg_target_linux_kernel" "$cfg_dir_rootfs/boot/kernel"
+    else
+        echo "ERROR: failed to find kernel image at '$cfg_target_linux_kernel'"
+        return 1
     fi
 
     $cmd_make \
