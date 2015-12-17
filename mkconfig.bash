@@ -23,7 +23,7 @@
 ###########################################################################
 
 # Config: GLUED version.
-cfg_glued_version='1.12.x'
+cfg_glued_version='2015.12-rc1'
 # Config: GLUED vendor.
 cfg_glued_vendor='lsts'
 
