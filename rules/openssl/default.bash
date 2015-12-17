@@ -1,6 +1,6 @@
 version=\
 (
-    '1.0.2d'
+    '1.0.2e'
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    '38dd619b2e77cbac69b99f52a053d25a'
+    '5262bfa25b60ed9de9f28d5d52d77fc5'
 )
 
 requires=\
