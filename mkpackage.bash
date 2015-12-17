@@ -56,6 +56,7 @@ md5sum_tool()
 download()
 {
     n=0; while [ -n "${url[$n]}" ]; do
+
         u="${url[$n]}"
         s="${md5[$n]}"
         file=$(basename "$u")
@@ -69,10 +70,16 @@ download()
             fi
         fi
 
-        download_tool "$u" "$cfg_dir_downloads/$file"
+        # First try OceanScan-MST mirror.
+        omst_url="http://www.omst.pt/glued/$(basename $u)"
+        download_tool "$omst_url" "$cfg_dir_downloads/$file"
         if [ $? -ne 0 ]; then
-            echo "ERROR: download failed"
-            exit 1
+            # On failure try upstream URL.
+            download_tool "$u" "$cfg_dir_downloads/$file"
+            if [ $? -ne 0 ]; then
+                echo "ERROR: download failed"
+                exit 1
+            fi
         fi
 
         md5="$(md5sum_tool "$cfg_dir_downloads/$file")"
