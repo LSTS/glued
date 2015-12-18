@@ -2,13 +2,12 @@ mount_storage()
 {
     echo "* Probing storage..."
 
-    bdev="/dev/sda1"
+    bdev="$1"
     if ! [ -b "$bdev" ]; then
         echo "* Device $bdev does not exist."
         return 1
     fi
 
-    mkdir -p "$cfg_lauv_storage_dir"
     mount -o rw,relatime "$bdev" "$cfg_lauv_storage_dir" 2> /dev/null
 
     if [ $? -ne 0 ]; then
@@ -104,8 +103,12 @@ stop_nfs_server()
 
 start()
 {
+    mkdir -p "$cfg_lauv_storage_dir"
+
     # Removable storage.
-    try_mount_storage /dev/sda1
+    if [ "$cfg_lauv_storage" != "internal" ]; then
+        try_mount_storage /dev/sda1
+    fi
 
     # FIXME: what to do if the above fails.
     start_nfs_server
