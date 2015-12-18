@@ -117,6 +117,9 @@ start()
 stop()
 {
     stop_nfs_server
-    echo "* Unmounting storage.."
-    umount "$cfg_lauv_storage_dir"
+
+    if [ "$cfg_lauv_storage" != "internal" ]; then
+        echo "* Unmounting storage..."
+        umount "$cfg_lauv_storage_dir"
+    fi
 }
