@@ -14,7 +14,6 @@ mount_storage()
         return 1
     fi
 
-    mkdir -p "$cfg_lauv_storage_dir"
     mount -o rw,relatime "$bdev" "$cfg_lauv_storage_dir" 2> /dev/null
 
     if [ $? -ne 0 ]; then
@@ -110,10 +109,14 @@ stop_nfs_server()
 
 start()
 {
+    mkdir -p "$cfg_lauv_storage_dir"
+
     # Removable storage.
-    try_mount_storage \
-        /sys/devices/ocp.3/47400000.usb/47401c00.usb/musb-hdrc.1.auto/usb2/2-1/2-1:1.0/host0/target0:0:0/0:0:0:0/block \
-        1
+    if [ "$cfg_lauv_storage" != "internal" ]; then
+        try_mount_storage \
+            /sys/devices/ocp.3/47400000.usb/47401c00.usb/musb-hdrc.1.auto/usb2/2-1/2-1:1.0/host0/target0:0:0/0:0:0:0/block \
+            1
+    fi
 
     # Internal storage.
     if [ $? -ne 0 ]; then
