@@ -1,6 +1,6 @@
 version=\
 (
-    '2.21'
+    '2.22'
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    '9cb398828e8f84f57d1f7d5588cf40cd'
+    'e51e02bf552a0a1fbbdc948fb2f5e83c'
 )
 
 maintainer=\
