@@ -34,12 +34,14 @@ host_install()
 {
     $cmd_make install &&
 
-    cp -d \
-        "$cfg_dir_toolchain/$cfg_target_canonical/lib/"libgcc_s.so* \
-        "$cfg_dir_toolchain_sysroot/lib" &&
-    cp -d \
-        "$cfg_dir_toolchain/$cfg_target_canonical/lib/"libstdc++.so* \
-        "$cfg_dir_toolchain_sysroot/usr/lib"
+    for l in lib lib64; do
+        cp -d \
+           "$cfg_dir_toolchain/$cfg_target_canonical/$l"/libgcc_s.so* \
+           "$cfg_dir_toolchain_sysroot/lib" &&
+        cp -d \
+           "$cfg_dir_toolchain/$cfg_target_canonical/$l"/libstdc++.so* \
+           "$cfg_dir_toolchain_sysroot/usr/lib"
+    done
 }
 
 target_install()
