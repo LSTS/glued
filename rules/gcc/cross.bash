@@ -32,16 +32,19 @@ build()
 
 host_install()
 {
+    libdir=lib
+    if [ -d "$cfg_dir_toolchain/$cfg_target_canonical/lib64" ]; then
+        libdir=lib64
+    fi
+
     $cmd_make install &&
 
-    for l in lib lib64; do
-        cp -d \
-           "$cfg_dir_toolchain/$cfg_target_canonical/$l"/libgcc_s.so* \
-           "$cfg_dir_toolchain_sysroot/lib" &&
-        cp -d \
-           "$cfg_dir_toolchain/$cfg_target_canonical/$l"/libstdc++.so* \
-           "$cfg_dir_toolchain_sysroot/usr/lib"
-    done
+    cp -d \
+       "$cfg_dir_toolchain/$cfg_target_canonical/$libdir"/libgcc_s.so* \
+       "$cfg_dir_toolchain_sysroot/lib" &&
+    cp -d \
+       "$cfg_dir_toolchain/$cfg_target_canonical/$libdir"/libstdc++.so* \
+       "$cfg_dir_toolchain_sysroot/usr/lib"
 }
 
 target_install()
