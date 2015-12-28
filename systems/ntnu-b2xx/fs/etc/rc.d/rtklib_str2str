@@ -1,0 +1,27 @@
+start()
+{
+    str2str -in serial://uart/2:9600:8:n:1:off -c /etc/rtklib/data/ubx_raw_10hz.cmd -out tcpsvr://:50022 < /dev/null > /dev/null 2>&1 &
+}
+
+stop()
+{
+        while [ 1 ]; do
+        echo "* Stopping process..."        
+        killall str2str > /dev/null 2>&1
+
+       
+        for r in 0 1 2 3 4 5 6 7 8 9; do
+            if [ -n "$(pidof str2str)" ]; then
+                echo "* Waiting for process to exit ($r)..."
+                sleep 1
+            else
+                echo "* Process not running."
+                return 1
+            fi
+        done
+
+        echo "* Forcing exit..."
+        killall -9 str2str > /dev/null 2>&1
+        sleep 1
+    done
+}
