@@ -114,7 +114,7 @@ start()
     # Removable storage.
     if [ "$cfg_lauv_storage" != "internal" ]; then
         try_mount_storage \
-            /sys/devices/ocp.3/47400000.usb/47401c00.usb/musb-hdrc.1.auto/usb2/2-1/2-1:1.0/host0/target0:0:0/0:0:0:0/block \
+            /sys/devices/ocp.3/47400000.usb/47401c00.usb/musb-hdrc.1.auto/usb?/?-1/?-1:1.0/host0/target0:0:0/0:0:0:0/block \
             1
     fi
 
