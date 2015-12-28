@@ -166,6 +166,19 @@ if [ -z $cfg_toolchain_tar ]; then
     cfg_toolchain_tar="$cfg_dir_base/$cfg_sys_family/glued-$cfg_glued_version-$cfg_sys_family-toolchain-$cfg_host_canonical-$cfg_target_canonical.tar.bz2"
 fi
 
+# Config: Git revision.
+git_branch=$(echo $(git rev-parse --symbolic-full-name --abbrev-ref HEAD 2> /dev/null))
+git_revision=$(echo $(git rev-parse --short HEAD 2> /dev/null))
+git_status=$(echo $(git status -s 2> /dev/null))
+if [ -z "$git_branch" ] || [ -z "$git_revision" ]; then
+    cfg_glued_git_version='unknown'
+else
+    cfg_glued_git_version="$git_branch-$git_revision"
+    if [ -n "$git_status" ]; then
+        cfg_glued_git_version="$cfg_glued_git_version-dirty"
+    fi
+fi
+
 if ! [ -d "$cfg_sys_family" ]; then
     mkdir -p "$cfg_sys_family"
 fi &&

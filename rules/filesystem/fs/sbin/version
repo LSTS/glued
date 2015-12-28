@@ -4,7 +4,7 @@ config='/etc/config'
 
 if [ -f "$config" ]; then
     source "$config"
-    echo "$cfg_glued_version"
+    echo "$cfg_glued_version ($cfg_glued_git_version)"
     exit 0
 fi
 
