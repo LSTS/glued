@@ -1,0 +1,13 @@
+diff -Nru linux-3.14.57/drivers/tty/serial/8250/8250_core.c linux-3.14.57.rasm/drivers/tty/serial/8250/8250_core.c
+--- linux-3.14.57/drivers/tty/serial/8250/8250_core.c	2015-11-09 20:50:58.000000000 +0000
++++ linux-3.14.57.rasm/drivers/tty/serial/8250/8250_core.c	2016-01-07 11:27:40.183954069 +0000
+@@ -207,8 +207,7 @@
+ 		.name		= "ST16654",
+ 		.fifo_size	= 64,
+ 		.tx_loadsz	= 32,
+-		.fcr		= UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_01 |
+-				  UART_FCR_T_TRIG_10,
++		.fcr		= UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_01,
+ 		.flags		= UART_CAP_FIFO | UART_CAP_EFR | UART_CAP_SLEEP,
+ 	},
+ 	[PORT_16850] = {
