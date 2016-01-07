@@ -7,7 +7,7 @@ diff -Nru linux-3.14.57/drivers/tty/serial/8250/8250_core.c linux-3.14.57.rasm/d
  		.tx_loadsz	= 32,
 -		.fcr		= UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_01 |
 -				  UART_FCR_T_TRIG_10,
-+		.fcr		= UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_01,
++		.fcr		= UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_00,
  		.flags		= UART_CAP_FIFO | UART_CAP_EFR | UART_CAP_SLEEP,
  	},
  	[PORT_16850] = {
