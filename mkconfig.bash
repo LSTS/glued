@@ -23,11 +23,7 @@
 ###########################################################################
 
 # Config: GLUED version.
-<<<<<<< HEAD
 cfg_glued_version='2015.12-rc1'
-=======
-cfg_glued_version='1.12.x-necsave'
->>>>>>> mkconfig: added necsave suffix.
 # Config: GLUED vendor.
 cfg_glued_vendor='lsts'
 
