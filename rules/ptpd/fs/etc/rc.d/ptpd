@@ -16,5 +16,6 @@ stop()
     if [ -c /dev/rtc0 ]; then
         hwclock -w
     fi
-    killall ptpd2
+
+    killall ptpd2 > /dev/null 2>&1
 }

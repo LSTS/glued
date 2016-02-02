@@ -92,7 +92,7 @@ start_nfs_server()
 stop_nfs_server()
 {
     echo "* Unexporting NFS filesystems..."
-    exportfs -au
+    exportfs -au 2> /dev/null
     echo "* Terminating rpc.mountd..."
     killall rpc.mountd 2> /dev/null
     echo "* Terminating rpc.statd..."

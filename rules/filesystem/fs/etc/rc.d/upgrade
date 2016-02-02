@@ -174,6 +174,71 @@ uboot_part_upgrade_check()
     return 0
 }
 
+rpi2_boot_part_upgrade()
+{
+    label="$1"
+    dev="$2"
+
+    echo -en "* $label: probing bootloader partition... "
+    if ! [ -b "$dev" ]; then
+        echo 'not present'
+        return 0
+    fi
+    echo 'present'
+
+    echo -en "* $label: mounting bootloader partition... "
+    mount -t vfat "$dev" /mnt > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "failed"
+        return 0
+    fi
+    echo 'done'
+
+    for f in bootcode.bin cmdline.txt config.txt fixup.dat start.elf; do
+        if [ -f "/mnt/$f" ]; then
+            echo -en "* $label: Replacing $f... "
+            cp "$base/.glued-new/boot/$f" /mnt
+            echo 'done'
+        fi
+    done
+
+    dtb="bcm2709-rpi-2-b.dtb"
+    if [ -f "/mnt/$dtb" ]; then
+        echo -en "* $label: Replacing $dtb... "
+        cp "$base/.glued-new/boot/board.dtb" "/mnt/$dtb"
+        echo 'done'
+    fi
+
+    kernel='kernel7.img'
+    if [ -f "/mnt/$kernel" ]; then
+        echo -en "* $label: Replacing $kernel... "
+        cp "$base/.glued-new/boot/kernel" "/mnt/$kernel"
+        echo 'done'
+    fi
+
+    echo -en "* $label: unmounting bootloader partition... "
+    umount /mnt > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo 'failed'
+        return  1
+    fi
+
+    sync && sync && sync && sync
+    echo 'done'
+    return 0
+}
+
+# Check if board is a Raspberry Pi 2.
+rpi2_boot_part_upgrade_check()
+{
+    dmesg | grep Machine | grep BCM2709 > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "* rpi2: machine detected"
+        rpi2_boot_part_upgrade "rpi2" "/dev/mmcblk0p1"
+        return 0
+    fi
+}
+
 old_move()
 {
     echo "* Mounting rootfs read-write..."
@@ -222,6 +287,7 @@ start()
     kernel_dst || return 1
     new_unpack || return 1
     uboot_part_upgrade_check || return 1
+    rpi2_boot_part_upgrade_check || return 1
     kernel_upgrade || return 1
     old_move || return 1
 }
