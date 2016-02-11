@@ -28,16 +28,15 @@ download_tool()
 {
     wget -c "$1" -O "$2"
     if [ $? -eq 0 ]; then
-        rm -f "$2"
         return 0
     fi
 
     curl -f -C - "$1" -o "$2"
     if [ $? -eq 0 ]; then
-        rm -f "$2"
         return 0
     fi
 
+    rm -f "$2"
     return 1
 }
 
