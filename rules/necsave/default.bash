@@ -14,6 +14,8 @@ requires=\
 
 download()
 {
+    git clone "git@necsave.info:necsave/integration.git" integration &&
+        cd integration && cd -
     git clone "git@necsave.info:necsave/communications.git" source &&
         cd source && cd - &&
         for r in duneplatform missionplanner perception vehicleplanner; do
@@ -44,6 +46,7 @@ refresh()
   cd ../default
   rm .build .host_install .target_install .postconfigure
   cd -
+  cd integration && git pull && cd - &&
   cd source && git pull && cd - &&
   for r in duneplatform missionplanner perception vehicleplanner; do
             cd "source/src/Modules/$r" && git pull && cd -
@@ -64,5 +67,7 @@ target_install()
 {
     rm -rf "$cfg_dir_rootfs/usr/necsave" &&
         $cmd_cp -r "$cfg_dir_toolchain_sysroot/usr/necsave" "$cfg_dir_rootfs/usr" &&
-        ln -fs /opt/lsts/necsave/log "$cfg_dir_rootfs/usr/necsave/log"
+        ln -fs /opt/lsts/necsave/log "$cfg_dir_rootfs/usr/necsave/log" &&
+    $cmd_cp -r "integration/glued"/* "$cfg_dir_rootfs/usr/necsave"
+
 }
