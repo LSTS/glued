@@ -1,6 +1,35 @@
 start()
 {
-    (cd /opt/lsts/rtklib/ && exec rtkrcv -s -o /etc/rtklib/conf/rtkrcv.conf -d /tmp/ttyC0 < /dev/null > /opt/lsts/rtklib/startlog.log 2>&1 &)
+    localBackupPath="/opt/lsts/rtklib/rtklib_cmdfile.cmd"
+    cfgPath="/etc/rtklib/conf/rtkrcv.conf"
+    cfgPathUse="/opt/lsts/rtklib/conf_use.conf"
+    # First, try to get the configuration
+    cmdFile=`wget -q -O -  10.0.60.51:8080/rtklib_cmdfile.cmd`
+    res=$?
+
+    if [ $res -ne 0 ]; then
+        #echo "Could not find file. Trying to read backup."
+        
+        if [ -f $localBackupPath ]; then
+            echo "Error connecting to server. Reading from backup path."
+            cmdFile=`cat ${localBackupPath}`
+        else
+            echo "Error connecting to server. No local backup file. Using default. "
+            cmdFile="GPS_5Hz.cmd"
+        fi  
+    fi
+
+    echo "Using cmd file: ${cmdFile}"
+    #echo "Storing in last used file. "
+    echo ${cmdFile} > ${localBackupPath}
+
+    cfgFileContent=`cat ${cfgPath}`
+
+    cp ${cfgPath} ${cfgPathUse}
+
+    echo "file-cmdfile1 =/etc/rtklib/cmd/${cmdFile}" >> ${cfgPathUse}   
+
+    (cd /opt/lsts/rtklib/ && exec rtkrcv -s -o ${cfgPathUse} -d /tmp/ttyC0 < /dev/null > /opt/lsts/rtklib/startlog.log 2>&1 &)
 }
 
 stop()
