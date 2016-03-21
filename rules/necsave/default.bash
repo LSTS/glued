@@ -1,6 +1,16 @@
 version=\
 (
-    'HEAD'
+    'integration_02'
+)
+
+branch=\
+(
+    'release/integration_02'
+)
+
+maintainer=\
+(
+    "Jose Pinto <zepinto@fe.up.pt>"
 )
 
 requires=\
@@ -14,13 +24,13 @@ requires=\
 
 download()
 {
-    git clone "git@necsave.info:necsave/integration.git" integration &&
-        cd integration && cd -
-    git clone "git@necsave.info:necsave/communications.git" source &&
+    git clone -b $branch "git@necsave.info:necsave/integration.git" integration &&
+        cd integration && cd - &&
+    git clone -b $branch "git@necsave.info:necsave/communications.git" source &&
         cd source && cd - &&
-        for r in duneplatform missionplanner perception vehicleplanner; do
-            git clone "git@necsave.info:necsave/$r.git" "source/src/Modules/$r"
-            cd "source/src/Modules/$r" && cd -
+        for module in duneplatform missionplanner perception vehicleplanner; do
+            git clone -b $branch "git@necsave.info:necsave/$module.git" "source/src/Modules/$module"
+            cd "source/src/Modules/$module" && cd -
         done
 }
 
