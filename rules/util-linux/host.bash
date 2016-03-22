@@ -8,6 +8,7 @@ requires=\
 configure()
 {
     cd "$pkg_build_dir" &&
+    CFLAGS="-I$cfg_dir_toolchain/include" \
     "../util-linux-$version/configure" \
         --prefix="$cfg_dir_toolchain" \
         --disable-wall \
