@@ -1,6 +1,20 @@
 start()
 {
-    str2str -in serial://uart/2:9600:8:n:1:off -c /etc/rtklib/data/ubx_raw_10hz.cmd -out tcpsvr://:50022 < /dev/null > /dev/null 2>&1 &
+   cmdFilePath="/opt/lsts/dune/www/rtklib_cmdfile.cmd"
+    
+    # Exists?
+    if [ ! -f ${cmdFilePath} ]; then
+        echo "No commandfile found. Creating default."        
+        echo "GPS_5Hz.cmd" >> ${cmdFilePath}
+    fi            
+            
+    cmdFile=$(<${cmdFilePath})
+    cmdFile=`cat ${cmdFilePath}`
+    echo "Starting str2str server with command file: ${cmdFile}"
+    
+    str2str -in serial://uart/2:115200:8:n:1:off -c /etc/rtklib/cmd/${cmdFile} -out tcpsvr://:50022 < /dev/null > /dev/null 2>&1 &    
+
+
 }
 
 stop()
