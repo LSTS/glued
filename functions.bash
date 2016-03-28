@@ -40,3 +40,15 @@ err()
 {
     echo -e "[$(date +"%Y-%m-%d %H:%M:%S")] \033[0m\033[1;31mERROR: $*\033[0m"
 }
+
+ucat()
+{
+    case "$1" in
+        *.gz)
+            zcat "$1"
+            ;;
+        *)
+            cat "$1"
+            ;;
+    esac
+}

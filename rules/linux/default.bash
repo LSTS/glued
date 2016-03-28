@@ -25,13 +25,55 @@ requires=\
     'lz4/host'
 )
 
+# Major/Minor version.
+linux_mm_version()
+{
+    echo "$version" | cut -f1-2 -d.
+}
+
+# Major/Minor/Patch version.
+linux_mmp_version()
+{
+    echo "$version" | cut -f1 -d-
+}
+
+patches=(\
+    $(ls -1 \
+         "$pkg_dir/patches/$version/"*.patch \
+         "$pkg_dir/patches/$(linux_mmp_version)/"*.patch \
+         "$pkg_dir/patches/$(linux_mm_version)/"*.patch \
+         "$cfg_dir_system/patches/linux/$version/"*.patch \
+         "$cfg_dir_system/patches/linux/$(linux_mmp_version)/"*.patch \
+         "$cfg_dir_system/patches/linux/$(linux_mm_version)/"*.patch \
+         2> /dev/null | awk '!a[$0]++')
+)
+
+
+# Get configuration file.
+linux_cfg_file()
+{
+    for f in "$version" "$(linux_mmp_version)" "$(linux_mm_version)"; do
+        f="$cfg_dir_system/cfg/linux-$f.cfg"
+        if [ -f "$f" ]; then
+            echo "$f"
+            return 0
+        fi
+
+        echo "Candidate kernel configuration file '$f' doesn't exist." 1>&2
+    done
+
+    echo "ERROR: failed to find a valid kernel configuration file." 1>&2
+    return 1
+}
+
 post_unpack()
 {
-    patches=$(ls "$pkg_dir/patches/$version/"*.patch\
-	"$cfg_dir_system/patches/linux/$version/"*.patch 2>/dev/null)
-    if [ -n "$patches" ]; then
-        cat $patches | patch -p1
-    fi
+    n=0; while [ -n "${patches[$n]}" ]; do
+             patch="${patches[$n]}"
+             echo "* Applying $patch..."
+             (ucat "$patch" | patch -p1) || return 1
+             let n++
+         done
 
     if [ -d "$cfg_dir_toolchain/firmware" ]; then
         tar -C "$cfg_dir_toolchain/firmware" -c -v -f - . | tar -C firmware -x -v -f -
@@ -41,7 +83,7 @@ post_unpack()
 refresh()
 {
     for rule in configure build target_install; do
-        if [ "$cfg_dir_system/cfg/linux-${version}.cfg" -nt "$cfg_dir_builds/linux/$pkg_var/.$rule" ]; then
+        if [ "$(linux_cfg_file)" -nt "$cfg_dir_builds/linux/$pkg_var/.$rule" ]; then
             rm "$cfg_dir_builds/linux/$pkg_var/.$rule"
         fi
     done
@@ -51,9 +93,11 @@ configure()
 {
     $cmd_make \
         ARCH=${cfg_target_linux} \
-        mrproper &&
+        mrproper || return 1
 
-    cp "$cfg_dir_system/cfg/linux-${version}.cfg" .config &&
+    cfg="$(linux_cfg_file)"
+    [ -n "$cfg" ] || return 1
+    $cmd_cp "$cfg" .config || return 1
 
     if [ -f "$cfg_dir_system/files/initramfs_init.sh" ]; then
         $cmd_mkdir initramfs &&
