@@ -34,7 +34,7 @@ build()
     cd app/str2str/gcc
     $cmd_make \
 	CC=$cmd_target_cc \
-	CTARGET="$cfg_target_gcc_flags" -DSVR_REUSEADDR \
+	CTARGET="${cfg_target_gcc_flags} -DSVR_REUSEADDR" \
 	BINDIR="${cfg_dir_toolchain_sysroot}/usr/bin" 
 	
     cd ../../rtkrcv/gcc
