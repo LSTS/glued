@@ -1,0 +1,12 @@
+diff -Nru linux-3.14.63/arch/arm/mach-at91/board-stamp9g20.c linux-3.14.63.rasm/arch/arm/mach-at91/board-stamp9g20.c
+--- linux-3.14.63/arch/arm/mach-at91/board-stamp9g20.c	2016-03-03 23:09:05.000000000 +0000
++++ linux-3.14.63.rasm/arch/arm/mach-at91/board-stamp9g20.c	2016-04-06 16:06:11.573456901 +0100
+@@ -49,7 +49,7 @@
+ 	.enable_pin	= AT91_PIN_PC14,
+ 	.bus_width_16	= 0,
+ 	.det_pin	= -EINVAL,
+-	.ecc_mode	= NAND_ECC_SOFT,
++	.ecc_mode	= NAND_ECC_SOFT_BCH,
+ };
+ 
+ static struct sam9_smc_config __initdata nand_smc_config = {
