@@ -116,17 +116,18 @@ build()
 {
     $cmd_make \
         CROSS_COMPILE=$cfg_target_canonical- \
-        ARCH=$cfg_target_linux &&
+        ARCH=$cfg_target_linux || return 1
+
     $cmd_make \
         CROSS_COMPILE=$cfg_target_canonical- \
         ARCH=$cfg_target_linux \
-        modules &&
+        modules || return 1
 
     if [ "$(basename $cfg_target_linux_kernel)" = 'uImage' ]; then
         $cmd_make \
             CROSS_COMPILE=$cfg_target_canonical- \
             ARCH=$cfg_target_linux \
-            uImage
+            uImage || return 1
     fi
 
     # Compressed image.
@@ -134,7 +135,7 @@ build()
         $cmd_make \
             CROSS_COMPILE=$cfg_target_canonical- \
             ARCH=$cfg_target_linux \
-            zImage
+            zImage || return 1
     fi
 
     # Device tree blob.
@@ -142,7 +143,7 @@ build()
         $cmd_make \
             CROSS_COMPILE=$cfg_target_canonical- \
             ARCH=$cfg_target_linux \
-            dtbs
+            dtbs || return 1
     fi
 
     if [ -n "${cfg_target_linux_size}" ]; then
