@@ -6,7 +6,6 @@ cfg_services1=''
 cfg_services2=''
 cfg_packages='dropbear rsync busybox e2fsprogs dosfstools linux u-boot'
 cfg_target_linux_kernel='arch/arm/boot/zImage'
-cfg_target_linux_dtb='arch/arm/boot/dts/at91sam9g20ek.dts'
 cfg_terminal='ttyS0'
 cfg_target_uboot_config='stamp9g20'
 cfg_partitions=\
