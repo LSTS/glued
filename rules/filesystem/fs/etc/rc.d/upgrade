@@ -60,24 +60,17 @@ new_unpack()
     return 1
 }
 
-kernel_dst()
+kernel_mtd_part()
 {
-    echo -n "* Detecting kernel destination... "
+    echo -n "* Detecting kernel MTD partition... "
 
-    # Kernel resides in the root filesystem.
     if [ -d /boot/extlinux ]; then
-        echo "filesystem"
+        echo "not present"
         return 0
     fi
 
     if ! [ -f /proc/mtd ]; then
-        echo "filesystem"
-        return 0
-    fi
-
-    grep 'uboot=ext2' /proc/cmdline > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echo "filesystem"
+        echo "not present"
         return 0
     fi
 
@@ -85,21 +78,65 @@ kernel_dst()
     if [ -z "$fw_kernel_mtd" ]; then
         export fw_kernel_mtd="$(grep \"Kernel\" /proc/mtd | cut -f1 -d':')"
         if [ -z "$fw_kernel_mtd" ]; then
-            echo "failed to detect kernel's MTD partition"
+            echo "not present"
             return 1
         fi
     fi
 
-    echo "mtd"
+    echo "$fw_kernel_mtd"
     return 0
 }
 
-kernel_upgrade()
+uboot_mtd_part()
+{
+    echo -n "* Detecting u-boot MTD paritition... "
+    if ! [ -f /proc/mtd ]; then
+        echo "filesystem"
+        return 0
+    fi
+
+    export fw_uboot_mtd="$(grep \"uboot\" /proc/mtd | cut -f1 -d':')"
+    if [ -z "$fw_uboot_mtd" ]; then
+        export fw_uboot_mtd="$(grep \"u-boot\" /proc/mtd | cut -f1 -d':')"
+        if [ -z "$fw_uboot_mtd" ]; then
+            echo "not present"
+            return 1
+        fi
+    fi
+
+    echo "$fw_uboot_mtd"
+    return 0
+}
+
+uboot_mtd_upgrade()
+{
+    bin="$base/.glued-new/boot/u-boot.bin"
+
+    if ! [ -f "$bin" ]; then
+        return 0
+    fi
+
+    if [ -z "$fw_uboot_mtd" ]; then
+        return 0
+    fi
+
+    echo -n "* Upgrading u-boot MTD partition... "
+    "$flashcp" -v "$bin" /dev/"$fw_uboot_mtd"
+    if [ $? -ne 0 ]; then
+        echo "failed"
+        return 1
+    fi
+
+    echo "done"
+    return 0
+}
+
+kernel_mtd_upgrade()
 {
     # Upgrade MTD
     if [ -n "$fw_kernel_mtd" ]; then
         echo -n "* Upgrading kernel... "
-        "$flashcp" -v "$base/.glued-new/boot/kernel" /dev/"$fw_kernel_mtd" > /dev/null 2>&1
+        "$flashcp" -v "$base/.glued-new/boot/kernel" /dev/"$fw_kernel_mtd"
         if [ $? -ne 0 ]; then
             echo "failed"
             return 1
@@ -284,11 +321,13 @@ start()
 {
     clean
     version || return 1
-    kernel_dst || return 1
+    kernel_mtd_part || return 1
+    uboot_mtd_part || return 1
     new_unpack || return 1
     uboot_part_upgrade_check || return 1
     rpi2_boot_part_upgrade_check || return 1
-    kernel_upgrade || return 1
+    kernel_mtd_upgrade || return 1
+    uboot_mtd_upgrade || return 1
     old_move || return 1
 }
 
