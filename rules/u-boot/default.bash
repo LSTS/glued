@@ -43,11 +43,11 @@ host_install()
 
 target_install()
 {
-    if [ -f MLO ]; then
-        $cmd_cp MLO "$cfg_dir_rootfs/boot"
-    fi
+    $cmd_mkdir "$cfg_dir_rootfs/boot"
 
-    if [ -f u-boot.img ]; then
-        $cmd_cp u-boot.img "$cfg_dir_rootfs/boot"
-    fi
+    for f in MLO u-boot.img u-boot.bin; do
+        if [ -f "$f" ]; then
+            $cmd_cp "$f" "$cfg_dir_rootfs/boot"
+        fi
+    done
 }
