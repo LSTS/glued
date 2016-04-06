@@ -1,0 +1,30 @@
+diff --git a/include/configs/stamp9g20.h b/include/configs/stamp9g20.h
+index 01085dc..2d2b38b 100644
+--- a/include/configs/stamp9g20.h
++++ b/include/configs/stamp9g20.h
+@@ -25,6 +25,8 @@
+  */
+ #include <asm/hardware.h>
+ 
++#define CONFIG_SYS_GENERIC_BOARD
++
+ /*
+  * Warning: changing CONFIG_SYS_TEXT_BASE requires adapting the initial boot
+  * program. Since the linker has to swallow that define, we must use a pure
+@@ -82,6 +84,8 @@
+ 
+ /* NAND flash settings */
+ #define CONFIG_NAND_ATMEL
++#define CONFIG_BCH
++#define CONFIG_NAND_ECC_BCH
+ #define CONFIG_SYS_NO_FLASH
+ #define CONFIG_SYS_MAX_NAND_DEVICE	1
+ #define CONFIG_SYS_NAND_BASE		ATMEL_BASE_CS3
+@@ -242,6 +246,7 @@
+ #define CONFIG_CMD_USB
+ #define CONFIG_CMD_FAT
+ #define CONFIG_CMD_LED
++#define CONFIG_CMD_BOOTZ
+ 
+ #ifdef CONFIG_MACB
+ # define CONFIG_CMD_PING

@@ -1,0 +1,16 @@
+cfg_architecture='arm926ej-s'
+cfg_storage='data0:ext4:/opt'
+cfg_modules=''
+cfg_services0='network dropbear storage upgrade syslog'
+cfg_services1=''
+cfg_services2=''
+cfg_packages='dropbear rsync busybox e2fsprogs dosfstools linux u-boot'
+cfg_target_linux_kernel='arch/arm/boot/zImage'
+cfg_target_linux_dtb='arch/arm/boot/dts/at91sam9g20ek.dts'
+cfg_terminal='ttyS0'
+cfg_target_uboot_config='stamp9g20'
+cfg_partitions=\
+(
+    root    root0  512B   544MiB
+    data    data0  544MiB  -1
+)
