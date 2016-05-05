@@ -1,5 +1,9 @@
 start()
 {
+    if [ ! -d "/opt/lsts/rtklib/" ]; then
+      mkdir /opt/lsts/rtklib
+    fi
+
     localBackupPath="/opt/lsts/rtklib/rtklib_cmdfile.cmd"
     cfgPath="/etc/rtklib/conf/rtkrcv.conf"
     cfgPathUse="/opt/lsts/rtklib/conf_use.conf"
