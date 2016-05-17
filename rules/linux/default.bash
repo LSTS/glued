@@ -25,6 +25,9 @@ requires=\
     'lz4/host'
 )
 
+# This variable is updated by find_patches().
+patches=()
+
 # Major/Minor version.
 linux_mm_version()
 {
@@ -37,17 +40,21 @@ linux_mmp_version()
     echo "$version" | cut -f1 -d-
 }
 
-patches=(\
-    $(ls -1 \
-         "$pkg_dir/patches/$version/"*.patch \
-         "$pkg_dir/patches/$(linux_mmp_version)/"*.patch \
-         "$pkg_dir/patches/$(linux_mm_version)/"*.patch \
-         "$cfg_dir_system/patches/linux/$version/"*.patch \
-         "$cfg_dir_system/patches/linux/$(linux_mmp_version)/"*.patch \
-         "$cfg_dir_system/patches/linux/$(linux_mm_version)/"*.patch \
-         2> /dev/null | awk '!a[$0]++')
-)
+find_patches()
+{
+    patches=(\
+        $(ls -1 \
+             "$pkg_dir/patches/$version/"*.patch \
+             "$pkg_dir/patches/$(linux_mmp_version)/"*.patch \
+             "$pkg_dir/patches/$(linux_mm_version)/"*.patch \
+             "$cfg_dir_system/patches/linux/$version/"*.patch \
+             "$cfg_dir_system/patches/linux/$(linux_mmp_version)/"*.patch \
+             "$cfg_dir_system/patches/linux/$(linux_mm_version)/"*.patch \
+             2> /dev/null | awk '!a[$0]++')
+    )
+}
 
+find_patches
 
 # Get configuration file.
 linux_cfg_file()
@@ -175,6 +182,13 @@ target_install()
     else
         echo "ERROR: failed to find kernel image at '$cfg_target_linux_kernel'"
         return 1
+    fi
+
+    # Device tree overlays.
+    overlays_dir="arch/$cfg_target_linux/boot/dts/overlays"
+    if [ -d "$overlays_dir" ]; then
+	$cmd_mkdir "$cfg_dir_rootfs/boot/overlays" || return 1
+        $cmd_cp "$overlays_dir"/*.dtbo "$cfg_dir_rootfs/boot/overlays" || return 1
     fi
 
     $cmd_make \
