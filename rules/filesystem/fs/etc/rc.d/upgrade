@@ -89,7 +89,7 @@ kernel_mtd_part()
 
 uboot_mtd_part()
 {
-    echo -n "* Detecting u-boot MTD paritition... "
+    echo -n "* Detecting u-boot MTD partition... "
     if ! [ -f /proc/mtd ]; then
         echo "filesystem"
         return 0
@@ -239,6 +239,14 @@ rpi2_boot_part_upgrade()
         fi
     done
 
+    for f in overlays; do
+        if [ -d "/mnt/$f" ]; then
+            echo -en "* $label: Replacing $f... "
+	    rm -rf "/mnt/$f" && cp -r "$base/.glued-new/boot/$f" /mnt
+            echo 'done'
+        fi
+    done
+
     dtb="bcm2709-rpi-2-b.dtb"
     if [ -f "/mnt/$dtb" ]; then
         echo -en "* $label: Replacing $dtb... "
@@ -268,7 +276,14 @@ rpi2_boot_part_upgrade()
 # Check if board is a Raspberry Pi 2.
 rpi2_boot_part_upgrade_check()
 {
-    dmesg | grep Machine | grep BCM2709 > /dev/null 2>&1
+    dmesg | grep Machine | grep -i BCM2709 > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "* rpi2: machine detected"
+        rpi2_boot_part_upgrade "rpi2" "/dev/mmcblk0p1"
+        return 0
+    fi
+
+    dmesg | grep Machine | grep -i "raspberry pi 2" > /dev/null 2>&1
     if [ $? -eq 0 ]; then
         echo "* rpi2: machine detected"
         rpi2_boot_part_upgrade "rpi2" "/dev/mmcblk0p1"
