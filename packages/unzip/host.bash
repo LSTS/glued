@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz"
+    "http://downloads.sourceforge.net/infozip/unzip60.tar.gz"
 )
 
 md5=\
