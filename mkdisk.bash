@@ -103,15 +103,17 @@ create_part_rpiboot()
 
     for f in "$cfg_sys_family/rootfs/boot/"*; do
         nfo2 installing $f to boot partition
-        cp "$f" mount || die
+        cp -r "$f" mount || die
     done
 
     nfo2 renaming kernel to kernel7.img
     mv mount/kernel mount/kernel7.img
 
-    dtb=$(basename "$cfg_target_linux_dtb")
-    nfo2 renaming board.dtb to "$dtb"
-    mv "mount/board.dtb" "mount/$dtb"
+    if [ -f mount/board.dtb ]; then
+        dtb=$(basename "$cfg_target_linux_dtb")
+        nfo2 renaming board.dtb to "$dtb"
+        mv "mount/board.dtb" "mount/$dtb"
+    fi
 
     cmd_parted "$dev_loop" \
         set "$part_nr" lba on \
