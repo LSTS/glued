@@ -247,12 +247,11 @@ rpi2_boot_part_upgrade()
         fi
     done
 
-    dtb="bcm2709-rpi-2-b.dtb"
-    if [ -f "/mnt/$dtb" ]; then
+    for dtb in "$base/.glued-new/boot/"*.dtb; do
         echo -en "* $label: Replacing $dtb... "
-        cp "$base/.glued-new/boot/board.dtb" "/mnt/$dtb"
+        cp "$dtb" "/mnt"
         echo 'done'
-    fi
+    done
 
     kernel='kernel7.img'
     if [ -f "/mnt/$kernel" ]; then
@@ -273,22 +272,17 @@ rpi2_boot_part_upgrade()
     return 0
 }
 
-# Check if board is a Raspberry Pi 2.
+# Check if board is a Raspberry Pi 2/3.
 rpi2_boot_part_upgrade_check()
 {
-    dmesg | grep Machine | grep -i BCM2709 > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echo "* rpi2: machine detected"
-        rpi2_boot_part_upgrade "rpi2" "/dev/mmcblk0p1"
-        return 0
-    fi
-
-    dmesg | grep Machine | grep -i "raspberry pi 2" > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echo "* rpi2: machine detected"
-        rpi2_boot_part_upgrade "rpi2" "/dev/mmcblk0p1"
-        return 0
-    fi
+    for machine in 'bcm2709' 'raspberry pi'; do
+        dmesg | grep Machine | grep -i "$machine" > /dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            echo "* rpi2: machine detected"
+            rpi2_boot_part_upgrade "rpi2" "/dev/mmcblk0p1"
+            return 0
+        fi
+    done
 }
 
 old_move()
