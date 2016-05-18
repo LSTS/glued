@@ -160,15 +160,6 @@ build()
     fi
 }
 
-host_install()
-{
-    # Device tree blobs.
-    if [ -n "$cfg_target_linux_dtb" ]; then
-        $cmd_mkdir "$cfg_dir_toolchain/boot" &&
-            cp -v "$(dirname $cfg_target_linux_dtb)/"*.dtb "$cfg_dir_toolchain/boot"
-    fi
-}
-
 target_install()
 {
     if [ -n "$(file "$cfg_target_linux_kernel" | grep ELF)" ]; then
@@ -182,6 +173,13 @@ target_install()
     else
         echo "ERROR: failed to find kernel image at '$cfg_target_linux_kernel'"
         return 1
+    fi
+
+    # Device tree blobs.
+    dts="arch/$cfg_target_linux/boot/dts"
+    if [ -d "$dts" ]; then
+        $cmd_mkdir "$cfg_dir_rootfs/boot" &&
+            cp -v "$dts/"*.dtb "$cfg_dir_rootfs/boot"
     fi
 
     # Device tree overlays.
