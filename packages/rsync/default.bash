@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "http://www.samba.org/ftp/rsync/rsync-$version.tar.gz"
+    "https://download.samba.org/pub/rsync/src/rsync-$version.tar.gz"
 )
 
 md5=\
