@@ -16,5 +16,5 @@ build()
 host_install()
 {
     $cmd_make install &&
-    ln -fs kmod "$cfg_dir_toolchain/sbin/depmod"
+    ln -fs ../bin/kmod "$cfg_dir_toolchain/sbin/depmod"
 }
