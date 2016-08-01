@@ -1,16 +1,16 @@
 version=\
 (
-    '3.0.20'
+    '3.0.28'
 )
 
 url=\
 (
-    "http://daniel-baumann.ch/files/software/dosfstools/dosfstools-$version.tar.gz"
+    "https://github.com/dosfstools/dosfstools/releases/download/v$version/dosfstools-$version.tar.gz"
 )
 
 md5=\
 (
-    '7f1c1afd4ae4622e07b24ec0ddfc4184'
+    '64e3b3a59b51d2a97d7ac38b23a124bb'
 )
 
 maintainer=\
