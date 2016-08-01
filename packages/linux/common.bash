@@ -36,17 +36,20 @@ build()
 
     $cmd_make \
         CROSS_COMPILE=$cfg_target_canonical- \
-        ARCH=$cfg_target_linux &&
+        ARCH=$cfg_target_linux || return 1
+
     $cmd_make \
         CROSS_COMPILE=$cfg_target_canonical- \
         ARCH=$cfg_target_linux \
-        modules &&
+        DEPMOD="$cfg_dir_toolchain/sbin/depmod" \
+        modules || return 1
 
     if [ "$(basename $cfg_target_linux_kernel)" = 'uImage' ]; then
         $cmd_make \
             CROSS_COMPILE=$cfg_target_canonical- \
             ARCH=$cfg_target_linux \
-            uImage
+            DEPMOD="$cfg_dir_toolchain/sbin/depmod" \
+            uImage || return 1
     fi
 
     if [ -n "${cfg_target_linux_size}" ]; then
@@ -82,11 +85,15 @@ target_install()
         CROSS_COMPILE="$cfg_target_canonical-" \
         ARCH="$cfg_target_linux" \
         INSTALL_MOD_PATH="$cfg_dir_rootfs/usr" \
+        KBUILD_VERBOSE=1 \
+        DEPMOD="$cfg_dir_toolchain/sbin/depmod" \
         modules_install
 
     $cmd_make \
         CROSS_COMPILE="$cfg_target_canonical-" \
         ARCH="$cfg_target_linux" \
         INSTALL_MOD_PATH="$cfg_dir_rootfs/usr" \
+        KBUILD_VERBOSE=1 \
+        DEPMOD="$cfg_dir_toolchain/sbin/depmod" \
         firmware_install
 }
