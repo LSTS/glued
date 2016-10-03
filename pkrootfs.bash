@@ -60,7 +60,7 @@ done
 
 # Copy DTB.
 if [ -n "$cfg_target_linux_dtb" ]; then
-    cp -v "$cfg_dir_toolchain/boot/$(basename $cfg_target_linux_dtb)" "$cfg_dir_rootfs/boot/board.dtb"
+    cp -v "$cfg_dir_rootfs/boot/$(basename $cfg_target_linux_dtb)" "$cfg_dir_rootfs/boot/board.dtb"
 fi
 
 # Write config vars.
