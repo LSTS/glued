@@ -24,14 +24,10 @@ requires=\
 
 download()
 {
-    git clone -b $branch "git@necsave.info:necsave/integration.git" integration &&
-        cd integration && cd - &&
     git clone -b $branch "git@necsave.info:necsave/communications.git" source &&
-        cd source && cd - &&
-        for module in duneplatform missionplanner perception vehicleplanner; do
-            git clone -b $branch "git@necsave.info:necsave/$module.git" "source/src/Modules/$module"
-            cd "source/src/Modules/$module" && cd -
-        done
+    cd source && 
+    ./update.sh &&
+    cd -
 }
 
 configure()
