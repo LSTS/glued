@@ -1,6 +1,6 @@
 version=\
 (
-    'master'
+    'mission/necsave'
 )
 
 requires=\

@@ -69,11 +69,11 @@ host_install()
     $cmd_make -C build install
 }
 
-target_install()
-{
-    rm -rf "$cfg_dir_rootfs/usr/necsave" &&
-        $cmd_cp -r "$cfg_dir_toolchain_sysroot/usr/necsave" "$cfg_dir_rootfs/usr" &&
-        ln -fs /opt/lsts/necsave/log "$cfg_dir_rootfs/usr/necsave/log" &&
-    $cmd_cp -r "integration/REP16"/* "$cfg_dir_rootfs/usr/necsave"
-
-}
+#target_install()
+#{
+#    rm -rf "$cfg_dir_rootfs/usr/necsave" &&
+#        $cmd_cp -r "$cfg_dir_toolchain_sysroot/usr/necsave" "$cfg_dir_rootfs/usr" &&
+#        ln -fs /opt/lsts/necsave/log "$cfg_dir_rootfs/usr/necsave/log" &&
+#    $cmd_cp -r "integration/REP16"/* "$cfg_dir_rootfs/usr/necsave"
+#
+#}
