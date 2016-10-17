@@ -1,0 +1,31 @@
+version=("3.19")
+
+url=("https://www.kernel.org/pub/linux/kernel/v3.x/linux-$version.tar.xz")
+
+requires=("flex/host bison/flex")
+
+md5=('d3fc8316d4d4d04b65cbc2d70799e763')
+
+# configure()
+# {
+
+# }
+
+build()
+{
+    
+    cd ../linux-3.19/
+    $cmd_make \
+        CROSS_COMPILE="$cfg_target_canonical-" \
+        ARCH="$cfg_target_linux" \
+        INSTALL_MOD_PATH="$cfg_dir_rootfs/usr" \
+        KBUILD_VERBOSE=1 \
+        DEPMOD="$cfg_dir_toolchain/sbin/depmod" \
+        -C "./tools/perf/" &&
+	$cmd_cp "./tools/perf/perf" "$cfg_dir_toolchain/bin/"
+}
+
+# host_install()
+# {
+
+# }
