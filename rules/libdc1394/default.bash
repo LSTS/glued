@@ -19,6 +19,7 @@ configure()
         --prefix="$cfg_dir_toolchain_sysroot/usr" \
         --target="$cfg_target_canonical" \
         --host="$cfg_target_canonical" \
+        --disable-examples \
         --build="$cfg_host_canonical"
 }
 
