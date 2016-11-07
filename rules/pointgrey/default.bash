@@ -15,7 +15,7 @@ md5=\
 
 post_unpack()
 {
-    $cmd_cp -r "../flycapture.2.10.3.237_armhf/"* "../$cfg_packages-$version/"
+    $cmd_cp -r "../flycapture.2.10.3.237_armhf/"* "../pointgrey-$version/"
     rm -r ../flycapture.2.10.3.237_armhf/
 }
 
