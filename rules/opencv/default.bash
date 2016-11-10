@@ -1,6 +1,6 @@
 version=\
 (
-    "2.4.11"
+    "2.4.13"
 )
 
 url=\
@@ -10,12 +10,11 @@ url=\
 
 md5=\
 (
-    '32f498451bff1817a60e1aabc2939575'
+    '886b0c511209b2f3129649928135967c'
 )
 
 requires=\
 (
-    'cmake/host'
     'ffmpeg/default'
 )
 
@@ -31,11 +30,11 @@ configure()
     mkdir -p ../build
     cd ../build
     ${cfg_dir_toolchain}/usr/local/bin/cmake \
-        -DCMAKE_SYSTEM_NAME="Linux" \
-        -DCMAKE_SYSTEM_PROCESSOR="$cfg_architecture" \
+	-DCMAKE_SYSTEM_NAME="Linux" \
+	-DCMAKE_SYSTEM_PROCESSOR="$cfg_architecture" \
 	-DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_FIND_ROOT_PATH="${cfg_dir_toolchain_sysroot}/usr ${cfg_dir_rootfs}/usr" \
-        -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+	-DCMAKE_FIND_ROOT_PATH="${cfg_dir_toolchain_sysroot}/usr ${cfg_dir_rootfs}/usr" \
+	-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
 	-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
 	-DCMAKE_C_COMPILER="${cmd_target_cc}" \
 	-DCMAKE_CXX_COMPILER="${cmd_target_cxx}" \
