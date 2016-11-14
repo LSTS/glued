@@ -1,22 +1,22 @@
 version=\
 (
-  "2.10.3.237"
+  "2.9.3.43"
 )
 
 url=\
 (
-  "https://www.dropbox.com/s/ediz2btaaq6a8sc/flycapture.$version_armhf.tar.gz"
+  "https://www.dropbox.com/s/gtevdjnetc0ljtj/flycapture.$version_armhf.tar.gz"
 )
 
 md5=\
 (
-  "ffee545c0353f1a31008ad3166b1f057"
+  "1bed9d34506a261eef30809b440566c7"
 )
 
 post_unpack()
 {
-    $cmd_cp -r "../flycapture.2.10.3.237_armhf/"* "../pointgrey-$version/"
-    rm -r ../flycapture.2.10.3.237_armhf/
+    $cmd_cp -r "../flycapture.2.9.3.43_armhf/"* "../pointgrey-$version/"
+    rm -r ../flycapture.2.9.3.43_armhf/
 }
 
 requires=\
