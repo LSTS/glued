@@ -2,7 +2,7 @@
 
 version=\
 (
-    '3.18_2015-06-03'
+    '4.4_2016-05-17'
 )
 
 url=\
@@ -12,11 +12,9 @@ url=\
 
 md5=\
 (
-    '0b0255e50ca358b619bb78653ac2db2e'
+    '5bb5ce2b2a7f0943e4efe95badfffad9'
 )
 
-post_unpack()
-{
-    rmdir "../linux-$version" &&
-        mv "../rpi-linux-rpi-linux-$version" "../linux-$version"
-}
+build_dir="rpi-linux-rpi-linux-$version"
+
+find_patches
