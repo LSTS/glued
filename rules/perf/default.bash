@@ -28,5 +28,5 @@ build()
 target_install()
 {
     $cmd_cp ../linux-$version/tools/perf/perf \
-	    $cfg_dir_toolchain/bin/
+	    $cfg_dir_rootfs/usr/bin/
 }
