@@ -5,12 +5,12 @@ version=\
 
 url=\
 (
-    "https://github.com/raspberrypi/userland/archive/master.zip"
+    "http://lsts.pt/glued/raspicam-$version.zip"
 )
 
 md5=\
 (
-  "3f16bcda3928216fea779588e9e74944"
+  "169e62fd17d41455a42711a2f9c54fd1"
 )
 
 maintainer=\
@@ -22,8 +22,6 @@ configure()
 {
     LINKER_ADDED_FLAGS="-Wl,-rpath,${cfg_dir_rootfs}/usr/lib"
 
-    mkdir -p ../build
-    cd ../userland-master
     ${cfg_dir_toolchain}/usr/local/bin/cmake \
         -DCMAKE_SYSTEM_NAME="Linux" \
         -DCMAKE_SYSTEM_VERSION="1" \
@@ -38,20 +36,19 @@ configure()
 
 build()
 {
-    cd ../userland-master
     $cmd_make VERBOSE=1
 }
 
 host_install()
 {
-    cd ../userland-master/build/
+    cd build/
     $cmd_cp -r "lib/"* "$cfg_dir_toolchain_sysroot/usr/lib/"
     $cmd_cp -r "inc/"* "$cfg_dir_toolchain_sysroot/usr/include/"
 }
 
 target_install()
 {
-    cd ../userland-master/build/
+    cd build/
     $cmd_cp -r "lib/"* "$cfg_dir_rootfs/usr/lib/"
     $cmd_cp -r "bin/"* "$cfg_dir_rootfs/usr/bin/"
 }
