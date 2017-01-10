@@ -1,1 +1,5 @@
+# Core.
 arm_freq=1000
+
+# Disable BT on Rpi3.
+dtoverlay=pi3-disable-bt
