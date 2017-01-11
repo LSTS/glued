@@ -7,7 +7,7 @@ version=\
 
 url=\
 (
-    "https://github.com/rasmartins/rpi-linux/archive/rpi-linux-$version.tar.gz"
+    "http://lsts.pt/glued/rpi-linux-$version.tar.gz"
 )
 
 md5=\
