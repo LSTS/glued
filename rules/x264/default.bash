@@ -19,7 +19,8 @@ configure()
     --sysroot="${cfg_dir_toolchain_sysroot}" \
     --cross-prefix="${cmd_target_prefix}"    \
     --host="$cfg_target_canonical"           \
-    --prefix="${cfg_dir_toolchain_sysroot}/usr"
+    --prefix="${cfg_dir_toolchain_sysroot}/usr" \
+    --disable-asm
 }
 
 build()
