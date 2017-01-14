@@ -24,6 +24,7 @@ requires=\
 
 configure()
 {
+    export CC="$cmd_target_cc"
     ./configure \
         --prefix="${cfg_dir_toolchain_sysroot}/usr" \
         --build="$cfg_host_canonical"    \
