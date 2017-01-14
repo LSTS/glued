@@ -18,7 +18,8 @@ md5=\
 requires=\
 (
     'x264/default'
-    #  'ffmpeg/default'
+    'v4l-utils/default'
+    'ffmpeg/default'
 )
 
 configure()
