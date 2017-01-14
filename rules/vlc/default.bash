@@ -2,7 +2,7 @@
 
 version=\
 (
-    "1.0.6"
+    "1.1.13"
 )
 
 url=\
@@ -12,24 +12,28 @@ url=\
 
 md5=\
 (
-    "246a3865ec037f8f5757ef6b973a80fc"
+    "9678fb7a04808b6e0de63746d35e4bb1"
+)
+
+maintainer=\
+(
+    '?'
+    'Tiago Marques <tsmarques@fe.up.pt>'
 )
 
 requires=\
 (
     'x264/default'
-    'v4l-utils/default'
-    'ffmpeg/default'
 )
 
 configure()
 {
-    export CC="$cmd_target_cc"
+    ./bootstrap
     ./configure \
         --prefix="${cfg_dir_toolchain_sysroot}/usr" \
         --build="$cfg_host_canonical"    \
         --host="$cfg_target_canonical"   \
-        --enable-run-as-root             \
+	--enable-run-as-root             \
         --disable-dbus-control           \
         --disable-dbus                   \
         --disable-hal                    \
@@ -44,7 +48,20 @@ configure()
         --disable-skins2                 \
         --disable-lua                    \
         --disable-x11                    \
-        --disable-glx
+        --disable-glx                    \
+	--disable-bonjour                \
+	--disable-upnp                   \
+	--disable-udev                   \
+	--disable-mtp                    \
+	--disable-libgcrypt              \
+	--disable-remoteosd              \
+	CC="$cmd_target_cc"              \
+	enable_xcb="no"                  \
+	enable_goom="no"                 \
+	enable_projectm="no"             \
+	enable_alsa="no"                 \
+	enable_portaudio="no"            \
+	enable_v4l2="no"
 }
 
 build()
