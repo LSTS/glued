@@ -1,11 +1,11 @@
 version=\
 (
-    '3.14.63'
+    '4.4.10'
 )
 
 url=\
 (
-    "https://www.kernel.org/pub/linux/kernel/v3.x/linux-$version.tar.xz"
+    "https://www.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz"
 )
 
 md5=\
