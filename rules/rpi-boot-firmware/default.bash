@@ -1,6 +1,6 @@
 version=\
 (
-    '2016-10-20'
+    '2017-02-02'
 )
 
 url=\
@@ -16,17 +16,14 @@ maintainer=\
 
 md5=\
 (
-    'a5310b72332031e617518f321bf3c61e'
+    'eb42664fce4d73f167064e697dfacb76'
 )
 
 target_install()
 {
-    $cmd_mkdir \
-        "$cfg_dir_rootfs/boot" &&
+    $cmd_mkdir "$cfg_dir_rootfs/boot"
 
-    for f in bootcode.bin fixup.dat start.elf start_cd.elf start_db.elf start_x.elf; do
-        $cmd_cp -r "../$pkg-$version/$f" "$cfg_dir_rootfs/boot"
-    done &&
+    $cmd_cp "../$pkg-$version/"* "$cfg_dir_rootfs/boot/"
 
     tar -C "$pkg_dir/fs" -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
 }
