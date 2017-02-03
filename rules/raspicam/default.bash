@@ -22,7 +22,7 @@ configure()
 {
     LINKER_ADDED_FLAGS="-Wl,-rpath,${cfg_dir_rootfs}/usr/lib"
 
-    ${cfg_dir_toolchain}${cfg_dir_toolchain}/bin/cmake \
+    ${cfg_dir_toolchain}/usr/local/bin/cmake \
         -DCMAKE_SYSTEM_NAME="Linux" \
         -DCMAKE_SYSTEM_VERSION="1" \
         -DCMAKE_FIND_ROOT_PATH="${cfg_dir_toolchain_sysroot}/usr ${cfg_dir_rootfs}/usr" \
