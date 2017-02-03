@@ -2,17 +2,17 @@
 
 version=\
 (
-    '4.4_2016-05-17'
+    '4.4_2017-01-27'
 )
 
 url=\
 (
-    "http://lsts.pt/glued/rpi-linux-$version.tar.gz"
+    "http://lsts.pt/glued/rpi-linux-$version.zip"
 )
 
 md5=\
 (
-    '5bb5ce2b2a7f0943e4efe95badfffad9'
+    'f31d48a9d2c93509b35e750be489b44c'
 )
 
 build_dir="rpi-linux-rpi-linux-$version"
