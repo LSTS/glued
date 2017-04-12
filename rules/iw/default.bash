@@ -30,5 +30,4 @@ target_install()
     $cmd_cp -r "etc/"* "$cfg_dir_rootfs/etc/"
     $cmd_cp -r "sbin/"* "$cfg_dir_rootfs/sbin/"
     $cmd_cp -r "lib/"* "$cfg_dir_rootfs/lib/"
-    $cmd_cp -r "$pkg_dir/fs/"* "$cfg_dir_rootfs/"
 }
