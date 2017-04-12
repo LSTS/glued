@@ -1,0 +1,46 @@
+#!/bin/bash
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/bin:/bin
+
+############################# USER INPUT ###########################
+
+ip_dest=10.0.30.3
+
+####################################################################
+
+
+############### DON'T EDIT ##########################################
+
+check_interval=1
+log=/opt/.wifi.log
+wlan=wlan0
+eth=eth0
+
+exec 1> /dev/null
+exec 2>> $log
+echo $(date) > $log
+# without check_interval set, we risk a 0 sleep = busy loop
+if [ ! "$check_interval" ]; then
+        echo "No check interval set!" >> $log
+        exit 1
+fi
+
+startWifi () {
+   iw wlan0 connect LSTS >> $log
+}
+
+ifconfig $eth down
+ifconfig $wlan up
+
+while [ 1 ]; do
+        ping -q -c1 $ip_dest > /dev/null
+        if [ $? -ne 0 ]; then
+                echo $(date)" attempting restart..." >> $log
+                startWifi
+                sleep 1
+        else
+                echo "IS LINKED" >> $log
+                sleep $check_interval
+        fi
+done
+
+#####################################################################
