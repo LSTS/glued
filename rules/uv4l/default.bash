@@ -26,7 +26,7 @@ post_unpack()
     echo "#!/bin/sh" >> startStreamRaspiCam.sh
     echo "killall uv4l" >> startStreamRaspiCam.sh
     echo "modprobe cuse" >> startStreamRaspiCam.sh
-    echo "uv4l -nopreview --auto-video_nr --driver raspicam --encoding h264 --width 1080 --height 720 --framerate 20 --quality 10 --server-option '--port=9090' --server-option '--max-queued-connections=30' --server-option '--max-streams=25' --server-option '--max-threads=29'" >> startStreamRaspiCam.sh
+    echo "uv4l -nopreview --auto-video_nr --driver raspicam --encoding h264 --width 1080 --height 720 --framerate 12 --quality 8 --server-option '--port=9090' --server-option '--max-queued-connections=30' --server-option '--max-streams=25' --server-option '--max-threads=29'" >> startStreamRaspiCam.sh
 }
 
 host_install()
