@@ -1,5 +1,9 @@
 start()
 {
+    if [ ! -f /opt/check_wlan ]; then
+        cp -ri /etc/check_wlan /opt/
+    fi
+
     sh /opt/check_wlan  < /dev/null > /dev/null 2>&1 &
 }
 
