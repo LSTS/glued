@@ -1,0 +1,87 @@
+start()
+{
+    ifconfig wlan0 up
+    if [ -n "$cfg_eth_ext_ip$cfg_eth_prv_ip" ]; then
+        while [ 1 ]; do
+            echo "* Waiting for wlan0 device..."
+            ifconfig wlan0 > /dev/null 2>&1
+            [ $? -eq 0 ] && break
+            usleep 250000
+        done
+    fi
+
+    if [ -n "$cfg_bridge0_ip" ]; then
+        for itf in $cfg_bridge0_itfs; do
+            ifconfig $itf 0.0.0.0
+        done
+
+        brctl addbr bridge0
+
+        for itf in $cfg_bridge0_itfs; do
+            brctl addif bridge0 $itf
+        done
+
+        ifconfig bridge0 $cfg_bridge0_ip netmask $cfg_bridge0_nmask up
+        ifconfig bridge0 multicast
+        route add -net 224.0.0.0 netmask 240.0.0.0 dev bridge0
+    fi
+
+    # Public ethernet.
+    if [ -n "$cfg_eth_ext_ip" ]; then
+        if [ -n "$cfg_eth_ext_mk" ]; then
+            ifconfig wlan0 "$cfg_eth_ext_ip" netmask "$cfg_eth_ext_mk" up
+        else
+            ifconfig wlan0 "$cfg_eth_ext_ip" up
+        fi
+        ifconfig wlan0 multicast
+        route add -net 224.0.0.0 netmask 240.0.0.0 dev wlan0
+
+        # Fixed mac address with $cfg_eth_ext_mac based derivated from IP address $cfg_eth_ext_ip
+        if [ -n "$cfg_eth_ext_mac" ]; then
+          ifconfig wlan0 hw ether $cfg_eth_ext_mac
+        fi
+    fi
+
+    if [ -n "$cfg_eth_ext_gw" ]; then
+        route add default gw "$cfg_eth_ext_gw"
+    fi
+
+    if [ -n "$cfg_eth_ext_dns" ]; then
+        echo "nameserver $cfg_eth_ext_dns" > /etc/resolv.conf
+    fi
+
+    # Private ethernet.
+    if [ -n "$cfg_eth_prv_ip" ]; then
+        ifconfig wlan0:prv "$cfg_eth_prv_ip" up
+    fi
+
+    # Static ARP table.
+    if [ -n "$cfg_arp_table" ]; then
+        for e in $cfg_arp_table; do
+            ip="$(echo $e | cut -f1 -d'|')"
+            mac="$(echo $e | cut -f2 -d'|')"
+            arp -s "$ip" "$mac"
+        done
+    fi
+
+    iw wlan0 connect LSTS
+    ifconfig eth0 down
+}
+
+stop()
+{
+    # Public ethernet.
+    if [ -n "$cfg_eth_ext_gw" ]; then
+        route del default
+    fi
+
+    if [ -n "$cfg_eth_ext_ip" ]; then
+        route del -net 224.0.0.0 netmask 240.0.0.0 dev wlan0
+        ifconfig wlan0 down
+    fi
+
+    # Private ethernet.
+    if [ -n "$cfg_eth_prv_ip" ]; then
+        ifconfig wlan0:prv down
+    fi
+}
