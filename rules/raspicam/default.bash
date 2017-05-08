@@ -13,6 +13,11 @@ md5=\
   "169e62fd17d41455a42711a2f9c54fd1"
 )
 
+requires=\
+(
+    'cmake/host'
+)
+
 maintainer=\
 (
     'Pedro Gonçalves <pedro@lsts.pt>'
