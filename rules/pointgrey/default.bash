@@ -1,16 +1,16 @@
 version=\
 (
-  "2.9.3.43"
+    "2.9.3.43"
 )
 
 url=\
 (
-  "https://www.dropbox.com/s/gtevdjnetc0ljtj/flycapture.$version_armhf.tar.gz"
+    "http://lsts.pt/glued/flycapture.$version.armhf.tar.gz"
 )
 
 md5=\
 (
-  "1bed9d34506a261eef30809b440566c7"
+    "65ab561add3cb94f15d580563812c597"
 )
 
 post_unpack()
@@ -21,8 +21,8 @@ post_unpack()
 
 requires=\
 (
-    'libdc1394/default'
     'libusb/default'
+    'libdc1394/default'
 )
 
 maintainer=\
@@ -32,12 +32,14 @@ maintainer=\
 
 host_install()
 {
-  $cmd_cp -r "lib/"*    "$cfg_dir_toolchain_sysroot/usr/lib/"
-  $cmd_cp -r "include/"* "$cfg_dir_toolchain_sysroot/usr/include/"
+    $cmd_cp -r "lib/"*    "$cfg_dir_toolchain_sysroot/usr/lib/"
+    $cmd_cp -r "include/"* "$cfg_dir_toolchain_sysroot/usr/include/"
 }
 
 target_install()
 {
+    $cmd_mkdir "$cfg_dir_rootfs/usr/include/"
     $cmd_cp -r "lib/"* "$cfg_dir_rootfs/usr/lib/"
+    $cmd_cp -r "include/"* "$cfg_dir_rootfs/usr/include/"
 }
 
