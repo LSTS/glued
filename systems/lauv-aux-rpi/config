@@ -6,13 +6,12 @@ cfg_services1='lauv-storage-server'
 cfg_services2='dune'
 cfg_packages='dropbear rsync busybox e2fsprogs dosfstools ptpd rpcbind nfs-utils rpi-boot-firmware linux/rpi'
 cfg_target_linux_kernel='arch/arm/boot/zImage'
-cfg_target_linux_dtb='arch/arm/boot/dts/bcm2709-rpi-2-b.dtb'
 cfg_ptpd_interface='eth0'
 cfg_terminal='ttyAMA0'
 cfg_lauv_storage_dir='/opt/lsts/dune/log'
 cfg_partitions=\
 (
-    rpi-boot boot0  512B    32MiB
+    rpi-boot BOOT0  512B    32MiB
     root     root0  32MiB   544MiB
     data     data0  544MiB  -1
 )

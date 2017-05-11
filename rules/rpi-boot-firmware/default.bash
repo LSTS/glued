@@ -1,31 +1,29 @@
 version=\
 (
-    '2015-06-03'
+    '2017-02-02'
 )
 
 url=\
 (
-    "https://github.com/rasmartins/rpi-boot-firmware/archive/rpi-boot-firmware-$version.tar.gz"
+    "http://lsts.pt/glued/rpi-boot-firmware-$version.zip"
 )
 
 maintainer=\
 (
     'Ricardo Martins <rasm@fe.up.pt>'
+    'Pedro Gonçalves <pedro@lsts.pt>'
 )
 
 md5=\
 (
-    'a80ee36b66cccda4e9ccb7eb26bd6bb8'
+    'eb42664fce4d73f167064e697dfacb76'
 )
 
 target_install()
 {
-    $cmd_mkdir \
-        "$cfg_dir_rootfs/boot" &&
+    $cmd_mkdir "$cfg_dir_rootfs/boot"
 
-    for f in bootcode.bin fixup.dat start.elf; do
-        $cmd_cp -r "../$pkg-$pkg-$version/$f" "$cfg_dir_rootfs/boot"
-    done &&
+    $cmd_cp "../$pkg-$version/"* "$cfg_dir_rootfs/boot/"
 
     tar -C "$pkg_dir/fs" -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
 }
