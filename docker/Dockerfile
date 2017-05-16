@@ -20,7 +20,7 @@
 # Author: Ricardo Martins                                                 #
 ###########################################################################
 
-FROM debian:8
+FROM debian:9
 
 MAINTAINER Ricardo Martins <rasm@oceanscan-mst.com>
 
