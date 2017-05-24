@@ -26,5 +26,4 @@ requires=\
     'parted/host'
     'dosfstools/host'
     'e2fsprogs/host'
-    'cmake/host'
 )
