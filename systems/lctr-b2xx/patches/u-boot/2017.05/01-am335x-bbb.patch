@@ -1,0 +1,13 @@
+diff --git a/include/configs/am335x_evm.h b/include/configs/am335x_evm.h
+index fc8a08f..0cfcec2 100644
+--- a/include/configs/am335x_evm.h
++++ b/include/configs/am335x_evm.h
+@@ -104,7 +104,7 @@
+ 	DEFAULT_FIT_TI_ARGS \
+ 	"bootpart=0:2\0" \
+ 	"bootdir=/boot\0" \
+-	"bootfile=zImage\0" \
++	"bootfile=kernel\0" \
+ 	"fdtfile=undefined\0" \
+ 	"console=ttyO0,115200n8\0" \
+ 	"partitions=" \
