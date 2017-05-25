@@ -1,0 +1,11 @@
+--- a/netcat.c	2017-05-25 14:39:05.517314469 +0200
++++ b/netcat_patch.c	2017-05-25 14:39:00.549218618 +0200
+@@ -1316,7 +1316,7 @@
+
+ #ifdef HAVE_BIND
+ /* can *you* say "cc -yaddayadda netcat.c -lresolv -l44bsd" on SunLOSs? */
+-  res_init();
++//  res_init();
+ #endif
+ /* I was in this barbershop quartet in Skokie IL ... */
+ /* round up the usual suspects, i.e. malloc up all the stuff we need */
