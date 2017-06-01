@@ -1,6 +1,6 @@
 version=\
 (
-    "2.9.3.43"
+    "2.11.3.121"
 )
 
 url=\
@@ -10,18 +10,19 @@ url=\
 
 md5=\
 (
-    "65ab561add3cb94f15d580563812c597"
+    "788861351143e3279cf4522e1055e739"
 )
 
 post_unpack()
 {
-    $cmd_cp -r "../flycapture.2.9.3.43_armhf/"* "../pointgrey-$version/"
-    rm -r ../flycapture.2.9.3.43_armhf/
+    $cmd_cp -r "../flycapture.2.11.3.121_armhf/"* "../pointgrey-$version/"
+    rm -r ../flycapture.2.11.3.121_armhf/
 }
 
 requires=\
 (
     'libusb/default'
+    'libraw1394/default'
     'libdc1394/default'
 )
 
