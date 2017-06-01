@@ -15,13 +15,21 @@ md5=\
 
 requires=\
 (
+    'cmake/host'
     'ffmpeg/default'
 )
 
 maintainer=\
 (
     'Renato Caldas <rmsc@fe.up.pt>'
+    'Pedro Gonçalves <pedro@fe.up.pt>'
 )
+
+post_unpack()
+{
+    wget "http://lsts.pt/glued/tbb43_20141204oss_src.tgz"
+    mv tbb43_20141204oss_src.tgz "3rdparty/tbb/"
+}
 
 configure()
 {
@@ -30,31 +38,28 @@ configure()
     mkdir -p ../build
     cd ../build
     ${cfg_dir_toolchain}/usr/local/bin/cmake \
-	-DCMAKE_SYSTEM_NAME="Linux" \
-	-DCMAKE_SYSTEM_PROCESSOR="$cfg_architecture" \
-	-DCMAKE_BUILD_TYPE=Release \
-	-DCMAKE_FIND_ROOT_PATH="${cfg_dir_toolchain_sysroot}/usr ${cfg_dir_rootfs}/usr" \
-	-DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
-	-DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
-	-DCMAKE_C_COMPILER="${cmd_target_cc}" \
-	-DCMAKE_CXX_COMPILER="${cmd_target_cxx}" \
-	-DCMAKE_C_FLAGS="${cfg_target_gcc_flags}" \
-	-DCMAKE_SHARED_LINKER_FLAGS="${LINKER_ADDED_FLAGS} ${CMAKE_SHARED_LINKER_FLAGS}" \
-	-DCMAKE_MODULE_LINKER_FLAGS="${LINKER_ADDED_FLAGS} ${CMAKE_MODULE_LINKER_FLAGS}" \
-	-DCMAKE_EXE_LINKER_FLAGS="${LINKER_ADDED_FLAGS} ${CMAKE_EXE_LINKER_FLAGS}" \
-	-DCMAKE_INSTALL_PREFIX="${cfg_dir_toolchain_sysroot}/usr" \
-	-DBUILD_DOCS=OFF \
-	-DBUILD_EXAMPLES=OFF \
-	-DBUILD_PERF_TESTS=OFF \
-	-DBUILD_SHARED_LIBS=ON \
-	-DBUILD_ZLIB=ON \
-	-DBUILD_PNG=ON \
-	-DWITH_1394=ON \
-	-DWITH_JPEG=ON \
-	-DWITH_PNG=ON \
-	-DBUILD_TESTS=OFF \
-	-DBUILD_WITH_DEBUG_INFO=ON \
-	../opencv-$version/
+    -DCMAKE_SYSTEM_NAME="Linux" \
+    -DCMAKE_SYSTEM_PROCESSOR="$cfg_architecture" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_FIND_ROOT_PATH="${cfg_dir_toolchain_sysroot}/usr ${cfg_dir_rootfs}/usr" \
+    -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+    -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+    -DCMAKE_C_COMPILER="${cmd_target_cc}" \
+    -DCMAKE_CXX_COMPILER="${cmd_target_cxx}" \
+    -DCMAKE_C_FLAGS="${cfg_target_gcc_flags}" \
+    -DCMAKE_SHARED_LINKER_FLAGS="${LINKER_ADDED_FLAGS} ${CMAKE_SHARED_LINKER_FLAGS}" \
+    -DCMAKE_MODULE_LINKER_FLAGS="${LINKER_ADDED_FLAGS} ${CMAKE_MODULE_LINKER_FLAGS}" \
+    -DCMAKE_EXE_LINKER_FLAGS="${LINKER_ADDED_FLAGS} ${CMAKE_EXE_LINKER_FLAGS}" \
+    -DCMAKE_INSTALL_PREFIX="${cfg_dir_toolchain_sysroot}/usr" \
+    -DBUILD_DOCS=OFF \
+    -DBUILD_EXAMPLES=OFF \
+    -DBUILD_PERF_TESTS=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DBUILD_TESTS=OFF \
+    -DBUILD_WITH_DEBUG_INFO=OFF \
+    -DBUILD_TBB=ON \
+    -DWITH_TBB=ON \
+    ../opencv-$version/
 }
 
 build()
@@ -79,4 +84,7 @@ target_install()
             $cmd_target_strip -v "$f" -o "$cfg_dir_rootfs/usr/lib/$(basename "$f")"
         fi
     done
+
+    $cmd_cp -r "${pkg_build_dir}/../build/lib/"libtbb.so "$cfg_dir_rootfs/usr/lib/"
+    $cmd_cp -r "${pkg_build_dir}/../build/lib/"libtbb.so "$cfg_dir_toolchain_sysroot/usr/lib/"
 }
