@@ -22,6 +22,7 @@ requires=\
 maintainer=\
 (
     'Renato Caldas <rmsc@fe.up.pt>'
+    'Pedro Gonçalves <pedro@fe.up.pt>'
 )
 
 post_unpack()
