@@ -18,6 +18,11 @@ maintainer=\
     'Pedro Gonçalves <pedro@lsts.pt>'
 )
 
+requires=\
+(
+    'cmake/host'
+)
+
 configure()
 {
     LINKER_ADDED_FLAGS="-Wl,-rpath,${cfg_dir_rootfs}/usr/lib"
