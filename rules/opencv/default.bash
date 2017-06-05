@@ -15,8 +15,8 @@ md5=\
 
 requires=\
 (
-    'cmake/host'
     'ffmpeg/default'
+    'cmake/host'
 )
 
 maintainer=\
