@@ -1,0 +1,15 @@
+start()
+{
+    if [ ! -f /opt/check_wlan ]; then
+        cp -ri /etc/check_wlan /opt/
+    fi
+
+    sh /opt/check_wlan  < /dev/null > /dev/null 2>&1 &
+}
+
+stop()
+{
+    echo "* Stopping process..."
+    killall sh /opt/check_wlan -9 > /dev/null 2>&1
+    echo "* Process not running."
+}

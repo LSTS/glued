@@ -2,21 +2,19 @@
 
 version=\
 (
-    '3.18_2015-06-03'
+    '4.4_2017-01-27'
 )
 
 url=\
 (
-    "https://github.com/rasmartins/rpi-linux/archive/rpi-linux-$version.tar.gz"
+    "http://lsts.pt/glued/rpi-linux-$version.zip"
 )
 
 md5=\
 (
-    '0b0255e50ca358b619bb78653ac2db2e'
+    'f31d48a9d2c93509b35e750be489b44c'
 )
 
-post_unpack()
-{
-    rmdir "../linux-$version" &&
-        mv "../rpi-linux-rpi-linux-$version" "../linux-$version"
-}
+build_dir="rpi-linux-rpi-linux-$version"
+
+find_patches
