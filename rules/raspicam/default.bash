@@ -20,6 +20,7 @@ maintainer=\
 
 requires=\
 (
+    'uv4l/default'
     'cmake/host'
 )
 
