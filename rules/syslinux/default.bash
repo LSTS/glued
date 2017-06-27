@@ -20,7 +20,7 @@ target_install()
     fi
 
     $cmd_make clean &&
-    $cmd_make &&
+    $cmd_make CC="$cmd_target_cc" &&
     $cmd_target_strip extlinux/extlinux -o $cfg_dir_rootfs/usr/sbin/extlinux &&
     $cmd_mkdir $cfg_dir_rootfs/boot/extlinux &&
     cp -d mbr/mbr.bin $cfg_dir_rootfs/boot/extlinux &&
