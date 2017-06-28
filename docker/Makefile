@@ -29,3 +29,12 @@ all:
 
 shell:
 	docker run -w $(VOLUME) -i -a stdin -a stdout -v $(VOLUME):$(VOLUME) -t $(TAG):$(VERSION)
+
+clean:
+	@echo "* Stopping docker service..."
+	@sudo systemctl stop docker
+	@echo "* Cleaning docker service..."
+	@sudo rm -rf /var/lib/docker
+	@echo "* Starting docker service..."
+	@sudo systemctl start docker
+	@echo "* Done."
