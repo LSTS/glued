@@ -24,12 +24,12 @@
 
 update_tool()
 {
-    rsync -v "$1" root@"$2":/opt/lsts/glued/
+    rsync -v "$1" root@"$2":/opt/"$cfg_glued_vendor"/glued/
     if [ $? -eq 0 ]; then
         return 0
     fi
 
-    scp "$1" root@"$2":/opt/lsts/glued/
+    scp "$1" root@"$2":/opt/"$cfg_glued_vendor"/glued/
     if [ $? -eq 0 ]; then
         return 0
     fi
