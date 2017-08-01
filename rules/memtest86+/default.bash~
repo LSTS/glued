@@ -1,0 +1,14 @@
+version=\
+(
+    "5.01"
+)
+
+url=\
+(
+    "http://www.memtest.org/download/5.01/memtest86+-$version.tar.gz"
+)
+
+md5=\
+(
+    ""
+)
