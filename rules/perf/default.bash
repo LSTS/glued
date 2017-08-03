@@ -8,7 +8,7 @@ url=\
        "https://www.kernel.org/pub/linux/kernel/v3.x/linux-$version.tar.xz"
 )
 
-requires\=
+requires=\
 (
     'flex/host'
     'bison/host'
