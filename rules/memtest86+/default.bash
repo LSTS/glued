@@ -28,4 +28,5 @@ build()
 target_install()
 {
     $cmd_cp ./memtest.bin $cfg_dir_rootfs/boot/
+    tar -C "$pkg_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
 }
