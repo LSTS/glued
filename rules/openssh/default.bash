@@ -30,6 +30,7 @@ configure()
         --target="$cfg_target_canonical" \
         --host="$cfg_target_canonical" \
         --build="$cfg_host_canonical" \
+        --with-privsep-path=$cfg_dir_rootfs/var/empty \
         --disable-strip
         
 }
