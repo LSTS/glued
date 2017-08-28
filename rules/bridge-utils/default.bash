@@ -1,16 +1,16 @@
 version=\
 (
-    '1.5'
+    '1.6'
 )
 
 url=\
 (
-    "http://downloads.sourceforge.net/project/bridge/bridge/bridge-utils-$version.tar.gz"
+    "http://www.kernel.org/pub/linux/utils/net/bridge-utils/bridge-utils-$version.tar.gz"
 )
 
 md5=\
 (
-    'ec7b381160b340648dede58c31bb2238'
+    'f369e90e85e4bb46baa26a7b9d66b578'
 )
 
 maintainer=\
