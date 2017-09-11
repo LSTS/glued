@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 
 echo "Starting memtest in 10 seconds (requires reboot), Ctrl-C to cancel..."
 for r in 0 1 2 3 4 5 6 7 8 9; do
