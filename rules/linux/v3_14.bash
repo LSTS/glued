@@ -1,16 +1,16 @@
 version=\
 (
-    '4.4.66'
+    '3.14.63'
 )
 
 url=\
 (
-    "https://www.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz"
+    "https://www.kernel.org/pub/linux/kernel/v3.x/linux-$version.tar.xz"
 )
 
 md5=\
 (
-    '5353de56bf4621a35afc4384c7e51f30'
+    '6cf8a6b23849f47f511e0e46cfdb6392'
 )
 
 maintainer=\
@@ -75,6 +75,7 @@ linux_cfg_file()
 
 post_unpack()
 {
+    cp -r ../linux-3.14.63/* ../linux_3.3-3.14.63
     n=0; while [ -n "${patches[$n]}" ]; do
              patch="${patches[$n]}"
              echo "* Applying $patch..."
