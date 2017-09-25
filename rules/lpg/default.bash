@@ -10,7 +10,13 @@ url=\
 
 md5=\
 (
-    "beb0f3b8be474868b074dca66ced5b48"
+    "d71e2f282372a5cb1021d9e457a3d53f"
+)
+
+requires=\
+(
+    'bison/host'
+    'flex/host'
 )
 
 configure()
@@ -20,7 +26,10 @@ configure()
 
 build()
 {
-    $cmd_make
+    $cmd_make \
+	BISON="$cfg_dir_toolchain/bin/bison" \
+	FLEX="$cfg_dir_toolchain/bin/flex"
+    
 }
 
 target_install()
