@@ -35,3 +35,4 @@ RUN apt-get install -y git
 RUN apt-get install -y g++-multilib
 RUN apt-get install -y cmake
 RUN apt-get install -y file
+RUN apt-get install -y kmod
