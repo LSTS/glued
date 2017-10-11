@@ -1,16 +1,16 @@
 version=\
 (
-    '3.14.63'
+    '4.4.66'
 )
 
 url=\
 (
-    "https://www.kernel.org/pub/linux/kernel/v3.x/linux-$version.tar.xz"
+    "https://www.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz"
 )
 
 md5=\
 (
-    '6cf8a6b23849f47f511e0e46cfdb6392'
+    '5353de56bf4621a35afc4384c7e51f30'
 )
 
 maintainer=\
@@ -128,14 +128,12 @@ build()
     $cmd_make \
         CROSS_COMPILE=$cfg_target_canonical- \
         ARCH=$cfg_target_linux \
-        DEPMOD="$cfg_dir_toolchain/sbin/depmod" \
         modules || return 1
 
     if [ "$(basename $cfg_target_linux_kernel)" = 'uImage' ]; then
         $cmd_make \
             CROSS_COMPILE=$cfg_target_canonical- \
             ARCH=$cfg_target_linux \
-            DEPMOD="$cfg_dir_toolchain/sbin/depmod" \
             uImage || return 1
     fi
 
@@ -144,7 +142,6 @@ build()
         $cmd_make \
             CROSS_COMPILE=$cfg_target_canonical- \
             ARCH=$cfg_target_linux \
-            DEPMOD="$cfg_dir_toolchain/sbin/depmod" \
             zImage || return 1
     fi
 
@@ -153,7 +150,6 @@ build()
         $cmd_make \
             CROSS_COMPILE=$cfg_target_canonical- \
             ARCH=$cfg_target_linux \
-            DEPMOD="$cfg_dir_toolchain/sbin/depmod" \
             dtbs || return 1
     fi
 
@@ -198,7 +194,6 @@ target_install()
         ARCH="$cfg_target_linux" \
         INSTALL_MOD_PATH="$cfg_dir_rootfs/usr" \
         KBUILD_VERBOSE=1 \
-        DEPMOD="$cfg_dir_toolchain/sbin/depmod" \
         modules_install
 
     $cmd_make \
@@ -206,6 +201,5 @@ target_install()
         ARCH="$cfg_target_linux" \
         INSTALL_MOD_PATH="$cfg_dir_rootfs/usr" \
         KBUILD_VERBOSE=1 \
-        DEPMOD="$cfg_dir_toolchain/sbin/depmod" \
         firmware_install
 }

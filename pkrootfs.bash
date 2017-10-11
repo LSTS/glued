@@ -1,7 +1,7 @@
 #! /bin/bash
 ###########################################################################
 # GLUED: GNU/Linux Uniform Environment Distribution                       #
-# Copyright (C) 2007-2014 Universidade do Porto - Faculdade de Engenharia #
+# Copyright (C) 2007-2017 Universidade do Porto - Faculdade de Engenharia #
 # Laboratório de Sistemas e Tecnologia Subaquática (LSTS)                 #
 ###########################################################################
 # This program is free software; you can redistribute it and/or modify    #
@@ -60,7 +60,7 @@ done
 
 # Copy DTB.
 if [ -n "$cfg_target_linux_dtb" ]; then
-    cp -v "$cfg_dir_toolchain/boot/$(basename $cfg_target_linux_dtb)" "$cfg_dir_rootfs/boot/board.dtb"
+    cp -v "$cfg_dir_rootfs/boot/$(basename $cfg_target_linux_dtb)" "$cfg_dir_rootfs/boot/board.dtb"
 fi
 
 # Write config vars.

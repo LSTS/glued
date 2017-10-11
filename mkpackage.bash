@@ -1,7 +1,7 @@
 #! /bin/bash
 ###########################################################################
 # GLUED: GNU/Linux Uniform Environment Distribution                       #
-# Copyright (C) 2007-2014 Universidade do Porto - Faculdade de Engenharia #
+# Copyright (C) 2007-2017 Universidade do Porto - Faculdade de Engenharia #
 # Laboratório de Sistemas e Tecnologia Subaquática (LSTS)                 #
 ###########################################################################
 # This program is free software; you can redistribute it and/or modify    #
@@ -71,17 +71,22 @@ download()
             fi
         fi
 
-        # First try OceanScan-MST mirror.
-        omst_url="http://www.omst.pt/glued/$(basename $u)"
-        download_tool "$omst_url" "$cfg_dir_downloads/$file"
+	# First try LSTS mirror.
+	lsts_url="http://lsts.pt/glued/$(basename $u)"
+        download_tool "$lsts_url" "$cfg_dir_downloads/$file"
         if [ $? -ne 0 ]; then
-            # On failure try upstream URL.
-            download_tool "$u" "$cfg_dir_downloads/$file"
+	    # Then try OceanScan-MST mirror.
+            omst_url="http://www.omst.pt/glued/$(basename $u)"
+            download_tool "$omst_url" "$cfg_dir_downloads/$file"
             if [ $? -ne 0 ]; then
-                echo "ERROR: download failed"
-                exit 1
+		# On failure try upstream URL.
+		download_tool "$u" "$cfg_dir_downloads/$file"
+		if [ $? -ne 0 ]; then
+                    echo "ERROR: download failed"
+                    exit 1
+		fi
             fi
-        fi
+	fi
 
         md5="$(md5sum_tool "$cfg_dir_downloads/$file")"
         if [ "$s" != "$md5" ]; then

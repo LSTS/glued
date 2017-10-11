@@ -1,0 +1,17 @@
+cfg_architecture='cortex-a8-hardfp'
+cfg_storage='data0:ext4:/opt'
+cfg_modules=''
+cfg_services0='network dropbear storage upgrade syslog ptpd'
+cfg_services2='dune'
+cfg_packages='dropbear rsync busybox e2fsprogs dosfstools ptpd rpcbind rpi-boot-firmware linux/rpi'
+cfg_target_linux_kernel='arch/arm/boot/zImage'
+cfg_ptpd_interface='eth0'
+cfg_eth_ext_mk='255.255.0.0'
+cfg_eth_ext_gw='10.0.0.1'
+cfg_terminal='tty1'
+cfg_partitions=\
+(
+    rpi-boot BOOT0  512B    32MiB
+    root     root0  32MiB   544MiB
+    data     data0  544MiB  -1
+)
