@@ -46,3 +46,4 @@ RUN apt-get install -y nasm
 RUN apt-get install -y build-essential
 RUN apt-get install -y make
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
+RUN apt-get install -y kmod
