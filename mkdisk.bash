@@ -70,7 +70,7 @@ create_part_xboot()
     nfo2 "Populating filesystem"
     cmd_mount vfat "$part_dev" || die
 
-    for f in MLO u-boot.img uEnv.txt; do
+    for f in MLO u-boot.img uEnv.txt kernel; do
         if [ -f "$cfg_sys_family/rootfs/boot/$f" ]; then
             nfo2 installing $f to boot partition
             cp "$cfg_sys_family/rootfs/boot/$f" mount || die
