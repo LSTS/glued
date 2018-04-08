@@ -18,6 +18,11 @@ maintainer=\
     'Pedro Gonçalves <pedro@lsts.pt>'
 )
 
+requires=\
+(
+    "gettext/host"
+)
+
 configure()
 {
   ./configure \
