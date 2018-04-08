@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "http://www.multiprecision.org/mpc/download/mpc-$version.tar.gz"
+    "https://ftp.gnu.org/gnu/mpc/mpc-$version.tar.gz"
 )
 
 md5=\
