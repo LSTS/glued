@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "https://kent.dl.sourceforge.net/project/nc$version/unix%20netcat%201.10%20by%20_Hobbit_/%5BUnnamed%20release%5D/nc$version.tgz"
+    "https://kent.dl.sourceforge.net/project/nc$version/unix%20netcat%201.10%20by%20_Hobbit_/nc$version.tgz"
 )
 
 md5=\
