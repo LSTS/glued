@@ -1,6 +1,6 @@
 version=\
 (
-    '2017-02-02'
+    '2018-08-17'
 )
 
 url=\
@@ -16,7 +16,7 @@ maintainer=\
 
 md5=\
 (
-    'eb42664fce4d73f167064e697dfacb76'
+    '2b06b9704616ee2a66829281bd480ff3'
 )
 
 target_install()
