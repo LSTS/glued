@@ -34,6 +34,7 @@ RUN echo "deb http://mirrors.fe.up.pt/ubuntu xenial-backports main restricted un
 RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32
 RUN apt-get update -y
 RUN apt-get dist-upgrade -y
+RUN apt-get install -y apt-utils
 RUN apt-get install -y g++-5
 RUN apt-get install -y gcc-5
 RUN apt-get install -y wget
@@ -45,6 +46,5 @@ RUN apt-get install -y vim
 RUN apt-get install -y nasm
 RUN apt-get install -y build-essential
 RUN apt-get install -y make
-RUN apt-get install -y cmake
 RUN apt-get install -y kmod
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
