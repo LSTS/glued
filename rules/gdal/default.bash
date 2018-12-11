@@ -23,7 +23,7 @@ configure()
     "./configure" \
         --prefix="$cfg_dir_toolchain" \
         --target="$cfg_target_canonical" \
-        --host="$cfg_host_canonical" \
+        --host="$cfg_target_canonical" \
         --build="$cfg_host_canonical" \
         --with-build-sysroot="$cfg_dir_toolchain_sysroot" \
         --with-sysroot="$cfg_dir_toolchain_sysroot"
