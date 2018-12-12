@@ -38,3 +38,6 @@ clean:
 	@echo "* Starting docker service..."
 	@sudo systemctl start docker
 	@echo "* Done."
+
+delete_img:
+    sudo docker system prune -a
