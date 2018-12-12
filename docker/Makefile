@@ -40,4 +40,4 @@ clean:
 	@echo "* Done."
 
 delete_img:
-    sudo docker system prune -a
+	@sudo docker system prune -a
