@@ -72,7 +72,7 @@ download()
         fi
 
 	# First try LSTS mirror.
-	lsts_url="https://lsts.pt/glued/$(basename $u)"
+	lsts_url="https://www.lsts.pt/glued/$(basename $u)"
         download_tool "$lsts_url" "$cfg_dir_downloads/$file"
         if [ $? -ne 0 ]; then
 	    # Then try OceanScan-MST mirror.
