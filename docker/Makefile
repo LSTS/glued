@@ -23,9 +23,10 @@
 TAG     := glued
 VERSION := 2016.05.0
 VOLUME  := $(CURDIR)/..
+DNS	:= 8.8.8.8
 
 all:
 	docker build -t $(TAG):$(VERSION) .
 
 shell:
-	docker run -w $(VOLUME) -i -a stdin -a stdout -v $(VOLUME):$(VOLUME) -t $(TAG):$(VERSION)
+	docker run -w $(VOLUME) --dns=$(DNS) -i -a stdin -a stdout -v $(VOLUME):$(VOLUME) -t $(TAG):$(VERSION)
