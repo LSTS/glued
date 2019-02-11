@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "http://lsts.pt/glued/rpi-boot-firmware-$version.zip"
+    "http://www.lsts.pt/glued/rpi-boot-firmware-$version.zip"
 )
 
 maintainer=\
