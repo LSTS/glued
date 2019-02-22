@@ -32,6 +32,6 @@ target_install()
 {
    $cmd_cp -rv usr/* $cfg_dir_toolchain_sysroot/usr/
    $cmd_cp -rv usr/* $cfg_dir_rootfs/usr/
-   $cmd_cp -rv usr/local/bin* $cfg_dir_rootfs/usr/bin/
+   $cmd_cp -rv usr/local/bin/* $cfg_dir_rootfs/usr/bin/
 }
 
