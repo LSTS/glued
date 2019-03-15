@@ -1,0 +1,14 @@
+start()
+{
+    echo "* Mounting external sdcard in /opt/lsts *"
+    mount /dev/mmcblk1p1 /opt/lsts
+    mkdir -p /opt/lsts/glued
+    mkdir -p /opt/lsts/dune
+}
+
+stop()
+{
+    echo "* Unmount external sdcard *"
+    umount /dev/mmcblk1p1
+}
+
