@@ -196,10 +196,10 @@ target_install()
         KBUILD_VERBOSE=1 \
         modules_install
 
-    $cmd_make \
-        CROSS_COMPILE="$cfg_target_canonical-" \
-        ARCH="$cfg_target_linux" \
-        INSTALL_MOD_PATH="$cfg_dir_rootfs/usr" \
-        KBUILD_VERBOSE=1 \
-        firmware_install
+    #$cmd_make \
+    #    CROSS_COMPILE="$cfg_target_canonical-" \
+    #    ARCH="$cfg_target_linux" \
+    #    INSTALL_MOD_PATH="$cfg_dir_rootfs/usr" \
+    #    KBUILD_VERBOSE=1 \
+    #    firmware_install
 }
