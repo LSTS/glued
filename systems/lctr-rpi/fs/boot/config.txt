@@ -4,6 +4,9 @@ arm_freq=1000
 # Disable BT on Rpi3.
 dtoverlay=pi3-disable-bt
 
+# Activate external sdcard in CM3 [22 at 27]
+dtoverlay=sdio,poll_once=off
+
 # Enable RasPicam
 start_x=1
 gpu_mem=128
