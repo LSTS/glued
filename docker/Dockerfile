@@ -36,3 +36,6 @@ RUN apt-get install -y g++-multilib
 RUN apt-get install -y cmake
 RUN apt-get install -y file
 RUN apt-get install -y kmod
+RUN apt-get install -y bison
+RUN apt-get install -y flex
+RUN apt-get install -y libssl-dev
