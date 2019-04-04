@@ -35,6 +35,11 @@ build()
 host_install()
 {
     $cmd_make install
+    # make available for cross compilation
+    for f in "${cfg_dir_toolchain_sysroot}/usr/lib/"libcurl*so*; do
+        echo "Doing $f"
+        ln -s -f "$f" "${cfg_dir_toolchain}/lib"
+    done
 }
 
 target_install()
