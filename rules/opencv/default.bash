@@ -63,6 +63,11 @@ host_install()
 {
     cd  ${pkg_build_dir}/../build &&
     $cmd_make install
+
+    # make available for cross compilation
+    for f in "$cfg_dir_toolchain_sysroot/usr/lib/"libopencv*so*; do
+       ln -s -f "$f" "$cfg_dir_toolchain/lib"
+    done
 }
 
 target_install()
