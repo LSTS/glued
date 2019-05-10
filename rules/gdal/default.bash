@@ -21,10 +21,11 @@ maintainer=\
 configure()
 {
     "./configure" \
-        --prefix="$cfg_dir_toolchain" \
+        --prefix="$cfg_dir_toolchain_sysroot/usr" \
         --target="$cfg_target_canonical" \
         --host="$cfg_target_canonical" \
         --build="$cfg_host_canonical" \
+        --includedir="$cfg_dir_toolchain_sysroot/usr/include/gdal" \
         --with-build-sysroot="$cfg_dir_toolchain_sysroot" \
         --with-sysroot="$cfg_dir_toolchain_sysroot"
 }
@@ -41,7 +42,7 @@ host_install()
 
 target_install()
 {
-    cp -a "$cfg_dir_toolchain/lib/"libgdal*so* $cfg_dir_rootfs/lib
+    cp -a "$cfg_dir_toolchain_sysroot/usr/lib/"libgdal*so* $cfg_dir_rootfs/lib
     for f in "$cfg_dir_rootfs/lib/"libgdal*so; do
         $cmd_target_strip "$f"
     done
