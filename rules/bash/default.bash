@@ -22,7 +22,7 @@ maintainer=\
 configure()
 {
     ./configure \
-    --prefix=${cfg_dir_rootfs}/usr \
+    --prefix=${cfg_dir_rootfs} \
     --host=${cfg_target_canonical} \
     --bindir=${cfg_dir_toolchain}/bin \
     --without-bash-malloc
@@ -40,6 +40,6 @@ host_install()
 
 target_install()
 {
-    $cmd_cp bash ${cfg_dir_rootfs}/usr/bin
-    $cmd_cp bashversion ${cfg_dir_rootfs}/usr/bin
+    $cmd_cp bash ${cfg_dir_rootfs}/bin
+    $cmd_cp bashversion ${cfg_dir_rootfs}/bin
 }
