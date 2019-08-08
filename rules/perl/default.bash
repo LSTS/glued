@@ -29,7 +29,7 @@ post_unpack()
     fi
 
     sed 's/libs = $perllibs $cryptlib/libs = $perllibs $cryptlib -lm/g' Makefile.SH -i &&
-    $cmd_cp -v Makefile.SH{,.orig} &&
+    $cmd_make_single -v Makefile.SH{,.orig} &&
     sed -e "s@pldlflags=''@pldlflags=\"\$cccdlflags\"@g" \
         -e "s@static_target='static'@static_target='static_pic'@g" Makefile.SH.orig > Makefile.SH
 }
