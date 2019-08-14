@@ -33,6 +33,7 @@ RUN echo "deb http://mirrors.fe.up.pt/ubuntu xenial-updates main restricted univ
 RUN echo "deb http://mirrors.fe.up.pt/ubuntu xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list
 RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32
 RUN apt-get update -y
+RUN apt-get install -y apt-utils
 RUN apt-get dist-upgrade -y
 RUN apt-get install -y g++-5
 RUN apt-get install -y gcc-5
@@ -46,4 +47,8 @@ RUN apt-get install -y vim
 RUN apt-get install -y nasm
 RUN apt-get install -y build-essential
 RUN apt-get install -y make
+RUN apt-get install -y bison
+RUN apt-get install -y flex
+RUN apt-get install -y libssl-dev
+RUN apt-get install -y libncurses-dev
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
