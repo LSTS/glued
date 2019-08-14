@@ -1,0 +1,125 @@
+mount_storage()
+{
+    echo "* Probing storage..."
+
+    bdev="$1"
+    if ! [ -b "$bdev" ]; then
+        echo "* Device $bdev does not exist."
+        return 1
+    fi
+
+    mount -o rw,relatime "$bdev" "$cfg_lauv_storage_dir" 2> /dev/null
+
+    if [ $? -ne 0 ]; then
+        echo "* Failed to mount $bdev on $cfg_lauv_storage_dir"
+        return 1
+    fi
+
+    echo "* Mounted '$bdev' on '$cfg_lauv_storage_dir'"
+    return 0
+}
+
+try_mount_storage()
+{
+    n=0; while [ $n -lt 30 ]; do
+             mount_storage "$1"
+
+             if [ $? -eq 0 ]; then
+                 return 0
+             fi
+
+             sleep 1
+             let n++
+         done
+
+    return 1
+}
+
+start_nfs_server()
+{
+    echo "* Creating NFS administrative folder..."
+    mkdir -p /var/lib/nfs
+    if ! [ -d /var/lib/nfs ]; then
+        echo "ERROR: failed to create data folder."
+        return 1
+    fi
+
+    echo "* Launching rpcbind..."
+    /usr/bin/rpcbind
+    if [ $? -ne 0 ]; then
+        echo "ERROR: failed to start rpcbind."
+        return 1
+    fi
+
+    echo "* Launching rpc.statd..."
+    /usr/bin/rpc.statd
+    if [ $? -ne 0 ]; then
+        echo "ERROR: failed to start rpc.statd."
+        return 1
+    fi
+
+    echo "* Launching rpc.nfsd..."
+    /usr/bin/rpc.nfsd
+    if [ $? -ne 0 ]; then
+        echo "ERROR: failed to start rpc.nfsd."
+        return 1
+    fi
+
+    echo "* Creating NFS filesystem table..."
+    /usr/bin/exportfs -ra
+    if [ $? -ne 0 ]; then
+        echo "ERROR: failed to create filesystem table."
+        return 1
+    fi
+
+    echo "* Launching rpc.mountd..."
+    /usr/bin/rpc.mountd
+    if [ $? -ne 0 ]; then
+        echo "ERROR: failed to start rpc.mountd."
+        return 1
+    fi
+
+    echo "* Exporting NFS filesystems..."
+    /usr/bin/exportfs \
+        -o rw,async,no_root_squash,no_subtree_check \
+        10.0.0.0/16:"$cfg_lauv_storage_dir"
+    if [ $? -ne 0 ]; then
+        echo "ERROR: failed to export filesystems."
+        return 1
+    fi
+}
+
+stop_nfs_server()
+{
+    echo "* Unexporting NFS filesystems..."
+    exportfs -au 2> /dev/null
+    echo "* Terminating rpc.mountd..."
+    killall rpc.mountd 2> /dev/null
+    echo "* Terminating rpc.statd..."
+    killall rpc.statd 2> /dev/null
+    echo "* Terminating rpc.bind..."
+    killall rpcbind 2> /dev/null
+}
+
+start()
+{
+    mkdir -p "$cfg_lauv_storage_dir"
+
+    # Removable storage.
+    if [ "$cfg_lauv_storage" != "internal" ]; then
+        try_mount_storage /dev/sda1
+    fi
+
+    # FIXME: what to do if the above fails.
+    start_nfs_server
+}
+
+stop()
+{
+    stop_nfs_server
+
+    if [ "$cfg_lauv_storage" != "internal" ]; then
+        echo "* Unmounting storage..."
+        umount "$cfg_lauv_storage_dir"
+    fi
+}
