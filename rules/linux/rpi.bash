@@ -2,7 +2,7 @@
 
 version=\
 (
-    '4.14_2018-08-17'
+    '4.19_2019-07-29'
 )
 
 url=\
@@ -12,7 +12,7 @@ url=\
 
 md5=\
 (
-    '074e40d83f4f4a99449acb08f8ddcbec'
+    'a1a0ce22c605b86aa95ada739ac1a30e'
 )
 
 build_dir="rpi-linux-rpi-linux-$version"
