@@ -15,9 +15,10 @@ md5=\
 
 configure()
 {
+    $cmd_mkdir build
     ./configure \
         --sysroot="$cfg_dir_toolchain_sysroot" \
-        --prefix="$cfg_dir_rootfs/usr" \
+        --prefix="$cfg_dir_builds/libav/libav-$version/build/" \
         --cross-prefix="$cfg_target_canonical-" \
         --target-os="linux" \
         --enable-memalign-hack \
@@ -32,8 +33,14 @@ build()
     $cmd_make
 }
 
+host_install()
+{
+    $cmd_make install
+    $cmd_cp -r "build/"*        "$cfg_dir_toolchain_sysroot/usr/"
+}
+
 target_install()
 {
-    $cmd_make \
-        install
+    $cmd_cp -r "build/"*        "$cfg_dir_rootfs/usr/"
+
 }

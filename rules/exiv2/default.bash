@@ -54,4 +54,3 @@ target_install()
       cp -av "$f" "$cfg_dir_toolchain_sysroot/usr/lib"
   done
 }
-

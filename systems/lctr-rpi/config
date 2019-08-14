@@ -11,7 +11,7 @@ cfg_eth_ext_gw='10.0.0.1'
 cfg_terminal='tty1'
 cfg_partitions=\
 (
-    rpi-boot BOOT0  512B    32MiB
-    root     root0  32MiB   544MiB
-    data     data0  544MiB  -1
+    rpi-boot BOOT0  512B    64MiB
+    root     root0  64MiB   576MiB
+    data     data0  576MiB  -1
 )

@@ -1,16 +1,16 @@
 version=\
 (
-    "0.9"
+    "1.0.2"
 )
 
 url=\
 (
-    "http://www.multiprecision.org/mpc/download/mpc-$version.tar.gz"
+    "https://ftp.gnu.org/gnu/mpc/mpc-$version.tar.gz"
 )
 
 md5=\
 (
-    "0d6acab8d214bd7d1fbbc593e83dd00d"
+    "68fadff3358fb3e7976c7a398a0af4c3"
 )
 
 maintainer=\

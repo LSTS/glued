@@ -33,9 +33,9 @@ index 79daabd..f1b5bb1 100644
 
 +#undef CONFIG_BOOT_ONENAND
 +
- #ifdef CONFIG_BOOT_NAND
+ #define CONFIG_NR_DRAM_BANKS            2
  #define CONFIG_NAND
- #endif
+
 @@ -201,4 +203,42 @@
  #define CONFIG_NAND_OMAP_ECCSCHEME	OMAP_ECC_HAM1_CODE_HW
  #endif
@@ -58,15 +58,15 @@ index 79daabd..f1b5bb1 100644
 +  "icache on;"                                                          \
 +  "setenv bootargs \"console=${console} root=${mmcroot} rootfstype=${mmcrootfstype} rootwait ro quiet\"; " \
 +  "mmc dev 0; "                                                         \
-+  "ext4load mmc0 0:2 ${loadaddr} /boot/kernel; "                        \
-+  "ext4load mmc0 0:2 ${dtbaddr} /boot/board.dtb; "                      \
++  "ext4load mmc 0:2 ${loadaddr} /boot/kernel; "                        \
++  "ext4load mmc 0:2 ${dtbaddr} /boot/board.dtb; "                      \
 +  "bootz ${loadaddr} - ${dtbaddr}; " \
 +
 +#undef CONFIG_ENV_SIZE
 +#define CONFIG_ENV_SIZE			(128 << 10)
 +
-+#define CONFIG_ENV_IS_NOWHERE
-+#define CONFIG_ZERO_BOOTDELAY_CHECK
++/*#define CONFIG_ENV_IS_NOWHERE*/
++/*#define CONFIG_ZERO_BOOTDELAY_CHECK*/
 +
 +/* USB */
 +#undef CONFIG_MUSB_UDC
