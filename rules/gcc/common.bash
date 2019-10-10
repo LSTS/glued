@@ -5,12 +5,12 @@ version=\
 
 url=\
 (
-    "http://mirrors.kernel.org/gnu/gcc/gcc-$version/gcc-$version.tar.bz2"
+    "https://lsts.pt/glued/gcc-$version.tar.bz2"
 )
 
 md5=\
 (
-    '6f831b4d251872736e8e9cc09746f327'
+    '0abd6a50e1d6cf1642ae2414cc5a10b6'
 )
 
 build_dir=$pkg_var
