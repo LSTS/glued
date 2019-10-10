@@ -5,12 +5,12 @@ version=\
 
 url=\
 (
-    "http://ftp.gnu.org/gnu/make/make-$version.tar.bz2"
+    "https://lsts.pt/glued/make-$version.tar.bz2"
 )
 
 md5=\
 (
-    '1a11100f3c63fcf5753818e59d63088f'
+    '69520444a44561c8ce10276eee8ec55e'
 )
 
 maintainer=\
