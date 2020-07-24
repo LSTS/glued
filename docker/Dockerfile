@@ -20,9 +20,10 @@
 # Author: Ricardo Martins                                                 #
 ###########################################################################
 
-FROM debian:8
+FROM debian:9
 
 MAINTAINER Ricardo Martins <rasm@oceanscan-mst.com>
+MAINTAINER Pedro Gonçalves <pedro@lsts.pt>
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -31,8 +32,13 @@ RUN echo "deb http://ftp.us.debian.org/debian testing non-free contrib" >> /etc/
 RUN echo "deb http://mirrors.fe.up.pt/ubuntu xenial main restricted universe multiverse" >> /etc/apt/sources.list
 RUN echo "deb http://mirrors.fe.up.pt/ubuntu xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list
 RUN echo "deb http://mirrors.fe.up.pt/ubuntu xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list
-RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32
+RUN apt-get update
+RUN apt-get install -y gnupg2
+RUN apt-get install -y apt-utils
+RUN apt-get install -y gpgv
+RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 40976EAF437D05B5
 RUN apt-get update -y
+RUN apt-get install -y apt-utils
 RUN apt-get dist-upgrade -y
 RUN apt-get install -y g++-5
 RUN apt-get install -y gcc-5
@@ -41,9 +47,13 @@ RUN apt-get install -y bzip2
 RUN apt-get install -y git
 RUN apt-get install -y g++-multilib
 RUN apt-get install -y file
+RUN apt-get install -y kmod
 RUN apt-get install -y vim
 RUN apt-get install -y nasm
 RUN apt-get install -y build-essential
 RUN apt-get install -y make
+RUN apt-get install -y bison
+RUN apt-get install -y flex
+RUN apt-get install -y libssl-dev
+RUN apt-get install -y libncurses-dev
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
-RUN apt-get install -y kmod

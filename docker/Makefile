@@ -21,11 +21,24 @@
 ###########################################################################
 
 TAG     := glued
-VERSION := 2016.05.0
+VERSION := 2020.07.24
 VOLUME  := $(CURDIR)/..
+DNS	:= 8.8.8.8
 
 all:
 	docker build -t $(TAG):$(VERSION) .
 
 shell:
-	docker run -w $(VOLUME) -i -a stdin -a stdout -v $(VOLUME):$(VOLUME) -t $(TAG):$(VERSION)
+	docker run -w $(VOLUME) --dns=$(DNS) -i -a stdin -a stdout -v $(VOLUME):$(VOLUME) -t $(TAG):$(VERSION)
+
+clean:
+	@echo "* Stopping docker service..."
+	@sudo systemctl stop docker
+	@echo "* Cleaning docker service..."
+	@sudo rm -rf /var/lib/docker
+	@echo "* Starting docker service..."
+	@sudo systemctl start docker
+	@echo "* Done."
+
+delete_img:
+	@sudo docker system prune -a
