@@ -1,16 +1,16 @@
 version=\
 (
-    '3.82'
+    '6.04'
 )
 
 url=\
 (
-    "https://www.kernel.org/pub/linux/utils/boot/syslinux/3.xx/syslinux-$version.tar.bz2"
+    "https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux/Testing/$version/syslinux-$version-pre1.tar.gz"
 )
 
 md5=\
 (
-    'c9f4e73e385c86b3a8faf9b615a04836'
+    'fefbc39becb619339fc22c91ec7112ab'
 )
 
 maintainer=\
@@ -22,4 +22,11 @@ requires=\
 (
     'nasm/host'
     'python_host/host'
+    'uuid/default'
 )
+
+post_unpack()
+{
+  cd ..
+  $cmd_cp syslinux-$version-pre1/* syslinux-$version/
+}
