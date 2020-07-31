@@ -2,9 +2,9 @@ source $pkg_common
 
 host_install()
 {
-    $cmd_make clean &&
-    $cmd_make &&
-    cp -d extlinux/extlinux ${cfg_dir_toolchain}/bin/extlinux
+    $cmd_make_single clean &&
+    $cmd_make_single CC="$cmd_target_cc" &&
+    cp -d bios/extlinux/extlinux ${cfg_dir_toolchain}/bin/extlinux
 }
 
 target_install()
@@ -19,11 +19,11 @@ target_install()
         export cfg_kernel_boot_dev='/dev/sda1'
     fi
 
-    $cmd_make clean &&
-    $cmd_make CC="$cmd_target_cc" &&
-    $cmd_target_strip extlinux/extlinux -o $cfg_dir_rootfs/usr/sbin/extlinux &&
+    $cmd_make_single clean &&
+    $cmd_make_single CC="$cmd_target_cc" &&
+    $cmd_target_strip bios/extlinux/extlinux -o $cfg_dir_rootfs/usr/sbin/extlinux &&
     $cmd_mkdir $cfg_dir_rootfs/boot/extlinux &&
-    cp -d mbr/mbr.bin $cfg_dir_rootfs/boot/extlinux &&
+    cp -d bios/mbr/mbr.bin $cfg_dir_rootfs/boot/extlinux &&
     (echo $console ; cat "$pkg_dir"/extlinux.conf) \
          | sed "s%\$cfg_kernel_extra_args%$cfg_kernel_extra_args%g" \
          | sed "s%\$cfg_kernel_boot_dev%$cfg_kernel_boot_dev%g" \
