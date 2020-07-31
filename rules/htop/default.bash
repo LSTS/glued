@@ -1,6 +1,6 @@
 version=\
 (
-    '2.0.2'
+    '2.2.0'
 )
 
 url=\
@@ -10,12 +10,17 @@ url=\
 
 md5=\
 (
-    '7d354d904bad591a931ad57e99fea84a'
+    '0d816b6beed31edc75babcfbf863ffa8'
 )
 
 maintainer=\
 (
     'Jose Pinto <zepinto@lsts.pt>'
+)
+
+requires=\
+(
+    'ncurses/default'
 )
 
 build()
@@ -26,7 +31,15 @@ build()
 configure()
 {
     cd "../htop-$version"
-    ./configure --disable-unicode --prefix="${cfg_dir_rootfs}"
+    ./configure --disable-unicode \
+    --disable-dependency-tracking \
+    --build="$cfg_host_canonical" \
+    --host="$cfg_host_canonical" \
+    --prefix="$cfg_dir_rootfs" \
+    HTOP_NCURSESW_CONFIG_SCRIPT="$cfg_dir_toolchain_sysroot/usr/bin/ncursesw6-config" \
+    HTOP_NCURSES_CONFIG_SCRIPT="$cfg_dir_toolchain_sysroot/usr/bin/ncurses6-config" \
+    CC="$cmd_target_cc" \
+    CXX="$cmd_target_cxx"
 }
 
 target_install()
