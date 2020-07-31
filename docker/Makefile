@@ -23,7 +23,7 @@
 TAG     := glued
 VERSION := 2020.07.24
 VOLUME  := $(CURDIR)/..
-DNS	:= 8.8.8.8
+DNS     := 8.8.8.8
 
 all:
 	docker build -t $(TAG):$(VERSION) .
