@@ -1,6 +1,6 @@
 version=\
 (
-    '4.4.66'
+    '4.9.99'
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    '5353de56bf4621a35afc4384c7e51f30'
+    'aecc1118040df0c18dbca9f1f163ef84'
 )
 
 maintainer=\
@@ -23,6 +23,7 @@ requires=\
     'bc/host'
     'kmod/host'
     'lz4/host'
+#    'elfutils/default'
 )
 
 # This variable is updated by find_patches().
