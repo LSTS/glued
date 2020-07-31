@@ -5,12 +5,12 @@ version=\
 
 url=\
 (
-    "http://www.samba.org/ftp/rsync/rsync-$version.tar.gz"
+    "https://github.com/WayneD/rsync/archive/v$version.tar.gz"
 )
 
 md5=\
 (
-    '43bd6676f0b404326eee2d63be3cdcfe'
+    'e559dd27216db757f4b34d64b8bf789e'
 )
 
 maintainer=\
