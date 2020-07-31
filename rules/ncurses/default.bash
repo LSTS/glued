@@ -10,7 +10,10 @@ configure_common()
         --target="$cfg_target_canonical" \
         --host="$cfg_target_canonical" \
         --build="$cfg_host_canonical" \
+        --with-build-cc="$cmd_target_cc" \
+        --with-build-cpp="$cmd_target_cpp" \
 	--with-shared \
+  --enable-ext-colors \
 	--enable-pc-files \
 	--without-progs \
 	--without-tests \
