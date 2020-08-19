@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "http://bzip.org/1.0.6/bzip2-$version.tar.gz"
+    "https://sourceforge.net/projects/bzip2/files/bzip2-$version.tar.gz"
 )
 
 md5=\
