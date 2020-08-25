@@ -1,0 +1,6 @@
+dtoverlay=disable-bt
+enable_uart=1
+dtoverlay=uart2
+dtoverlay=uart3
+dtoverlay=uart4
+dtoverlay=uart5
