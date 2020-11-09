@@ -1,14 +1,14 @@
 version=\
 (
-  "2.7.2"
+  "3.4.0"
 )
 
 url=\
 (
-  "http://www.python.org/ftp/python/${version}/Python-${version}.tar.bz2"
+  "http://www.python.org/ftp/python/${version}/Python-${version}.tgz"
 )
 
 md5=\
 (
-  "ba7b2f11ffdbf195ee0d111b9455a5bd"
+  "3ca973eb72bb06ed5cadde0e28eaaaca"
 )
