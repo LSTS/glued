@@ -4,6 +4,8 @@ requires=\
 (
     'gcc/cross_stage1'
     'linux-headers/cross'
+    'bison/host'
+    'python_host/host'
 )
 
 host_install()

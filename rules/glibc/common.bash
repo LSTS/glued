@@ -1,6 +1,6 @@
 version=\
 (
-    '2.26'
+    '2.32'
 )
 
 url=\
@@ -10,13 +10,14 @@ url=\
 
 md5=\
 (
-    '102f637c3812f81111f48f2427611be1'
+    '720c7992861c57cf97d66a2f36d8d1fa'
 )
 
 maintainer=\
 (
     'Ricardo Martins <rasm@fe.up.pt>'
 )
+
 
 build_dir=$pkg_var
 
