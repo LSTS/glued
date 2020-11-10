@@ -2,6 +2,10 @@ source $pkg_common
 
 host_install()
 {
+    patches=$(ls "$pkg_dir"/patches/*.patch)
+    if [ -n "$patches" ]; then
+        cat $patches | patch -p1
+    fi
     $cmd_make_single clean &&
     $cmd_make_single CC="$cmd_target_cc" &&
     cp -d bios/extlinux/extlinux ${cfg_dir_toolchain}/bin/extlinux
