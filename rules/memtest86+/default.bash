@@ -1,16 +1,16 @@
 version=\
 (
-    "5.01"
+    "5.31b"
 )
 
 url=\
 (
-    "http://www.lsts.pt/glued/memtest86+-$version.tar.gz"
+    "http://memtest.org/download/5.31b/memtest86+-$version.tar.gz"
 )
 
 md5=\
 (
-    "035b85f2edabc9b4a6b0cf6c9c3acf50"
+    "948c4fc5afd117b996eaa1ebd8e0e0f5"
 )
 
 maintainer=\
