@@ -196,10 +196,15 @@ target_install()
         KBUILD_VERBOSE=1 \
         modules_install
 
-    $cmd_make \
-        CROSS_COMPILE="$cfg_target_canonical-" \
-        ARCH="$cfg_target_linux" \
-        INSTALL_MOD_PATH="$cfg_dir_rootfs/usr" \
-        KBUILD_VERBOSE=1 \
-        firmware_install
+    if [[ $cfg_sys_family == *"lctr-rpi4"* ]]; then
+        echo "RPI4 family, no need of firmware_install"
+    else
+        $cmd_make \
+            CROSS_COMPILE="$cfg_target_canonical-" \
+            ARCH="$cfg_target_linux" \
+            INSTALL_MOD_PATH="$cfg_dir_rootfs/usr" \
+            KBUILD_VERBOSE=1 \
+            DEPMOD="$cfg_dir_toolchain/sbin/depmod" \
+            firmware_install
+    fi
 }
