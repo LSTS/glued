@@ -1,0 +1,31 @@
+diff -Nru linux-3.14.63/arch/arm/boot/dts/am335x-lctr-b2xx.dts linux-3.14.63.mc/arch/arm/boot/dts/am335x-lctr-b2xx.dts
+--- linux-3.14.63/arch/arm/boot/dts/am335x-lctr-b2xx.dts	2017-01-17 14:12:07.019022866 +0000
++++ linux-3.14.63.mc/arch/arm/boot/dts/am335x-lctr-b2xx.dts	2017-01-17 14:26:45.657383756 +0000
+@@ -60,6 +60,16 @@
+ 			0x154 (PIN_OUTPUT_PULLDOWN | MUX_MODE1)
+ 		>;
+ 	};
++
++	/* UART4. */
++	uart4_pins: pinmux_uart4_pins {
++		pinctrl-single,pins = <
++			/* uart4_rxd */
++			0x70 (PIN_INPUT_PULLUP | MUX_MODE6)
++			/* uart4_txd */
++			0x74 (PIN_OUTPUT_PULLDOWN | MUX_MODE6)
++		>;
++	};
+ };
+ 
+ /* Enable UART1. */
+@@ -75,3 +85,10 @@
+ 	pinctrl-0 = <&uart2_pins>;
+ 	status = "okay";
+ };
++
++/* Enable UART4. */
++&uart4 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart4_pins>;
++	status = "okay";
++};
