@@ -1,6 +1,6 @@
 version=\
 (
-    "2.8.9"
+    "3.11.1"
 )
 
 version_major=\
@@ -15,13 +15,15 @@ url=\
 
 md5=\
 (
-    "801f4c87f8b604f727df5bf1f05a59e7"
+   "12a3177477e4e2c7bc514193d421dafe"
 )
 
 configure()
 {
+    mkdir -p $cfg_dir_toolchain/usr/local/bin
     ./configure \
-        --prefix="$cfg_dir_toolchain"
+        --prefix="$cfg_dir_toolchain" \
+        --bindir="/usr/local/bin"
 }
 
 build()
