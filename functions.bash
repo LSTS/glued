@@ -1,6 +1,6 @@
 ###########################################################################
 # GLUED: GNU/Linux Uniform Environment Distribution                       #
-# Copyright (C) 2007-2017 Universidade do Porto - Faculdade de Engenharia #
+# Copyright (C) 2007-2021 Universidade do Porto - Faculdade de Engenharia #
 # Laboratório de Sistemas e Tecnologia Subaquática (LSTS)                 #
 ###########################################################################
 # This program is free software; you can redistribute it and/or modify    #
