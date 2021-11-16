@@ -46,3 +46,4 @@ RUN apt-get install -y git
 RUN apt-get install -y file
 RUN apt-get install -y vim
 RUN apt-get install -y nasm
+RUN sed -i 's#mozilla\/DST_Root_CA_X3.crt#!mozilla\/DST_Root_CA_X3.crt#g' /etc/ca-certificates.conf && update-ca-certificates --fresh
