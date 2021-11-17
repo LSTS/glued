@@ -22,6 +22,19 @@ post_unpack()
     fi
 }
 
+refresh()
+{
+    for rule in target_install; do
+        if [ -f "$cfg_dir_rootfs/etc/lsts-ftp-logs.conf"  ]; then
+            grep -l "$cfg_lsts_ftp_logs_path$" "$cfg_dir_rootfs/etc/lsts-ftp-logs.conf"
+            retVal=$?
+            if [ $retVal -ne 0 ]; then
+                rm -f "$cfg_dir_builds/$pkg/$pkg_var/.$rule"
+            fi
+        fi
+    done
+}
+
 configure()
 {
     cp "$pkg_dir"/config-1.34.1 .config &&
