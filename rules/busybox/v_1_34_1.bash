@@ -1,3 +1,7 @@
+# To activate the ftp for logs use the configuration 
+# var $cfg_lsts_ftp_logs_path. Otherwise will be disabled.
+# To activate the ftp for logs use the service "lsts_ftp_logs".
+
 version=\
 (
     '1.34.1'
