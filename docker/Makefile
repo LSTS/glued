@@ -20,16 +20,19 @@
 # Author: Ricardo Martins                                                 #
 ###########################################################################
 
-TAG     := glued
-VERSION := 2020.11.12
-VOLUME  := $(CURDIR)/..
-DNS	:= 8.8.8.8
+TAG         := glued
+VERSION     := 2020.11.12
+VOLUME      := $(CURDIR)/..
+DNS	    := 8.8.8.8
+GITWORKTREE :=
+
+ADDVOLUME   := $(VOLUME)/..:$(VOLUME)/..
 
 all:
 	docker build -t $(TAG):$(VERSION) .
 
 shell:
-	docker run -w $(VOLUME) --dns=$(DNS) -i -a stdin -a stdout -v $(VOLUME):$(VOLUME) -t $(TAG):$(VERSION)
+	docker run -w $(VOLUME) --dns=$(DNS) -i -a stdin -a stdout -v $(VOLUME):$(VOLUME) $(if $(GITWORKTREE),-v $(ADDVOLUME),) -t $(TAG):$(VERSION)
 
 clean:
 	@echo "* Stopping docker service..."
