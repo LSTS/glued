@@ -206,7 +206,8 @@ remove_duplicated_packages()
     arr=("${arr[@]}")
     echo "$(IFS=" " shift; echo "${arr[@]}")"
 }
-cfg_packages="$(remove_duplicated_packages $cfg_packages)"
+# Temporary comment out for further investigate the implications
+# cfg_packages="$(remove_duplicated_packages $cfg_packages)"
 
 # Save configuration values to file.
 set \
