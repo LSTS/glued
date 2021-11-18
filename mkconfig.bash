@@ -20,6 +20,7 @@
 # 02110-1301 USA.                                                         #
 ###########################################################################
 # Author: Ricardo Martins                                                 #
+# Author: Paulo Dias (filter duplicated overridden packages)              #
 ###########################################################################
 
 # Config: GLUED version.
@@ -182,6 +183,30 @@ fi
 if ! [ -d "$cfg_sys_family" ]; then
     mkdir -p "$cfg_sys_family"
 fi &&
+
+remove_duplicated_packages()
+{
+    read -ra arr <<<"$*"
+    n=${#arr[*]}
+    for (( i = 0; i <= n-1; i++ ))
+    do
+      IFS='/' read -ra a0 <<< "${arr[i]}"
+      t0="${a0[0]}"
+      for (( j = i+1; j <= n-1; j++ ))
+      do
+          IFS='/' read -ra a1 <<< "${arr[j]}"
+          t1="${a1[0]}"
+          if [[ ${t0} = ${t1} ]]; then
+              arr[i]="${arr[j]}"
+              unset arr[j]
+          fi
+      done  
+    done
+
+    arr=("${arr[@]}")
+    echo "$(IFS=" " shift; echo "${arr[@]}")"
+}
+cfg_packages="$(remove_duplicated_packages $cfg_packages)"
 
 # Save configuration values to file.
 set \
