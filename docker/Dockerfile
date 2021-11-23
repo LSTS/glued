@@ -36,3 +36,4 @@ RUN apt-get install -y g++-multilib
 RUN apt-get install -y cmake
 RUN apt-get install -y file
 RUN apt-get install -y kmod
+RUN sed -i 's#mozilla\/DST_Root_CA_X3.crt#!mozilla\/DST_Root_CA_X3.crt#g' /etc/ca-certificates.conf && update-ca-certificates --fresh
