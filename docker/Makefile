@@ -24,7 +24,7 @@ TAG         := glued
 VERSION     := 2020.11.12
 VOLUME      := $(CURDIR)/..
 DNS	    := 8.8.8.8
-GITWORKTREE :=
+GITWORKTREE := $(shell [ "$$(git worktree list | wc -l)" -gt 1 ] && echo 'yes')
 
 ADDVOLUME   := $(VOLUME)/..:$(VOLUME)/..
 
@@ -32,6 +32,7 @@ all:
 	docker build -t $(TAG):$(VERSION) .
 
 shell:
+	$(if $(GITWORKTREE), @echo "GITWORKTREE WAS DETECTED (ASSUMING MAIN REPO Git PATH '../')" ,)
 	docker run -w $(VOLUME) --dns=$(DNS) -i -a stdin -a stdout -v $(VOLUME):$(VOLUME) $(if $(GITWORKTREE),-v $(ADDVOLUME),) -t $(TAG):$(VERSION)
 
 clean:
