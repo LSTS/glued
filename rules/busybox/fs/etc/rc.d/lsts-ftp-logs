@@ -1,0 +1,15 @@
+start()
+{
+    echo "Starting lsts ftp logs server"
+    /usr/sbin/inetd /etc/lsts-ftp-logs.conf
+}
+
+stop()
+{
+    echo "* Stopping lsts ftp logs server..."
+    pids="$(echo $(ps | grep '/usr/sbin/inetd /etc/lsts-ftp' | grep -v grep | cut -f1 -dr))"
+    if [ -n "$pids" ]; then
+        kill $pids
+    fi
+}
+
