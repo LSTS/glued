@@ -1,16 +1,20 @@
+# To activate the ftp for logs use the configuration 
+# var $cfg_lsts_ftp_logs_path. Otherwise will be disabled.
+# To activate the ftp for logs use the service "lsts_ftp_logs".
+
 version=\
 (
-    '1.24.1'
+    '1.34.1'
 )
 
 url=\
 (
-    "http://busybox.net/downloads/busybox-$version.tar.bz2"
+    "https://busybox.net/downloads/busybox-$version.tar.bz2"
 )
 
 md5=\
 (
-    'be98a40cadf84ce2d6b05fa41a275c6a'
+    '5ad7368a73d12b8c4f8881bf7afb3d82'
 )
 
 post_unpack()
@@ -20,6 +24,24 @@ post_unpack()
     if [ -n "$patches" ]; then
         cat $patches | patch -p1
     fi
+}
+
+refresh()
+{
+    for rule in target_install; do
+        if [ ! -f "$cfg_dir_rootfs/etc/lsts-ftp-logs.conf"  ]; then
+            rm -f "$cfg_dir_builds/$pkg/$pkg_var/.$rule"
+        fi
+
+        if [ -f "$cfg_dir_rootfs/etc/lsts-ftp-logs.conf"  ]; then
+            test_string="$([[ ! -z "$cfg_lsts_ftp_logs_path" ]] && echo "$cfg_lsts_ftp_logs_path" || echo "/opt/lsts/dune/log/$cfg_hostname")"
+            grep -l "$test_string$" "$cfg_dir_rootfs/etc/lsts-ftp-logs.conf"
+            retVal=$?
+            if [ $retVal -ne 0 ]; then
+                rm -f "$cfg_dir_builds/$pkg/$pkg_var/.$rule"
+            fi
+        fi
+    done
 }
 
 configure()
@@ -35,6 +57,17 @@ build()
 
 target_install()
 {
+    [[ -z "$cfg_lsts_ftp_logs_path" ]] && err 'Missing "$cfg_lsts_ftp_logs_path" var set! Generating disabled one.'
+
+    rm -Rf .tmpftp && mkdir -p .tmpftp/etc && \
+        echo -n "$([[ -z "$cfg_lsts_ftp_logs_path" ]] && echo '# ')" > .tmpftp/etc/lsts-ftp-logs.conf && /
+        echo -n "30021 stream  tcp     nowait  root    /usr/sbin/ftpd /usr/sbin/ftpd -a root -w " >> .tmpftp/etc/lsts-ftp-logs.conf && /
+        echo -n "$([[ ! -z "$cfg_lsts_ftp_logs_path" ]] && echo "$cfg_lsts_ftp_logs_path" || echo "/opt/lsts/dune/log/$cfg_hostname")" >> .tmpftp/etc/lsts-ftp-logs.conf
+
     $cmd_make CROSS_COMPILE="$cfg_target_canonical"- CONFIG_PREFIX=$cfg_dir_rootfs install &&
-    tar -C "$pkg_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
+    tar -C "$pkg_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f - &&
+    tar -C ".tmpftp" -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
+    
+    rm -Rf .tmpftp
 }
+
