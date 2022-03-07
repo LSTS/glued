@@ -41,7 +41,7 @@ fi
 source "$1"
 
 fakeroot_state='/tmp/.glued-fakeroot'
-fakeroot="$cfg_dir_toolchain/bin/fakeroot -s $fakeroot_state -i $fakeroot_state"
+fakeroot="/usr/bin/fakeroot -s $fakeroot_state -i $fakeroot_state"
 
 rm "$fakeroot_state" && touch "$fakeroot_state"
 
