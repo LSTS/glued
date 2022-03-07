@@ -1,6 +1,6 @@
 version=\
 (
-    'v4.19_2020-07-16'
+    'v3.1.1'
 )
 
 maintainer=\
@@ -10,17 +10,17 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/rpi-linux-$version.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/rsync-$version.tar.gz"
 )
 
 md5=\
 (
-    'fcb811bbce80562076598cc7cd5db1be'
+    '3f4faee463881746726ace558916dccb'
 )
 
 requires=\
 (
-    'lz4/host-rpi4'
+    'zlib/rpi4'
 )
 
 post_unpack()

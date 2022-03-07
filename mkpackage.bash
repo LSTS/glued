@@ -73,19 +73,19 @@ download()
 
 	# First try LSTS mirror.
 	lsts_url="https://www.lsts.pt/glued/validPackages/$(basename $u)"
-        download_tool "$lsts_url" "$cfg_dir_downloads/$file"
-        if [ $? -ne 0 ]; then
+  download_tool "$lsts_url" "$cfg_dir_downloads/$file"
+  if [ $? -ne 0 ]; then
 	    # Then try OceanScan-MST mirror.
-            omst_url="http://www.omst.pt/glued/$(basename $u)"
-            download_tool "$omst_url" "$cfg_dir_downloads/$file"
-            if [ $? -ne 0 ]; then
-		# On failure try upstream URL.
-		download_tool "$u" "$cfg_dir_downloads/$file"
-		if [ $? -ne 0 ]; then
-                    echo "ERROR: download failed"
-                    exit 1
-		fi
-            fi
+      omst_url="http://www.omst.pt/glued/$(basename $u)"
+      download_tool "$omst_url" "$cfg_dir_downloads/$file"
+      if [ $? -ne 0 ]; then
+		        # On failure try upstream URL.
+		        download_tool "$u" "$cfg_dir_downloads/$file"
+		        if [ $? -ne 0 ]; then
+                  echo "ERROR: download failed"
+                  exit 1
+		        fi
+      fi
 	fi
 
         md5="$(md5sum_tool "$cfg_dir_downloads/$file")"

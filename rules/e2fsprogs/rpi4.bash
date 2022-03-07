@@ -1,6 +1,6 @@
 version=\
 (
-    'v2020-12-01'
+    'v1.42.13'
 )
 
 maintainer=\
@@ -10,12 +10,12 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/rpi-boot-firmware-$version.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/e2fsprogs-$version.tar.gz"
 )
 
 md5=\
 (
-    'f571ad57471f6c0e113d14a8d6037780'
+    'f28d5749c553761d26ef0f12e3e2f05c'
 )
 
 post_unpack()

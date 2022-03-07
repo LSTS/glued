@@ -1,4 +1,0 @@
-::sysinit:/sbin/services sysinit
-::restart:/sbin/init
-::respawn:-/usr/sbin/dropbear -F
-::shutdown:/sbin/services syshalt

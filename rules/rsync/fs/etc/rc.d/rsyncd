@@ -1,9 +1,0 @@
-start()
-{
-    /usr/bin/rsync --daemon --config=/etc/rsyncd.conf
-}
-
-stop()
-{
-    killall rsync > /dev/null 2>&1
-}

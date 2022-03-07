@@ -1,6 +1,6 @@
 version=\
 (
-    'v2020-12-01'
+    '2015.67'
 )
 
 maintainer=\
@@ -10,12 +10,12 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/rpi-boot-firmware-$version.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/dropbear-$version.tar.gz"
 )
 
 md5=\
 (
-    'f571ad57471f6c0e113d14a8d6037780'
+    '0ce600f1f8a68184c6dff2d89509433d'
 )
 
 post_unpack()

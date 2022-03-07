@@ -1,9 +1,0 @@
-start()
-{
-    ethtool -s eth0 speed 10 duplex full autoneg off
-}
-
-stop()
-{
-    ethtool -s eth0 autoneg on
-}

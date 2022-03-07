@@ -1,6 +1,0 @@
-#! /bin/sh
-
-/sbin/services sync-digest stop
-sleep 10
-rm -rf /opt/lsts/sync
-/sbin/services sync-digest start
