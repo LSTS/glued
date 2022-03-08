@@ -42,13 +42,6 @@ source "$1"
 
 start="$(date +%s)"
 
-if [[ $cfg_sys_family == *"lctr-rpi4"* ]];
-then
-    ./mkpackage.bash "$1" 'base/lctr-rpi4' || exit 1
-  else
-    ./mkpackage.bash "$1" 'base' || exit 1
-  fi
-
 for pkg in $cfg_packages; do
     ./mkpackage.bash "$1" "$pkg" || exit 1
 done
