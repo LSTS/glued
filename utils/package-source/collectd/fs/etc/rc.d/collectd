@@ -1,0 +1,48 @@
+# Program options
+
+NAME=collectd
+DAEMON=/usr/bin/collectd
+CONFIG=/etc/collectd_client.cfg
+
+test -f $DAEMON || exit 5
+
+start()
+{
+  pid=$(pidof ${NAME})
+  if [ ! -z "$pid" ]; then
+    echo " Impossible: already running (pid $(pidof ${NAME}))"
+  else
+    # Create log folder:
+    mkdir -p /opt/lsts/log/collectd/
+
+    # Run it
+    $DAEMON -f -C ${CONFIG} &> /dev/null &
+
+    # Sleep a while ...
+    sleep 2
+
+    if [ ! -z "`pidof ${NAME}`" ]; then
+      echo " Starting ${NAME} (PID=$(pidof ${NAME}))			[OK]"
+    else
+      echo " Starting ${NAME}						[KO]"
+    fi
+  fi
+}
+
+stop()
+{
+  pid=$(pidof ${NAME})
+
+  if [ -z "${pid}" ]; then
+    echo " Impossible: process ${NAME} is not running..."
+  else
+    echo -n " Stopping ${NAME}... "
+    kill ${pid}
+
+    while [ -n "`pidof ${NAME}`" ]; do
+      sleep 1
+    done
+    echo " Done! "
+  fi
+}
+

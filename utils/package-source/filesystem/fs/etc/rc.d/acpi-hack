@@ -1,0 +1,15 @@
+start()
+{
+    dmesg | grep 'ACPI: reboot needed'
+    if [ $? -eq 0 ]; then
+        echo 'Rebooting to enable ACPI'
+        reboot
+    else
+        echo 'ACPI enabled'
+    fi
+}
+
+stop()
+{
+    echo ''
+}

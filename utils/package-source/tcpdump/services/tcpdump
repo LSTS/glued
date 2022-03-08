@@ -1,0 +1,10 @@
+start()
+{
+	tcpdump -G $cfg_tcpdump_log_duration -s 0 -C $cfg_tcpdump_log_length -w %s_log.pcap -i eth0 &
+}
+
+stop()
+{
+    killall tcpdump
+}
+

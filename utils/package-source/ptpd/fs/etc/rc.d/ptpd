@@ -1,0 +1,21 @@
+start()
+{
+    flags=''
+
+    if [ -n "$cfg_ptpd_master" ]; then
+        flags='-gW'
+    else
+        flags='-g'
+    fi
+
+    /usr/bin/ptpd2 $flags -b "$cfg_ptpd_interface"
+}
+
+stop()
+{
+    if [ -c /dev/rtc0 ]; then
+        hwclock -w
+    fi
+
+    killall ptpd2 > /dev/null 2>&1
+}

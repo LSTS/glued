@@ -1,0 +1,5 @@
+::sysinit:/sbin/services sysinit
+::restart:/sbin/init
+terminal::respawn:-/bin/sh
+::respawn:-/usr/sbin/dropbear -F
+::shutdown:/sbin/services syshalt

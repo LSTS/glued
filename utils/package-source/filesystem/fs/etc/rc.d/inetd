@@ -1,0 +1,9 @@
+start()
+{
+    /usr/sbin/inetd
+}
+
+stop()
+{
+    killall inetd
+}

@@ -1,0 +1,9 @@
+start()
+{
+    /sbin/huawei-monitor > /dev/null 2>&1 &
+}
+
+stop()
+{
+    echo ""
+}

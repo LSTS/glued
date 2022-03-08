@@ -1,0 +1,57 @@
+# Program options
+
+CONFIGFILE=/etc/default/omniorb-eventservice
+NAME=omniEvents
+DAEMON=/usr/bin/omniEvents
+OMNIEVENTS_DIR=/var/OMNIEVENTS
+test -z "$OMNIEVENTS_PORT"    && OMNIEVENTS_PORT=11169
+OMNIEVENTS_PIDFILE=/var/run/$NAME.pid
+
+test -f $DAEMON || exit 5
+# Load default preferences
+test -f $CONFIGFILE && . $CONFIGFILE
+
+start()
+{
+  # Make sure directories exist (NEED AN RW FS!)
+  if [ ! -d $OMNIEVENTS_DIR ]; then
+    mkdir -p $OMNIEVENTS_DIR
+  fi 
+
+  pid=$(pidof ${NAME})
+  if [ ! -z "${pid}" ]; then
+    echo " Impossible: ${NAME} already running (pid $(pidof ${NAME}))"
+  else
+    OMNIEVENTS_OPTIONS="-P $OMNIEVENTS_PIDFILE -l $OMNIEVENTS_DIR -p $OMNIEVENTS_PORT $OPT_ALTERNATE $OPT_NS_NAME"
+
+    # Run it
+    $DAEMON $OMNIEVENTS_OPTIONS &> /dev/null &
+
+    # Sleep a while, and then check if OMNIEVENTS is still running
+    sleep 2
+
+    if [ ! -z "`pidof ${NAME}`" ]; then
+      echo " Starting  ${NAME} (PID=$(pidof ${NAME}))			[OK]"
+    else
+      echo " Starting  ${NAME} 						[KO]"
+    fi
+  fi
+}
+
+stop()
+{
+  pid=$(pidof ${NAME})
+
+  if [ -z "${pid}" ]; then
+    echo " Impossible: process ${NAME} is not running..."
+  else
+    echo -n " Stopping ${NAME} ... "
+    kill ${pid}
+
+    while [ -n "`pidof ${NAME}`" ]; do
+      sleep 1
+    done
+    echo " Done! "
+  fi
+}
+

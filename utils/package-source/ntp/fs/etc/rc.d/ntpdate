@@ -1,0 +1,15 @@
+start()
+{
+    n=0
+    while [ $n -lt 30 ]; do
+        /usr/bin/ntpdate "$cfg_ntp_server"
+        if [ $? -eq 0 ]; then
+            break;
+        fi
+    done
+}
+
+stop()
+{
+    true
+}

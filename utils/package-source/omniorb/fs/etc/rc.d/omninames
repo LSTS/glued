@@ -1,0 +1,57 @@
+# Program options
+
+NAME=omniNames
+DAEMON=/usr/bin/omniNames
+OMNINAMES_DIR=/var/omninames
+
+test -f $DAEMON || exit 5
+
+start()
+{
+  # Make sure directories exist (NEED AN RW FS!)
+  if [ ! -d $OMNINAMES_DIR ]; then
+    mkdir -p $OMNINAMES_DIR
+  fi 
+
+  pid=$(pidof ${NAME})
+  if [ ! -z "$pid" ]; then
+    echo " Impossible: already running (pid $(pidof ${NAME}))"
+  else
+    OMNINAMES_OPTIONS="-errlog $OMNINAMES_DIR/error.log -logdir $OMNINAMES_DIR"
+
+    # First time?
+    if [ ! -f $OMNINAMES_DIR/omninames-*.log ]; then
+      OMNINAMES_OPTIONS="$OMNINAMES_OPTIONS -start $TCPPORT"
+    fi
+
+    # Run it
+    $DAEMON $OMNINAMES_OPTIONS &> /dev/null &
+
+    # Sleep a while, and then check if omniNames is still running
+    sleep 2
+
+    if [ ! -z "`pidof ${NAME}`" ]; then
+      echo " Starting ${NAME} (PID=$(pidof ${NAME}))			[OK]"
+    else
+      echo " Starting ${NAME}						[KO]"
+    fi
+  fi
+}
+
+stop()
+{
+  pid=$(pidof ${NAME})
+
+  if [ -z "${pid}" ]; then
+    echo " Impossible: process ${NAME} is not running..."
+  else
+    echo -n " Stopping ${NAME}... "
+    kill ${pid}
+
+    while [ -n "`pidof ${NAME}`" ]; do
+      sleep 1
+    done
+    echo " Done! "
+  fi
+}
+

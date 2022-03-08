@@ -1,0 +1,10 @@
+start()
+{
+    mkdir -p /var/lib/misc
+    dnsmasq
+}
+
+stop()
+{
+    killall dnsmasq
+}

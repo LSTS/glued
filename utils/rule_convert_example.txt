@@ -1,0 +1,55 @@
+version=\
+(
+    '1.2.7'
+)
+
+url=\
+(
+    "http://downloads.sourceforge.net/project/libpng/zlib/$version/zlib-$version.tar.gz"
+)
+
+md5=\
+(
+    '60df6a37c56e7c1366cca812414f7b85'
+)
+
+maintainer=\
+(
+    'Pedro Gonçalves <pedro@lsts.pt>'
+)
+
+configure()
+{
+    mkdir ../toolchain
+    mkdir ../toolchain/$cfg_target_canonical
+    mkdir ../toolchain/$cfg_target_canonical/sysroot
+    export cfg_dir_output_toolchain_sysroot=../toolchain/$cfg_target_canonical/sysroot
+
+    make distclean
+
+    CC="$cmd_target_cc" \
+        ./configure \
+        --shared \
+        --prefix="$cfg_dir_output_toolchain_sysroot/usr"
+}
+
+build()
+{
+    $cmd_make -j1
+}
+
+host_install()
+{
+    $cmd_make -j1 install
+}
+
+target_install()
+{
+    mkdir ../rootfs
+    mkdir ../rootfs/usr
+    mkdir ../rootfs/usr/lib
+    export cfg_dir_output_rootfs=../rootfs
+    cp -a libz.so* "$cfg_dir_output_rootfs/usr/lib"
+    $cmd_target_strip "$cfg_dir_output_rootfs/usr/lib/libz.so"*
+    tar -czf ../zlib-v$version.tar.gz ../rootfs ../toolchain
+}

@@ -1,0 +1,138 @@
+diff -urN omniEvents-ko//examples/pullcons.cc omniEvents-2_6_2/examples/pullcons.cc
+--- omniEvents-ko//examples/pullcons.cc	2005-04-13 17:37:08.000000000 +0200
++++ omniEvents-2_6_2/examples/pullcons.cc	2012-12-10 16:04:12.238870921 +0100
+@@ -118,6 +118,8 @@
+ 
+ */
+ 
++#include <stdio.h>
++
+ #ifdef HAVE_CONFIG_H
+ #  include "config.h"
+ #endif
+diff -urN omniEvents-ko//examples/pullsupp.cc omniEvents-2_6_2/examples/pullsupp.cc
+--- omniEvents-ko//examples/pullsupp.cc	2005-04-13 17:37:08.000000000 +0200
++++ omniEvents-2_6_2/examples/pullsupp.cc	2012-12-10 16:04:12.258120514 +0100
+@@ -114,6 +114,8 @@
+ 
+ */
+ 
++#include <stdio.h>
++
+ #ifdef HAVE_CONFIG_H
+ #  include "config.h"
+ #endif
+diff -urN omniEvents-ko//examples/pushcons.cc omniEvents-2_6_2/examples/pushcons.cc
+--- omniEvents-ko//examples/pushcons.cc	2005-06-28 20:52:37.000000000 +0200
++++ omniEvents-2_6_2/examples/pushcons.cc	2012-12-10 16:04:12.258120514 +0100
+@@ -129,6 +129,8 @@
+ 
+ */
+ 
++#include <stdio.h>
++
+ #ifdef HAVE_CONFIG_H
+ #  include "config.h"
+ #endif
+diff -urN omniEvents-ko//examples/pushsupp.cc omniEvents-2_6_2/examples/pushsupp.cc
+--- omniEvents-ko//examples/pushsupp.cc	2005-04-13 17:37:08.000000000 +0200
++++ omniEvents-2_6_2/examples/pushsupp.cc	2012-12-10 16:04:12.258120514 +0100
+@@ -122,6 +122,8 @@
+ 
+ */
+ 
++#include <stdio.h>
++
+ #ifdef HAVE_CONFIG_H
+ #  include "config.h"
+ #endif
+diff -urN omniEvents-ko//src/main.cc omniEvents-2_6_2/src/main.cc
+--- omniEvents-ko//src/main.cc	2005-05-11 23:56:09.000000000 +0200
++++ omniEvents-2_6_2/src/main.cc	2012-12-10 16:55:42.526121844 +0100
+@@ -39,6 +39,11 @@
+ #  include "getopt.h"
+ #endif
+ 
++#include <stdlib.h>
++namespace std {
++  using ::malloc;
++}
++
+ #include "main.h"
+ #include "omniEvents.h"
+ #include "naming.h"
+diff -urN omniEvents-ko//src/PersistNode.cc omniEvents-2_6_2/src/PersistNode.cc
+--- omniEvents-ko//src/PersistNode.cc	2005-04-13 17:37:09.000000000 +0200
++++ omniEvents-2_6_2/src/PersistNode.cc	2012-12-10 16:03:19.926692657 +0100
+@@ -25,6 +25,7 @@
+ 
+ #include <stdlib.h>
+ #include <stdio.h>
++#include <climits>
+ 
+ namespace OmniEvents {
+ 
+diff -urN omniEvents-ko//src/Servant.cc omniEvents-2_6_2/src/Servant.cc
+--- omniEvents-ko//src/Servant.cc	2005-05-17 23:58:57.000000000 +0200
++++ omniEvents-2_6_2/src/Servant.cc	2012-12-10 16:55:18.914120137 +0100
+@@ -35,6 +35,12 @@
+ #endif
+ 
+ #include <stdio.h>     // sprintf
++
++#include <stdlib.h>
++namespace std {
++  using ::malloc;
++}
++
+ #include <assert.h>
+ 
+ #ifdef HAVE_IOSTREAM
+diff -urN omniEvents-ko//tools/eventc.cc omniEvents-2_6_2/tools/eventc.cc
+--- omniEvents-ko//tools/eventc.cc	2005-05-11 20:44:31.000000000 +0200
++++ omniEvents-2_6_2/tools/eventc.cc	2012-12-10 16:03:33.742616350 +0100
+@@ -154,6 +154,8 @@
+ //
+ //
+ 
++#include <stdio.h>
++
+ #ifdef HAVE_CONFIG_H
+ #  include "config.h"
+ #endif
+diff -urN omniEvents-ko//tools/eventf.cc omniEvents-2_6_2/tools/eventf.cc
+--- omniEvents-ko//tools/eventf.cc	2005-05-11 20:44:31.000000000 +0200
++++ omniEvents-2_6_2/tools/eventf.cc	2012-12-10 16:03:33.750370462 +0100
+@@ -24,6 +24,8 @@
+ //    Destroys the named EventChannel.
+ //	
+ 
++#include <stdio.h>
++
+ #ifdef HAVE_CONFIG_H
+ #  include "config.h"
+ #endif
+diff -urN omniEvents-ko//tools/events.cc omniEvents-2_6_2/tools/events.cc
+--- omniEvents-ko//tools/events.cc	2005-04-13 17:37:10.000000000 +0200
++++ omniEvents-2_6_2/tools/events.cc	2012-12-10 16:03:33.750370462 +0100
+@@ -25,6 +25,8 @@
+ //    Push Model streamer.
+ //	
+ 
++#include <stdio.h>
++
+ #ifdef HAVE_CONFIG_H
+ #  include "config.h"
+ #endif
+diff -urN omniEvents-ko//tools/rmeventc.cc omniEvents-2_6_2/tools/rmeventc.cc
+--- omniEvents-ko//tools/rmeventc.cc	2005-05-11 20:44:31.000000000 +0200
++++ omniEvents-2_6_2/tools/rmeventc.cc	2012-12-10 16:03:33.750370462 +0100
+@@ -24,6 +24,8 @@
+ //    Destroys the named EventChannel.
+ //	
+ 
++#include <stdio.h>
++
+ #ifdef HAVE_CONFIG_H
+ #  include "config.h"
+ #endif

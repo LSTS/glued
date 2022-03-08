@@ -1,0 +1,50 @@
+syslog_base='/opt/lsts/glued'
+syslog_pid='/var/run/syslog.pid'
+
+start()
+{
+    if ! [ -d "$syslog_base" ]; then
+        mkdir -p "$syslog_base"
+    fi
+    
+    /sbin/klogd -n -c 8 < /dev/null > /dev/null &
+    kpid="$!"
+    /sbin/syslogd -n -l 8 -s 256 -b 5 -O "$syslog_base/system.log" < /dev/null > /dev/null &
+    spid="$!"
+    
+    echo "$kpid $spid" > "$syslog_pid"
+}
+
+stop()
+{
+    echo -n "* Terminating syslog... "
+    pids="$(cat "$syslog_pid" 2> /dev/null)"
+    rm "$syslog_pid" 2> /dev/null
+    
+    if [ -z "$pids" ]; then
+        echo "DONE"
+        return 0
+    fi
+
+    for t in 1 2 3; do
+        kill "$pids" > /dev/null 2>&1
+        echo -n "$t "
+        usleep 500000
+
+        ok=1
+        for pid in $pids; do
+            if [ -f "/proc/$pid/stat" ]; then
+                ok=0 
+            fi
+        done
+        
+        if [ $ok -eq 1 ]; then
+            echo "DONE"
+            return 0
+        fi
+        
+    done
+    
+    echo "K"
+    kill -9 "$pids"
+}
