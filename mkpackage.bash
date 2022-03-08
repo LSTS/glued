@@ -71,12 +71,12 @@ download()
             fi
         fi
 
-	# First try LSTS mirror.
-	lsts_url="https://www.lsts.pt/glued/validPackages/$(basename $u)"
-  download_tool "$lsts_url" "$cfg_dir_downloads/$file"
+	# First try LSTS cloud
+	download_tool "$u" "$cfg_dir_downloads/$file"
   if [ $? -ne 0 ]; then
-		        # On failure try upstream URL.
-		        download_tool "$u" "$cfg_dir_downloads/$file"
+		        # On failure try LSTS old URL.
+		        lsts_url="https://www.lsts.pt/glued/validPackages/$(basename $u)"
+            download_tool "$lsts_url" "$cfg_dir_downloads/$file"
 		        if [ $? -ne 0 ]; then
                   echo "ERROR: download failed"
                   exit 1
