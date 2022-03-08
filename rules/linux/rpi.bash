@@ -18,6 +18,7 @@ md5=\
 requires=\
 (
     'lz4/host'
+    'bc/host'
 )
 
 build_dir="rpi-linux-rpi-linux-$version"
