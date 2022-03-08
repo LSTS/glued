@@ -20,8 +20,11 @@ maintainer=\
 
 configure()
 {
+    mkdir $cfg_dir_builds/$pkg/toolchain
+    export cfg_dir_output_toolchain=$cfg_dir_builds/$pkg/toolchain
+
     "../libtool-$version/configure" \
-        --prefix="$cfg_dir_toolchain"
+        --prefix="$cfg_dir_output_toolchain"
 }
 
 build()
@@ -32,4 +35,6 @@ build()
 host_install()
 {
     $cmd_make install
+
+    tar -czf ../libtool-v$version.tar.gz ../toolchain
 }
