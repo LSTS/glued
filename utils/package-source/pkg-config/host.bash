@@ -20,8 +20,11 @@ maintainer=\
 
 configure()
 {
+    mkdir $cfg_dir_builds/$pkg/toolchain
+    export cfg_dir_output_toolchain=$cfg_dir_builds/$pkg/toolchain
+
     ./configure \
-        --prefix="${cfg_dir_toolchain}" \
+        --prefix="${cfg_dir_output_toolchain}" \
         --disable-shared \
         --enable-static \
         --with-internal-glib
@@ -35,4 +38,6 @@ build()
 host_install()
 {
     $cmd_make install
+
+    tar -czf ../pkg-config-v$version.tar.gz ../toolchain
 }

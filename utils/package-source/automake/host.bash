@@ -1,15 +1,15 @@
 version=\
 (
-    '1.11.1'
+    '1.16'
 )
 url=\
 (
-    "http://ftp.gnu.org/gnu/automake/automake-$version.tar.bz2"
+    "http://ftp.gnu.org/gnu/automake/automake-$version.tar.gz"
 )
 
 md5=\
 (
-    'c2972c4d9b3e29c03d5f2af86249876f'
+    '7fb7155e553dc559ac39cf525f0bb5de'
 )
 
 maintainer=\
@@ -19,13 +19,16 @@ maintainer=\
 
 requires=\
 (
-    'autoconf/host'
+    'autoconf/rpi4-host'
 )
 
 configure()
 {
+    mkdir $cfg_dir_builds/$pkg/toolchain
+    export cfg_dir_output_toolchain=$cfg_dir_builds/$pkg/toolchain
+
     "../automake-$version/configure" \
-        --prefix="$cfg_dir_toolchain"
+        --prefix="$cfg_dir_output_toolchain"
 }
 
 build()
@@ -36,4 +39,6 @@ build()
 host_install()
 {
     $cmd_make install
+
+    tar -czf ../automake-v$version..tar.gz ../toolchain
 }

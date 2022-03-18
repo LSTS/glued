@@ -20,13 +20,16 @@ maintainer=\
 
 requires=\
 (
-    'm4/host'
+    'm4/rpi4-host'
 )
 
 configure()
 {
+    mkdir $cfg_dir_builds/$pkg/toolchain
+    export cfg_dir_output_toolchain=$cfg_dir_builds/$pkg/toolchain
+
     "../autoconf-$version/configure" \
-        --prefix="$cfg_dir_toolchain"
+        --prefix="$cfg_dir_output_toolchain"
 }
 
 build()
@@ -37,4 +40,6 @@ build()
 host_install()
 {
     $cmd_make install
+
+    tar -czf ../autoconf-v$version..tar.gz ../toolchain
 }
