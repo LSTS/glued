@@ -1,0 +1,38 @@
+version=\
+(
+    "0.29.2"
+)
+
+url=\
+(
+    "http://pkgconfig.freedesktop.org/releases/pkg-config-$version.tar.gz"
+)
+
+md5=\
+(
+    "f6e931e319531b736fadc017f470e68a"
+)
+
+maintainer=\
+(
+    "Ricardo Martins <rasm@fe.up.pt>"
+)
+
+configure()
+{
+    ./configure \
+        --prefix="${cfg_dir_toolchain}" \
+        --disable-shared \
+        --enable-static \
+        --with-internal-glib
+}
+
+build()
+{
+    $cmd_make
+}
+
+host_install()
+{
+    $cmd_make install
+}
