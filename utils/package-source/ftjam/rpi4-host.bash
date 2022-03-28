@@ -20,7 +20,7 @@ maintainer=\
 
 requires=\
 (
-    'bison/host'
+    'bison/rpi4-host'
 )
 
 build()
@@ -30,8 +30,12 @@ build()
 
 configure()
 {
+
+    mkdir $cfg_dir_builds/$pkg/toolchain
+    export cfg_dir_output_toolchain=$cfg_dir_builds/$pkg/toolchain
+
     ../ftjam-$version/configure \
-        --prefix="$cfg_dir_toolchain"
+        --prefix="$cfg_dir_output_toolchain"
 }
 
 build()
@@ -42,4 +46,6 @@ build()
 host_install()
 {
     $cmd_make install
+
+    tar -czf ../ftjam-v$version.tar.gz ../toolchain
 }
