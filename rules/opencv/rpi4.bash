@@ -1,6 +1,12 @@
 version=\
 (
-    "v2.6"
+    "v2.4.13"
+)
+
+requires=\
+(
+    'cmake/host-rpi4'
+    'ffmpeg/rpi4'
 )
 
 maintainer=\
@@ -10,12 +16,12 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/ffmpeg-${version}.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/opencv-${version}.tar.gz"
 )
 
 md5=\
 (
-    "307768fc3bb87fc30e00a06f4330d98a"
+    "0111d399fed9a1509be563cdab95d8a4"
 )
 
 post_unpack()

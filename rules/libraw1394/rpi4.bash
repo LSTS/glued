@@ -1,6 +1,6 @@
 version=\
 (
-    "v2.6"
+    'v2.0.5'
 )
 
 maintainer=\
@@ -10,12 +10,12 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/ffmpeg-${version}.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/libraw1394-${version}.tar.gz"
 )
 
 md5=\
 (
-    "307768fc3bb87fc30e00a06f4330d98a"
+    "4dd751b2a6026c8ee09c121b332af899"
 )
 
 post_unpack()

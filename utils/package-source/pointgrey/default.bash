@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "http://lsts.pt/glued/flycapture.$version.armhf.tar.gz"
+    "https://www.lsts.pt/glued/validPackages/flycapture.$version.armhf.tar.gz"
 )
 
 md5=\
@@ -21,9 +21,9 @@ post_unpack()
 
 requires=\
 (
-    'libusb/default'
-    'libraw1394/default'
-    'libdc1394/default'
+    'libusb/rpi4'
+    'libraw1394/rpi4'
+    'libdc1394/rpi4'
 )
 
 maintainer=\
@@ -33,13 +33,28 @@ maintainer=\
 
 host_install()
 {
-    $cmd_cp -r "lib/"*    "$cfg_dir_toolchain_sysroot/usr/lib/"
-    $cmd_cp -r "include/"* "$cfg_dir_toolchain_sysroot/usr/include/"
+    mkdir $cfg_dir_builds/$pkg/toolchain
+    mkdir $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical
+    mkdir $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot
+    mkdir $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot/usr
+    mkdir $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot/usr/lib
+    mkdir $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot/usr/include
+    export cfg_dir_output_toolchain_sysroot=$cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot
+
+    $cmd_cp -r "lib/"*    "$cfg_dir_output_toolchain_sysroot/usr/lib/"
+    $cmd_cp -r "include/"* "$cfg_dir_output_toolchain_sysroot/usr/include/"
 }
 
 target_install()
 {
-    $cmd_mkdir "$cfg_dir_rootfs/usr/include/"
-    $cmd_cp -r "lib/"* "$cfg_dir_rootfs/usr/lib/"
-    $cmd_cp -r "include/"* "$cfg_dir_rootfs/usr/include/"
+    mkdir $cfg_dir_builds/$pkg/rootfs
+    mkdir $cfg_dir_builds/$pkg/rootfs/usr
+    mkdir $cfg_dir_builds/$pkg/rootfs/usr/lib
+    mkdir $cfg_dir_builds/$pkg/rootfs/usr/include
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
+
+    $cmd_cp -r "lib/"* "$cfg_dir_output_rootfs/usr/lib/"
+    $cmd_cp -r "include/"* "$cfg_dir_output_rootfs/usr/include/"
+
+    tar -czf ../pointgrey-v$version.tar.gz ../rootfs ../toolchain
 }

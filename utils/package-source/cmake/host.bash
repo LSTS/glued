@@ -20,8 +20,11 @@ md5=\
 
 configure()
 {
+    mkdir $cfg_dir_builds/$pkg/toolchain
+    export cfg_dir_output_toolchain=$cfg_dir_builds/$pkg/toolchain
+
     ./configure \
-        --prefix="$cfg_dir_toolchain"
+        --prefix="$cfg_dir_output_toolchain"
 }
 
 build()
@@ -33,5 +36,10 @@ build()
 
 host_install()
 {
-    $cmd_make DESTDIR="$cfg_dir_toolchain" install
+    $cmd_make DESTDIR="$cfg_dir_output_toolchain" install
+    
+    $cmd_cp $cfg_dir_output_toolchain/usr/local/* $cfg_dir_output_toolchain/usr/
+    rm -rf $cfg_dir_output_toolchain/usr/local
+
+    tar -czf ../cmake-v$version.tar.gz ../toolchain
 }
