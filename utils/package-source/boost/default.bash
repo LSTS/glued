@@ -22,7 +22,7 @@ md5=\
 
 requires=\
 (
-    'bzip2/default'
+    'bzip2/rpi4'
 )
 
 post_unpack()
@@ -35,6 +35,12 @@ post_unpack()
 
 configure()
 {
+    mkdir $cfg_dir_builds/$pkg/toolchain
+    mkdir $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical
+    mkdir $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot
+    mkdir $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot/usr
+    export cfg_dir_output_toolchain_sysroot=$cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot
+
     cd "../boost_$vendor_version" &&
     ./bootstrap.sh \
         --with-icu="$cfg_dir_toolchain_sysroot/usr" \
@@ -49,16 +55,16 @@ build()
 {
     cd "../boost_$vendor_version" &&
     ./bjam -d+2 \
-	toolset=gcc \
-	variant=release \
-	link=shared \
-	threading=multi \
-	runtime-link=shared \
-        -sICU_PATH="$cfg_dir_toolchain_sysroot/usr" \
-	--user-config=user-config.jam \
-	--prefix="${cfg_dir_toolchain_sysroot}/usr" \
-	--without-python \
-	--layout=tagged
+	  toolset=gcc \
+	  variant=release \
+	  link=shared \
+	  threading=multi \
+	  runtime-link=shared \
+          -sICU_PATH="$cfg_dir_toolchain_sysroot/usr" \
+	  --user-config=user-config.jam \
+	  --prefix="${cfg_dir_output_toolchain_sysroot}/usr" \
+	  --without-python \
+	  --layout=tagged
 }
 
 
@@ -66,29 +72,36 @@ host_install()
 {
     cd "../boost_$vendor_version" &&
     ./bjam -d+2 \
-	toolset=gcc \
-	variant=release \
-	link=shared \
-	threading=multi \
-	runtime-link=shared \
-        -sICU_PATH="$cfg_dir_toolchain_sysroot/usr" \
-	--user-config=user-config.jam \
-	--prefix="${cfg_dir_toolchain_sysroot}/usr" \
-	--without-python \
-        --layout=tagged \
-        install
+	  toolset=gcc \
+	  variant=release \
+	  link=shared \
+	  threading=multi \
+	  runtime-link=shared \
+          -sICU_PATH="$cfg_dir_toolchain_sysroot/usr" \
+	  --user-config=user-config.jam \
+	  --prefix="${cfg_dir_output_toolchain_sysroot}/usr" \
+	  --without-python \
+          --layout=tagged \
+          install
 
-    mkdir -p "${cfg_dir_toolchain_sysroot}/usr/share"
-    cp -rvd "../boost_$vendor_version/boost" \
-	"${cfg_dir_toolchain_sysroot}/usr/share"
+      mkdir -p "${cfg_dir_output_toolchain_sysroot}/usr/share"
+      cp -rvd "../boost_$vendor_version/boost" \
+	  "${cfg_dir_output_toolchain_sysroot}/usr/share"
 }
 
 target_install()
 {
-    base="$cfg_dir_toolchain_sysroot/usr/lib"
+    mkdir $cfg_dir_builds/$pkg/rootfs
+    mkdir $cfg_dir_builds/$pkg/rootfs/usr
+    mkdir $cfg_dir_builds/$pkg/rootfs/usr/lib
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs/usr
+
+    base="$cfg_dir_output_toolchain_sysroot/usr/lib"
     for f in "$base/libboost_"*.so*; do
-        dst="$cfg_dir_rootfs/lib/$(basename "$f")"
+        dst="$cfg_dir_output_rootfs/lib/$(basename "$f")"
         cp -v -d "$f" "$dst" &&
         $cmd_target_strip "$dst"
     done
+
+    tar -czf ../boost-v$version.tar.gz ../rootfs ../toolchain
 }
