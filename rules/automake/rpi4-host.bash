@@ -10,7 +10,7 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/automake-${version}.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/automake-${version}-host.tar.gz"
 )
 
 md5=\

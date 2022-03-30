@@ -15,7 +15,7 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/ftjam-${version}.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/ftjam-${version}-host.tar.gz"
 )
 
 md5=\

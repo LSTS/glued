@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "http://pkgconfig.freedesktop.org/releases/pkg-config-$version.tar.gz"
+    "http://pkgconfig.freedesktop.org/releases/pkg-config-${version}-host.tar.gz"
 )
 
 md5=\
