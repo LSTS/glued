@@ -10,7 +10,7 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/readline-${version}.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/gcc-5.4/readline-${version}.tar.gz"
 )
 
 md5=\

@@ -10,7 +10,7 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/ffmpeg-${version}.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/gcc-5.4/ffmpeg-${version}.tar.gz"
 )
 
 md5=\

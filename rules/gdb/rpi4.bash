@@ -16,7 +16,7 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/gdb-${version}.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/gcc-5.4/gdb-${version}.tar.gz"
 )
 
 md5=\

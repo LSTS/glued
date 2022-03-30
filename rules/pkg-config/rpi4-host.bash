@@ -1,11 +1,11 @@
 version=\
 (
-    "0.29.2"
+    "v0.29.2"
 )
 
 url=\
 (
-    "http://pkgconfig.freedesktop.org/releases/pkg-config-${version}-host.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/gcc-5.4/pkg-config-${version}-host.tar.gz"
 )
 
 md5=\
