@@ -30,6 +30,12 @@ system="lctr-rpi4"
 listFileUpdated=false
 pathToSaveFile="/home/pedro/LSTS/glued-apk/glued-apk-download"
 file="$pathToSaveFile/package-list.txt"
+package=""
+md5Sum=""
+packagesNames=()
+packageMd5=()
+numberOfPackages=0
+packageToInstallExist=false
 
 # Config: GLUED-Cloud version.
 cfg_glued_version='2022.03'
@@ -41,7 +47,7 @@ nfo1()
 
 item()
 {
-    echo -e "[$(date +"%Y-%m-%d %H:%M:%S")] \033[0m\033[0;33m  > \033[0m$*"
+    echo -e "[$(date +"%Y-%m-%d %H:%M:%S")] \033[0m\033[0;33m  > $*"
 }
 
 ok()
@@ -108,29 +114,139 @@ function showListOfPackages()
   do
     IFS='#'
     read -a strarr <<< "$line"
-    item "${strarr[0]}"
+    item "${strarr[0]}\033[0m"
+  done < "$file"
+}
+
+function readListOfPackages()
+{
+  numberOfPackages=0
+  while IFS= read -r line
+  do
+    IFS='#'
+    read -a strarr <<< "$line"
+    packagesNames[$numberOfPackages]=${strarr[0]}
+    packageMd5[$numberOfPackages]=${strarr[1]}
+    ((numberOfPackages++))
   done < "$file"
 }
 
 function printHelp()
 {
-  echo ">help"
+  echo -e "> Usage: glued-apk list                      (list all package available for $system)"
+  echo -e "> Usage: glued-apk install [name-package]    (install package in $system)"
+  echo -e "> Usage: glued-apk clean                     (delete all packages downloaded)"
 }
 
-#Main Run
+function downloadPackage()
+{
+  fileToDownload="$pathToSaveFile/$package/$package.tar.gz"
+  pathForUnpack="$pathToSaveFile/$package"
+  if [ -f "$fileToDownload" ] ; then
+    rm "$fileToDownload"
+  fi
+  fileDownload=false
+  ok "Getting $package for $system"
+  urlPathDownload="https://www.lsts.pt/glued/cloud/package/$system/gcc-5.4/$package.tar.gz"
+  wget -P $pathForUnpack $urlPathDownload &>/dev/null
+  if [ $? -ne 0 ] ; then
+    fileDownload=false
+  else
+    fileDownload=true
+  fi
+
+  if [ $fileDownload = true ] ; then
+    ok "Download of $package OK"
+    unpackPackage
+  else
+    err "Download Fail for $package"
+  fi
+}
+
+function unpackPackage()
+{
+  unpackFile=false
+  ok "Checking md5sum of $package Download"
+  result=$(md5sum $fileToDownload)
+  IFS='  '
+  read -a strarrd <<< "$result"
+  if [ "$md5Sum" = "${strarrd[0]}" ] ; then
+    unpackFile=true
+    ok "Unpacking $package"
+    #TODO
+  else
+    err "Fail md5sum for $package downloaded"
+  fi
+
+  if [ $unpackFile = true ] ; then
+    ping -c 1 $pingIp -W 1 &>/dev/null
+  fi
+}
+
+function installPackage()
+{
+  echo -e -n "[$(date +"%Y-%m-%d %H:%M:%S")] \033[0m\033[1;34m* $*Update/Install \033[0m\033[0;33m$package\033[0m\033[1;34m on \033[0m\033[0;32m$system\033[0m"
+  echo ""
+  readListOfPackages
+  packageToInstallExist=false
+  count=0
+  while [ 1 ]
+  do
+    if [ $count -eq $numberOfPackages ] ; then
+      break
+    else
+      #echo -n ${packagesNames[$count]} ; echo " | ${packageMd5[$count]}"
+      if [ "$package" = "${packagesNames[$count]}" ] ; then
+        md5Sum=${packageMd5[$count]}
+        packageToInstallExist=true
+        break
+      fi
+    fi
+    ((count++))
+  done
+
+  if [ $packageToInstallExist = true ] ; then
+    downloadPackage
+  else
+    err "Package Not Found"
+  fi
+  
+}
+
+# Main Run
 echo "#####################################"
-echo -n "#      GLUED-CLOUD -> " ; echo -e "\033[0m\033[1;32m${cfg_glued_version}\033[0m       #"
+echo -n -e "#      \033[0m\033[1;33mGLUED-CLOUD\033[0m -> " ; echo -e "\033[0m\033[1;32m${cfg_glued_version}\033[0m       #"
 echo "#####################################"
 if [ $# -eq 0 ] ; then
   printHelp
 else
-  pingNetwork
-  if [ $networkUp = true ] ; then
-    getListPackages
-    if [ $listFileUpdated = true ] ; then
-      nfo1 "List of Packages for $system"
-      showListOfPackages
-      echo ""
+  if [ "$1" = "list" ] ; then
+    pingNetwork
+    if [ $networkUp = true ] ; then
+      getListPackages
+      if [ $listFileUpdated = true ] ; then
+        nfo1 "List of Packages for $system"
+        showListOfPackages
+      fi
+    fi
+  fi
+
+  if [ "$1" = "help" ] ; then
+    printHelp
+  fi
+
+  if [ "$1" = "install" ] ; then
+    if [ $# -eq 2 ] ; then
+      package=$2
+      pingNetwork
+      if [ $networkUp = true ] ; then
+        getListPackages
+        if [ $listFileUpdated = true ] ; then
+          installPackage
+        fi
+      fi
+    else
+      printHelp
     fi
   fi
 fi
