@@ -1,0 +1,136 @@
+#! /bin/bash
+###########################################################################
+# GLUED: GNU/Linux Uniform Environment Distribution                       #
+# Copyright (C) 2007-2022 Universidade do Porto - Faculdade de Engenharia #
+# Laboratório de Sistemas e Tecnologia Subaquática (LSTS)                 #
+###########################################################################
+# This program is free software; you can redistribute it and/or modify    #
+# it under the terms of the GNU General Public License as published by    #
+# the Free Software Foundation; either version 2 of the License, or (at   #
+# your option) any later version.                                         #
+#                                                                         #
+# This program is distributed in the hope that it will be useful, but     #
+# WITHOUT ANY WARRANTY; without even the implied warranty of              #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU       #
+# General Public License for more details.                                #
+#                                                                         #
+# You should have received a copy of the GNU General Public License       #
+# along with this program; if not, write to the Free Software             #
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA           #
+# 02110-1301 USA.                                                         #
+###########################################################################
+# Author: Pedro Gonçalves                                                 #
+###########################################################################
+
+# Global values
+attemptsPings=5
+pingIp="8.8.8.8"
+networkUp=false
+system="lctr-rpi4"
+listFileUpdated=false
+pathToSaveFile="/home/pedro/LSTS/glued-apk/glued-apk-download"
+file="$pathToSaveFile/package-list.txt"
+
+# Config: GLUED-Cloud version.
+cfg_glued_version='2022.03'
+
+nfo1()
+{
+    echo -e "[$(date +"%Y-%m-%d %H:%M:%S")] \033[0m\033[1;34m* $*\033[0m"
+}
+
+item()
+{
+    echo -e "[$(date +"%Y-%m-%d %H:%M:%S")] \033[0m\033[0;33m  > \033[0m$*"
+}
+
+ok()
+{
+    echo -e "[$(date +"%Y-%m-%d %H:%M:%S")] \033[0m\033[0;32m** $*\033[0m"
+}
+
+err()
+{
+    echo -e "[$(date +"%Y-%m-%d %H:%M:%S")] \033[0m\033[1;31mERROR: $*\033[0m"
+}
+
+function pingNetwork()
+{
+  networkUp=false
+  count=1
+  nfo1 "Checking Network Connection"
+  while [ 1 ]
+  do
+    ping -c 1 $pingIp -W 1 &>/dev/null
+    if [ $? -eq 0 ] ; then
+      networkUp=true
+      break
+    fi
+
+    if [ $count -eq $attemptsPings ] ; then
+      break
+    fi
+    echo -n "."
+    ((count++))
+  done
+
+  if [ $networkUp = true ] ; then
+    ok "Network Available"
+  else
+    err "No Network Available"
+  fi
+}
+
+function getListPackages()
+{
+  if [ -f "$file" ] ; then
+    rm "$file"
+  fi
+  nfo1 "Getting List Packages for $system"
+  urlPath="https://www.lsts.pt/glued/cloud/package/$system/gcc-5.4/package-list.txt"
+  wget -P $pathToSaveFile $urlPath &>/dev/null
+  if [ $? -ne 0 ] ; then
+    listFileUpdated=false
+  else
+    listFileUpdated=true
+  fi
+
+  if [ $listFileUpdated = true ] ; then
+    ok "List File of Packages Updated"
+  else
+    err "Fail Getting List of Packages"
+  fi
+}
+
+function showListOfPackages()
+{
+  while IFS= read -r line
+  do
+    IFS='#'
+    read -a strarr <<< "$line"
+    item "${strarr[0]}"
+  done < "$file"
+}
+
+function printHelp()
+{
+  echo ">help"
+}
+
+#Main Run
+echo "#####################################"
+echo -n "#      GLUED-CLOUD -> " ; echo -e "\033[0m\033[1;32m${cfg_glued_version}\033[0m       #"
+echo "#####################################"
+if [ $# -eq 0 ] ; then
+  printHelp
+else
+  pingNetwork
+  if [ $networkUp = true ] ; then
+    getListPackages
+    if [ $listFileUpdated = true ] ; then
+      nfo1 "List of Packages for $system"
+      showListOfPackages
+      echo ""
+    fi
+  fi
+fi
