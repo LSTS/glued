@@ -26,9 +26,9 @@
 attemptsPings=5
 pingIp="8.8.8.8"
 networkUp=false
-system="lctr-rpi4"
+system=$cfg_sys_family
 listFileUpdated=false
-pathToSaveFile="/home/pedro/LSTS/glued-apk/glued-apk-download"
+pathToSaveFile="/opt/LSTS/glued-apk/glued-apk-cache"
 file="$pathToSaveFile/package-list.txt"
 package=""
 md5Sum=""
@@ -36,6 +36,7 @@ packagesNames=()
 packageMd5=()
 numberOfPackages=0
 packageToInstallExist=false
+unpackFileOk=false
 
 # Config: GLUED-Cloud version.
 cfg_glued_version='2022.03'
@@ -165,22 +166,35 @@ function downloadPackage()
 
 function unpackPackage()
 {
-  unpackFile=false
-  ok "Checking md5sum of $package Download"
+  unpackFileOk=false
+  nfo1 "Checking md5sum of $package download"
   result=$(md5sum $fileToDownload)
   IFS='  '
   read -a strarrd <<< "$result"
   if [ "$md5Sum" = "${strarrd[0]}" ] ; then
-    unpackFile=true
-    ok "Unpacking $package"
-    #TODO
+    ok "md5sum of $package OK"
+    rm -rf ${pathForUnpack}/rootfs ${pathForUnpack}/toolchain &>/dev/null
+    nfo1 "Unpacking $package"
+    tar -xf ${fileToDownload} -C ${pathForUnpack} -p -h &>/dev/null
+    if [ $? -ne 0 ] ; then
+      unpackFileOk=false
+    else
+      unpackFileOk=true
+  fi
   else
     err "Fail md5sum for $package downloaded"
   fi
 
-  if [ $unpackFile = true ] ; then
-    ping -c 1 $pingIp -W 1 &>/dev/null
+  if [ $unpackFileOk = true ] ; then
+    ok "Unpack Package $package OK"
+  else
+    err "Fail unpacking $package"
   fi
+}
+
+function copyToSystem()
+{
+  echo "copy to system"
 }
 
 function installPackage()
@@ -207,16 +221,27 @@ function installPackage()
 
   if [ $packageToInstallExist = true ] ; then
     downloadPackage
+    if [ $unpackFileOk = true ] ; then
+      copyToSystem
+    fi
   else
     err "Package Not Found"
   fi
   
 }
 
+function cleanFolderDownload()
+{
+  sizeCache=$(du -sh $pathToSaveFile)
+  nfo1 "Cache Deleted: ${sizeCache}"
+  $(rm -rf $pathToSaveFile/* &>/dev/null)
+}
+
 # Main Run
 echo "#####################################"
 echo -n -e "#      \033[0m\033[1;33mGLUED-CLOUD\033[0m -> " ; echo -e "\033[0m\033[1;32m${cfg_glued_version}\033[0m       #"
 echo "#####################################"
+$(mkdir -p ${pathToSaveFile})
 if [ $# -eq 0 ] ; then
   printHelp
 else
@@ -248,5 +273,9 @@ else
     else
       printHelp
     fi
+  fi
+
+  if [ "$1" = "clean" ] ; then
+    cleanFolderDownload
   fi
 fi
