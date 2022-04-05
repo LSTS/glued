@@ -31,7 +31,6 @@ file="$pathToSaveFile/package-list.txt"
 lsts_site="192.168.106.32"
 #lsts_site="www.lsts.pt"
 
-
 # GLUED-Cloud version.
 cfg_glued_version='2022.03'
 
@@ -196,7 +195,7 @@ function copyToSystem()
   if [ $? -ne 0 ]; then
     err "Fail mounting system in write mode"
   else
-    nfo1 "Copying package $package to system"
+    nfo1 "Copying package \033[0m\033[0;33m$package\033[0m\033[1;34m to system"
     cp -rf ${pathForUnpack}/rootfs/* / &>/dev/null
     if [ $? -ne 0 ]; then
       err "Fail copying package files to system"
@@ -214,7 +213,8 @@ function copyToSystem()
       if [ $? -ne 0 ]; then
         err "Fail mounting system in read mode"
       else
-        ok "Please reboot system. Update/Install Done"
+        ok "Update/Install Done"
+        nfo1 "Please reboot system"
       fi
     fi
   fi
@@ -277,28 +277,34 @@ else
         showListOfPackages
       fi
     fi
-  fi
-
-  if [ "$1" = "help" ] ; then
+  elif [ "$1" = "help" ] ; then
     printHelp
-  fi
-
-  if [ "$1" = "install" ] ; then
-    if [ $# -eq 2 ] ; then
-      package=$2
+  elif [ "$1" = "install" ] ; then
+    if [ $# -ge 2 ] ; then
       pingNetwork
       if [ $networkUp = true ] ; then
         getListPackages
         if [ $listFileUpdated = true ] ; then
-          installPackage
+          echo $#
+          i=1;
+          for namePackage in "$@"
+          do
+              if [ $i -ne 1 ]; then
+                echo "ARG - $i: $namePackage";
+                package=$namePackage
+                installPackage
+              fi
+              i=$((i + 1));
+          done
+
         fi
       fi
     else
       printHelp
     fi
-  fi
-
-  if [ "$1" = "clean" ] ; then
+  elif [ "$1" = "clean" ] ; then
     cleanFolderDownload
+  else
+    printHelp
   fi
 fi
