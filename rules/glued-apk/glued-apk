@@ -285,12 +285,10 @@ else
       if [ $networkUp = true ] ; then
         getListPackages
         if [ $listFileUpdated = true ] ; then
-          echo $#
           i=1;
           for namePackage in "$@"
           do
               if [ $i -ne 1 ]; then
-                echo "ARG - $i: $namePackage";
                 package=$namePackage
                 installPackage
               fi
