@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/usr/bin/bash
 ###########################################################################
 # GLUED: GNU/Linux Uniform Environment Distribution                       #
 # Copyright (C) 2007-2022 Universidade do Porto - Faculdade de Engenharia #
@@ -25,20 +25,14 @@
 # Global values
 attemptsPings=5
 pingIp="8.8.8.8"
-networkUp=false
-system=$cfg_sys_family
-listFileUpdated=false
-pathToSaveFile="/opt/LSTS/glued-apk/glued-apk-cache"
+system="lctr-rpi4"
+pathToSaveFile="/opt/lsts/apk-dir/glued-apk-cache"
 file="$pathToSaveFile/package-list.txt"
-package=""
-md5Sum=""
-packagesNames=()
-packageMd5=()
-numberOfPackages=0
-packageToInstallExist=false
-unpackFileOk=false
+lsts_site="192.168.106.32"
+#lsts_site="www.lsts.pt"
 
-# Config: GLUED-Cloud version.
+
+# GLUED-Cloud version.
 cfg_glued_version='2022.03'
 
 nfo1()
@@ -94,7 +88,7 @@ function getListPackages()
     rm "$file"
   fi
   nfo1 "Getting List Packages for $system"
-  urlPath="https://www.lsts.pt/glued/cloud/package/$system/gcc-5.4/package-list.txt"
+  urlPath="https://${lsts_site}/glued/cloud/package/$system/gcc-5.4/package-list.txt"
   wget -P $pathToSaveFile $urlPath &>/dev/null
   if [ $? -ne 0 ] ; then
     listFileUpdated=false
@@ -141,14 +135,16 @@ function printHelp()
 
 function downloadPackage()
 {
+  unpackFileOk=false
   fileToDownload="$pathToSaveFile/$package/$package.tar.gz"
   pathForUnpack="$pathToSaveFile/$package"
   if [ -f "$fileToDownload" ] ; then
     rm "$fileToDownload"
   fi
+  mkdir -p ${pathForUnpack}
   fileDownload=false
   ok "Getting $package for $system"
-  urlPathDownload="https://www.lsts.pt/glued/cloud/package/$system/gcc-5.4/$package.tar.gz"
+  urlPathDownload="https://${lsts_site}/glued/cloud/package/$system/gcc-5.4/$package.tar.gz"
   wget -P $pathForUnpack $urlPathDownload &>/dev/null
   if [ $? -ne 0 ] ; then
     fileDownload=false
@@ -175,7 +171,7 @@ function unpackPackage()
     ok "md5sum of $package OK"
     rm -rf ${pathForUnpack}/rootfs ${pathForUnpack}/toolchain &>/dev/null
     nfo1 "Unpacking $package"
-    tar -xf ${fileToDownload} -C ${pathForUnpack} -p -h &>/dev/null
+    tar -xf ${fileToDownload} -C ${pathForUnpack}
     if [ $? -ne 0 ] ; then
       unpackFileOk=false
     else
@@ -194,7 +190,34 @@ function unpackPackage()
 
 function copyToSystem()
 {
-  echo "copy to system"
+  nfo1 "Mounting system in write mode"
+  sync
+  mount -o remount rw / &>/dev/null
+  if [ $? -ne 0 ]; then
+    err "Fail mounting system in write mode"
+  else
+    nfo1 "Copying package $package to system"
+    cp -rf ${pathForUnpack}/rootfs/* / &>/dev/null
+    if [ $? -ne 0 ]; then
+      err "Fail copying package files to system"
+      sync
+      sync
+      mount -o remount ro / &>/dev/null
+      if [ $? -ne 0 ]; then
+        err "Fail mounting system in read mode"
+      fi
+    else
+      nfo1 "Copying done, mounting system in read mode"
+      sync
+      sync
+      mount -o remount ro / &>/dev/null
+      if [ $? -ne 0 ]; then
+        err "Fail mounting system in read mode"
+      else
+        ok "Please reboot system. Update/Install Done"
+      fi
+    fi
+  fi
 }
 
 function installPackage()
@@ -227,7 +250,6 @@ function installPackage()
   else
     err "Package Not Found"
   fi
-  
 }
 
 function cleanFolderDownload()
@@ -238,6 +260,7 @@ function cleanFolderDownload()
 }
 
 # Main Run
+clear
 echo "#####################################"
 echo -n -e "#      \033[0m\033[1;33mGLUED-CLOUD\033[0m -> " ; echo -e "\033[0m\033[1;32m${cfg_glued_version}\033[0m       #"
 echo "#####################################"
