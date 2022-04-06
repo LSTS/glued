@@ -195,7 +195,11 @@ perform_clean()
 perform_all()
 {
     start="$(date +%s)"
-    nfo1 "$pkg / $pkg_var"
+    if [ "$is_package_build" = true ]; then
+        nfo1 "package-build / $pkg / $pkg_var"
+    else
+        nfo1 "$pkg / $pkg_var"
+    fi
 
     export pkg_build_dir="$cfg_dir_builds/$pkg/$pkg_var"
 
@@ -301,6 +305,17 @@ export PATH="$cfg_dir_toolchain/bin$clean_path"
 
 pkg="$(echo $2 | cut -f1 -d'/')"
 pkg_var="$(echo $2 | cut -f2 -d'/')"
+
+is_package_build=false
+if [ "$pkg" == "package" ]; then
+  is_package_build=true
+  cfg_dir_rules=$cfg_dir_package_create_rules
+  pkg="$(echo $2 | cut -f2 -d'/')"
+  pkg_var="$(echo $2 | cut -f3 -d'/')"
+  if [ -z "$pkg_var" ]; then
+      pkg_var='default'
+  fi
+fi
 
 if [ "$pkg_var" = "$pkg" ]; then
     pkg_var='default'
