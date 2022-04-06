@@ -26,10 +26,9 @@
 attemptsPings=5
 pingIp="8.8.8.8"
 system="lctr-rpi4"
-pathToSaveFile="/opt/lsts/apk-dir/glued-apk-cache"
+pathToSaveFile="/opt/lsts/.apk-dir/glued-apk-cache"
 file="$pathToSaveFile/package-list.txt"
-lsts_site="192.168.106.32"
-#lsts_site="www.lsts.pt"
+lsts_site="www.lsts.pt"
 
 # GLUED-Cloud version.
 cfg_glued_version='2022.03'
@@ -259,8 +258,62 @@ function cleanFolderDownload()
   $(rm -rf $pathToSaveFile/* &>/dev/null)
 }
 
+function checkResolv()
+{
+  resolvPath="/tmp/resolv.conf"
+  nfo1 "Checkin nameserver in resolv.conf"
+  if [ -f "$resolvPath" ] ; then
+    if grep -q 'nameserver 10.0.0.1\|nameserver 8.8.8.8' "$resolvPath"; then
+      ok "File resolv.conf is OK"
+    else
+      nfo1 "Appending nameserver in resolv.conf"
+      mount -o remount rw / &>/dev/null
+      if [ $? -ne 0 ]; then
+        err "Fail mounting system in write mode"
+      else
+        echo -e "nameserver 10.0.0.1\nnameserver 8.8.8.8\nnameserver 127.0.0.53\n" >> $resolvPath
+        sync
+        sync
+        mount -o remount ro / &>/dev/null
+        if [ $? -ne 0 ]; then
+          err "Fail mounting system in read mode"
+        else
+          ok "Append of nameservers OK"
+        fi
+      fi
+    fi
+  else
+    nfo1 "File resolv.conf not found, creating file"
+    mount -o remount rw / &>/dev/null
+    if [ $? -ne 0 ]; then
+      err "Fail mounting system in write mode"
+    else
+      touch $resolvPath &>/dev/null
+      if [ $? -ne 0 ]; then
+        err "Error creating resolv.conf file"
+        sync
+        sync
+        mount -o remount ro / &>/dev/null
+        if [ $? -ne 0 ]; then
+          err "Fail mounting system in read mode"
+        fi
+      else
+        echo -e "nameserver 10.0.0.1\nnameserver 8.8.8.8\nnameserver 127.0.0.53\n" >> $resolvPath
+        sync
+        sync
+        mount -o remount ro / &>/dev/null
+        if [ $? -ne 0 ]; then
+          err "Fail mounting system in read mode"
+        else
+          ok "Append of nameserver OK"
+        fi
+      fi
+    fi
+  fi
+}
+
 # Main Run
-clear
+start="$(date +%s)"
 echo "#####################################"
 echo -n -e "#      \033[0m\033[1;33mGLUED-CLOUD\033[0m -> " ; echo -e "\033[0m\033[1;32m${cfg_glued_version}\033[0m       #"
 echo "#####################################"
@@ -269,6 +322,7 @@ if [ $# -eq 0 ] ; then
   printHelp
 else
   if [ "$1" = "list" ] ; then
+    checkResolv
     pingNetwork
     if [ $networkUp = true ] ; then
       getListPackages
@@ -280,13 +334,14 @@ else
   elif [ "$1" = "help" ] ; then
     printHelp
   elif [ "$1" = "install" ] ; then
+    checkResolv
     if [ $# -ge 2 ] ; then
       pingNetwork
       if [ $networkUp = true ] ; then
         getListPackages
         if [ $listFileUpdated = true ] ; then
           i=1;
-          for namePackage in "$@"
+          for namePackage in "$@" 
           do
               if [ $i -ne 1 ]; then
                 package=$namePackage
@@ -306,3 +361,5 @@ else
     printHelp
   fi
 fi
+elapsed=$[ $(date +%s)-$start ]
+echo -e "[$(date +"%Y-%m-%d %H:%M:%S")] \033[0m\033[1;34mcompleted in ${elapsed}s\033[0m"
