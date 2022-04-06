@@ -114,6 +114,8 @@ cfg_dir_base="$PWD"
 cfg_dir_system="$cfg_dir_base/$family_dir"
 # Config: package rules folder.
 cfg_dir_rules="$cfg_dir_base/rules"
+# Config: package create rules folder.
+cfg_dir_package_create_rules="$cfg_dir_base/utils/package"
 # Config: configuration rules folder.
 cfg_dir_postconfiguration="$cfg_dir_base/postconfiguration"
 # Config: package sources folder.
