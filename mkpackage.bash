@@ -57,38 +57,35 @@ md5sum_tool()
 download()
 {
     n=0; while [ -n "${url[$n]}" ]; do
-
         u="${url[$n]}"
         s="${md5[$n]}"
         file=$(basename "$u")
 
         if [ -f "$cfg_dir_downloads/$file" ]; then
             md5=$(md5sum_tool "$cfg_dir_downloads/$file")
-
             if [ "$s" = "$md5" ]; then
                 let n++
                 continue
             fi
         fi
 
-	# First try LSTS cloud
-	download_tool "$u" "$cfg_dir_downloads/$file"
-  if [ $? -ne 0 ]; then
-		        # On failure try LSTS old URL.
-		        lsts_url="https://www.lsts.pt/glued/validPackages/$(basename $u)"
-            download_tool "$lsts_url" "$cfg_dir_downloads/$file"
-		        if [ $? -ne 0 ]; then
-                  echo "ERROR: download failed"
-                  exit 1
-		        fi
-	fi
+        lsts_url="https://www.lsts.pt/glued/validPackages/$(basename $u)"
+        download_tool "$lsts_url" "$cfg_dir_downloads/$file"
+        # First try old LSTS repo
+        if [ $? -ne 0 ]; then
+            # On failure try LSTS cloud.
+            download_tool "$u" "$cfg_dir_downloads/$file"
+            if [ $? -ne 0 ]; then
+                echo "ERROR: download failed"
+                exit 1
+            fi
+        fi
 
         md5="$(md5sum_tool "$cfg_dir_downloads/$file")"
         if [ "$s" != "$md5" ]; then
             echo "ERROR: MD5 checksum mismatch: $s vs $md5"
             return 1
         fi
-
         let n++
     done
 
@@ -197,6 +194,8 @@ perform_all()
     start="$(date +%s)"
     if [ "$is_package_build" = true ]; then
         nfo1 "package-build / $pkg / $pkg_var"
+    elif [ "$is_core_build" = true ]; then
+        nfo1 "core-build / $pkg / $pkg_var"
     else
         nfo1 "$pkg / $pkg_var"
     fi
@@ -307,9 +306,18 @@ pkg="$(echo $2 | cut -f1 -d'/')"
 pkg_var="$(echo $2 | cut -f2 -d'/')"
 
 is_package_build=false
+is_core_build=false
 if [ "$pkg" == "package" ]; then
   is_package_build=true
   cfg_dir_rules=$cfg_dir_package_create_rules
+  pkg="$(echo $2 | cut -f2 -d'/')"
+  pkg_var="$(echo $2 | cut -f3 -d'/')"
+  if [ -z "$pkg_var" ]; then
+      pkg_var='default'
+  fi
+elif [ "$pkg" == "core" ]; then
+  is_core_build=true
+  cfg_dir_rules=$cfg_dir_core_package
   pkg="$(echo $2 | cut -f2 -d'/')"
   pkg_var="$(echo $2 | cut -f3 -d'/')"
   if [ -z "$pkg_var" ]; then
@@ -324,6 +332,10 @@ fi
 export pkg
 export pkg_var
 export pkg_common="$cfg_dir_rules/$pkg/common.bash"
+
+#echo $cfg_dir_rules
+#echo $pkg
+#echo $pkg_var
 
 if ! [ -d "$cfg_dir_rules/$pkg" ]; then
     echo "ERROR: package '$pkg' does not exist."

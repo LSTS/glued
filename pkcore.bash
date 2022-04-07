@@ -19,8 +19,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA           #
 # 02110-1301 USA.                                                         #
 ###########################################################################
-# Author: Ricardo Martins                                                 #
-###########################################################################
 
 # Check shell type.
 if [ -z "$BASH_VERSION" ]; then
@@ -40,18 +38,32 @@ fi
 
 source "$1"
 
-start="$(date +%s)"
-if [[ "$1" == *"core"* ]]; then
-    if [[ $cfg_sys_family == *"lctr-rpi4"* ]]; then
-        ./mkpackage.bash "$1" 'core/base/lctr-rpi4' || exit 1
-    else
-        ./mkpackage.bash "$1" 'core/base' || exit 1
-    fi
-else
-    for pkg in $cfg_packages; do
-        ./mkpackage.bash "$1" "$pkg" || exit 1
-    done
+fakeroot_state='/tmp/.glued-fakeroot'
+fakeroot="/usr/bin/fakeroot -s $fakeroot_state -i $fakeroot_state"
+
+rm "$fakeroot_state" && touch "$fakeroot_state"
+
+$fakeroot -- chown -vR root:root "$cfg_dir_rootfs"
+
+for d in bin sbin lib usr/bin usr/sbin usr/lib; do
+    $fakeroot -- chmod -vR 0755 "$cfg_dir_rootfs"/$d
+    $fakeroot -- chmod -vR 0755 "$cfg_dir_rootfs"/$d/*
+    $fakeroot -- chown -vR root:root "$cfg_dir_rootfs"/$d/*
+done
+
+for d in dev boot etc; do
+    $fakeroot -- chmod -vR 0755 "$cfg_dir_rootfs"/$d
+    $fakeroot -- chmod -vR 0644 "$cfg_dir_rootfs"/$d/*
+done
+
+# Copy DTB.
+if [ -n "$cfg_target_linux_dtb" ]; then
+    cp -v "$cfg_dir_rootfs/boot/$(basename $cfg_target_linux_dtb)" "$cfg_dir_rootfs/boot/board.dtb"
 fi
 
-elapsed=$[ $(date +%s)-$start ]
-echo -e "[$(date +"%Y-%m-%d %H:%M:%S")] \033[0m\033[1;34mcompleted in ${elapsed}s\033[0m"
+$fakeroot -- chmod -v 0700 "$cfg_dir_rootfs/root"
+$fakeroot -- chmod -v 1777 "$cfg_dir_rootfs/tmp" "$cfg_dir_rootfs/var/tmp"
+
+cd $cfg_work_dir_system/
+
+tar -czf $cfg_core_tar rootfs toolchain

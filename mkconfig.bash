@@ -116,6 +116,8 @@ cfg_dir_system="$cfg_dir_base/$family_dir"
 cfg_dir_rules="$cfg_dir_base/rules"
 # Config: package create rules folder.
 cfg_dir_package_create_rules="$cfg_dir_base/utils/package"
+# Config: core package rules folder.
+cfg_dir_core_package="$cfg_dir_base/utils/core"
 # Config: configuration rules folder.
 cfg_dir_postconfiguration="$cfg_dir_base/postconfiguration"
 # Config: package sources folder.
@@ -126,6 +128,8 @@ cfg_dir_builds="$cfg_dir_base/$cfg_sys_family/builds"
 cfg_dir_toolchain="$cfg_dir_base/$cfg_sys_family/toolchain"
 # Config: root filesystem folder.
 cfg_dir_rootfs="$cfg_dir_base/$cfg_sys_family/rootfs"
+# Config: root filesystem work folder.
+cfg_work_dir_system="$cfg_dir_base/$cfg_sys_family"
 # Config: system root folder.
 cfg_dir_toolchain_sysroot="$cfg_dir_toolchain/$cfg_target_canonical/sysroot"
 # Target prefix:
@@ -167,6 +171,10 @@ fi
 # Config: toolchain tar file.
 if [ -z $cfg_toolchain_tar ]; then
     cfg_toolchain_tar="$cfg_dir_base/$cfg_sys_family/glued-$cfg_glued_version-$cfg_sys_family-toolchain-$cfg_host_canonical-$cfg_target_canonical.tar.bz2"
+fi
+# Config: core tar file.
+if [ -z $cfg_core_tar ]; then
+    cfg_core_tar="$cfg_dir_base/$cfg_sys_family/glued-$cfg_glued_version-$cfg_sys_family-core.tar.gz"
 fi
 
 # Config: Git revision.
