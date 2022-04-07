@@ -1,0 +1,15 @@
+#! /bin/sh
+
+modem_vid='12d1'
+modem_pid='1446'
+
+while [ 1 ]; do
+    vid=$(grep "$modem_vid" /sys/bus/usb/devices/?-?*/idVendor)
+    pid=$(grep "$modem_pid" /sys/bus/usb/devices/?-?*/idProduct)
+
+    if [ -n "$vid" ] && [ -n "$pid" ]; then
+        /usr/bin/uswitch "$modem_vid" "$modem_pid"
+    fi
+
+    sleep 5
+done

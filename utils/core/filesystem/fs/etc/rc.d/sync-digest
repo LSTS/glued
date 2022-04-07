@@ -1,0 +1,14 @@
+start()
+{
+    for peer in $cfg_sync_digest_peers; do
+        /sbin/sync-digest "$peer" < /dev/null > /dev/null 2>&1 &
+    done
+}
+
+stop()
+{
+    pids="$(echo $(ps | grep '/sbin/sync-digest ' | grep -v grep | cut -f1 -dr))"
+    if [ -n "$pids" ]; then
+        kill $pids
+    fi
+}

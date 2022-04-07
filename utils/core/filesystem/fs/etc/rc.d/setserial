@@ -1,0 +1,15 @@
+start()
+{
+    if  ! [ -f /etc/setserial.cfg ]; then
+        return 0
+    fi
+
+    while read line; do
+        /bin/setserial $line
+    done < /etc/setserial.cfg
+}
+
+stop()
+{
+    return 0
+}

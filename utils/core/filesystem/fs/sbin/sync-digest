@@ -1,0 +1,74 @@
+#! /bin/sh
+
+# I/O timeout (s).
+TIMEOUT_IO="45"
+# Connection timeout (s).
+TIMEOUT_CN="30"
+# Repeat delay if last rsync completed (s).
+DELAY_OK="60"
+# Repeat delay if last rsync failed (s).
+DELAY_KO="30"
+# Local root folder.
+LROOT="/opt/lsts/sync"
+# Local hostname
+LHOST="$(hostname)"
+
+get_addr()
+{
+    case "$1" in
+        lauv-xplore-1)
+            echo "10.0.10.120"
+            ;;
+        lauv-seacon-2)
+            echo "10.0.10.20"
+            ;;
+        lauv-seacon-3)
+            echo "10.0.10.30"
+            ;;
+        *)
+            echo ""
+            ;;
+    esac
+}
+
+sync()
+{
+    echo -e "\n------------------------------------------------------\n"
+
+    rsync -a \
+        -v \
+        --progress \
+        --partial \
+        --timeout="$TIMEOUT_IO" \
+        --contimeout="$TIMEOUT_CN" \
+        --exclude 'Data.837' \
+        --exclude 'Data.jsf' \
+        --exclude 'Data.lsf.gz' \
+        --exclude 'core.*' \
+        "$RADDR::log" \
+        "$LROOT"
+}
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 hostname"
+    exit 1
+fi
+
+RHOST="$1"
+RADDR=$(get_addr "$RHOST")
+
+if [ -z "$RADDR" ]; then
+    echo "ERROR: unknown hostname '$RHOST'."
+    exit 1
+fi
+
+mkdir -p "$LROOT"
+
+while [ 1 ]; do
+    sync >> "$LROOT/.${LHOST}_${RHOST}.log" 2>&1
+    if [ $? -eq 0 ]; then
+        sleep "$DELAY_OK"
+    else
+        sleep "$DELAY_KO"
+    fi
+done

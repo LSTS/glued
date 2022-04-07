@@ -1,0 +1,346 @@
+#! /bin/sh
+#############################################################################
+# Copyright (C) 2007-2009 Laboratório de Sistemas e Tecnologia Subaquática  #
+# Departamento de Engenharia Electrotécnica e de Computadores               #
+# Rua Dr. Roberto Frias, 4200-465 Porto, Portugal                           #
+#############################################################################
+# Author: Ricardo Martins                                                   #
+#############################################################################
+
+base='/opt/lsts/glued'
+hostname="$(hostname)"
+flashcp='/usr/sbin/flashcp'
+scratch="$base/.glued"
+
+clean()
+{
+    if [ -d "$base"/.glued-new ]; then
+        rm -rf "$base"/.glued-new
+    fi
+
+    if [ -d "$base"/.glued-old ]; then
+        rm -rf "$base"/.glued-old
+    fi
+}
+
+version()
+{
+    file="$(ls -1 $base/glued-*-*-rootfs.tar.bz2 2> /dev/null | head -n 1)"
+
+    if [ -z "$file" ]; then
+        return 1
+    fi
+
+    # Filter version.
+    ver="$(echo $file | sed "s%$base/glued-%%")"
+    ver="$(echo $ver | sed "s%-$hostname-bundle\.tar%%")"
+
+    export fw_version="$ver"
+    export fw_file="$file"
+
+    return 0
+}
+
+new_unpack()
+{
+    echo -n "* Unpacking new rootfs... "
+    mkdir ${base}/.glued-new
+    tar -C ${base}/.glued-new -x -f "$fw_file"; rv=$?
+    if [ -d /etc/dropbear ]; then
+        cp -a /etc/dropbear ${base}/.glued-new/etc
+    fi
+
+    if [ $rv -eq 0 ]; then
+        rm "$fw_file"
+        echo "done"
+        return 0
+    fi
+
+    echo "failed"
+    return 1
+}
+
+kernel_mtd_part()
+{
+    echo -n "* Detecting kernel MTD partition... "
+
+    if [ -d /boot/extlinux ]; then
+        echo "not present"
+        return 0
+    fi
+
+    if ! [ -f /proc/mtd ]; then
+        echo "not present"
+        return 0
+    fi
+
+    export fw_kernel_mtd="$(grep \"kernel\" /proc/mtd | cut -f1 -d':')"
+    if [ -z "$fw_kernel_mtd" ]; then
+        export fw_kernel_mtd="$(grep \"Kernel\" /proc/mtd | cut -f1 -d':')"
+        if [ -z "$fw_kernel_mtd" ]; then
+            echo "not present"
+            return 1
+        fi
+    fi
+
+    echo "$fw_kernel_mtd"
+    return 0
+}
+
+uboot_mtd_part()
+{
+    echo -n "* Detecting u-boot MTD partition... "
+    if ! [ -f /proc/mtd ]; then
+        echo "filesystem"
+        return 0
+    fi
+
+    export fw_uboot_mtd="$(grep \"uboot\" /proc/mtd | cut -f1 -d':')"
+    if [ -z "$fw_uboot_mtd" ]; then
+        export fw_uboot_mtd="$(grep \"u-boot\" /proc/mtd | cut -f1 -d':')"
+        if [ -z "$fw_uboot_mtd" ]; then
+            echo "not present"
+            return 1
+        fi
+    fi
+
+    echo "$fw_uboot_mtd"
+    return 0
+}
+
+uboot_mtd_upgrade()
+{
+    bin="$base/.glued-new/boot/u-boot.bin"
+
+    if ! [ -f "$bin" ]; then
+        return 0
+    fi
+
+    if [ -z "$fw_uboot_mtd" ]; then
+        return 0
+    fi
+
+    echo -n "* Upgrading u-boot MTD partition... "
+    "$flashcp" -v "$bin" /dev/"$fw_uboot_mtd"
+    if [ $? -ne 0 ]; then
+        echo "failed"
+        return 1
+    fi
+
+    echo "done"
+    return 0
+}
+
+kernel_mtd_upgrade()
+{
+    # Upgrade MTD
+    if [ -n "$fw_kernel_mtd" ]; then
+        echo -n "* Upgrading kernel... "
+        "$flashcp" -v "$base/.glued-new/boot/kernel" /dev/"$fw_kernel_mtd"
+        if [ $? -ne 0 ]; then
+            echo "failed"
+            return 1
+        fi
+        echo "done"
+        return 0
+    fi
+}
+
+uboot_part_upgrade()
+{
+    label="$1"
+    dev="$2"
+
+    echo -en "* $label: probing bootloader partition... "
+    if ! [ -b "$dev" ]; then
+        echo 'not present'
+        return 0
+    fi
+    echo 'present'
+
+    echo -en "* $label: mounting bootloader partition... "
+    mount -t vfat "$dev" /mnt > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "failed"
+        return 0
+    fi
+    echo 'done'
+
+    for f in MLO u-boot.img; do
+        if [ -f "/mnt/$f" ]; then
+            echo -en "* $label: Replacing $f... "
+            cp "$base/.glued-new/boot/$f" /mnt
+            echo 'done'
+        fi
+    done
+
+    echo -en "* $label: unmounting bootloader partition... "
+    umount /mnt > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo 'failed'
+        return  1
+    fi
+
+    sync && sync && sync && sync
+    echo 'done'
+    return 0
+}
+
+uboot_part_upgrade_check()
+{
+    # Check if board is a BeagleBone black.
+    dmesg | grep -i 'machine model' | grep -i beaglebone > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        dev="$(ls /sys/class/mmc_host/mmc?/mmc?:0001/block)"
+        uboot_part_upgrade 'BeagleBone Black' "/dev/${dev}p1"
+        return 0
+    fi
+
+    # Check if board is a IGEPv2.
+    dmesg | grep -i 'machine model' | grep -i igepv2 > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        uboot_part_upgrade 'IGEPv2' '/dev/mmcblk0p1'
+        return 0
+    fi
+    dmesg | grep Machine | grep 'IGEP v2' > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        uboot_part_upgrade 'IGEPv2' '/dev/mmcblk0p1'
+        return 0
+    fi
+
+    return 0
+}
+
+rpi2_boot_part_upgrade()
+{
+    label="$1"
+    dev="$2"
+
+    echo -en "* $label: probing bootloader partition... "
+    if ! [ -b "$dev" ]; then
+        echo 'not present'
+        return 0
+    fi
+    echo 'present'
+
+    echo -en "* $label: mounting bootloader partition... "
+    mount -t vfat "$dev" /mnt > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "failed"
+        return 0
+    fi
+    echo 'done'
+
+    for f in bootcode.bin cmdline.txt config.txt fixup.dat start.elf; do
+        if [ -f "/mnt/$f" ]; then
+            echo -en "* $label: Replacing $f... "
+            cp "$base/.glued-new/boot/$f" /mnt
+            echo 'done'
+        fi
+    done
+
+    for f in overlays; do
+        if [ -d "/mnt/$f" ]; then
+            echo -en "* $label: Replacing $f... "
+	    rm -rf "/mnt/$f" && cp -r "$base/.glued-new/boot/$f" /mnt
+            echo 'done'
+        fi
+    done
+
+    for dtb in "$base/.glued-new/boot/"*.dtb; do
+        echo -en "* $label: Replacing $dtb... "
+        cp "$dtb" "/mnt"
+        echo 'done'
+    done
+
+    kernel='kernel7.img'
+    if [ -f "/mnt/$kernel" ]; then
+        echo -en "* $label: Replacing $kernel... "
+        cp "$base/.glued-new/boot/kernel" "/mnt/$kernel"
+        echo 'done'
+    fi
+
+    echo -en "* $label: unmounting bootloader partition... "
+    umount /mnt > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo 'failed'
+        return  1
+    fi
+
+    sync && sync && sync && sync
+    echo 'done'
+    return 0
+}
+
+# Check if board is a Raspberry Pi 2/3.
+rpi2_boot_part_upgrade_check()
+{
+    for machine in 'bcm2709' 'raspberry pi'; do
+        dmesg | grep Machine | grep -i "$machine" > /dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            echo "* rpi2: machine detected"
+            rpi2_boot_part_upgrade "rpi2" "/dev/mmcblk0p1"
+            return 0
+        fi
+    done
+}
+
+old_move()
+{
+    echo "* Mounting rootfs read-write..."
+    mount -o remount,rw /
+
+    echo "* Unmounting pseudo filesystems..."
+    umount /sys
+    umount /dev/pts
+    umount /dev/shm
+    umount /proc
+
+    if [ -f /boot/extlinux/extlinux.sys ]; then
+        /bin/chattr -i /boot/extlinux/extlinux.sys
+    fi
+
+    echo "* Moving old rootfs..."
+    mkdir $base/.glued-old &&
+    mv /bin /boot /etc /init /lib /proc /root /sbin /sys /tmp /usr /var $base/.glued-old &&
+    $base/.glued-old/bin/echo "* Moving new rootfs into place..." &&
+    $base/.glued-old/bin/busybox cp -a $base/.glued-new/* / &&
+    $base/.glued-old/bin/echo "* Mounting procfs..." &&
+    $base/.glued-old/bin/busybox mount -t proc proc /proc &&
+    if [ -d "/boot/extlinux" ]; then
+        $base/.glued-old/usr/sbin/extlinux -i /boot/extlinux
+    fi
+
+    $base/.glued-old/bin/echo "* Flushing filesystem cache... "
+    $base/.glued-old/bin/busybox sync
+    $base/.glued-old/bin/busybox sync
+    $base/.glued-old/bin/busybox sync
+    $base/.glued-old/bin/busybox sync
+    $base/.glued-old/bin/busybox sync
+
+    $base/.glued-old/bin/echo "* Preparing reboot... "
+    $base/.glued-old/bin/busybox mount -o remount,ro /opt
+    $base/.glued-old/bin/busybox umount /proc
+    $base/.glued-old/bin/busybox touch /.reboot
+    $base/.glued-old/bin/busybox kill -SIGQUIT 1
+    exit 0
+}
+
+start()
+{
+    clean
+    version || return 1
+    kernel_mtd_part || return 1
+    uboot_mtd_part || return 1
+    new_unpack || return 1
+    uboot_part_upgrade_check || return 1
+    rpi2_boot_part_upgrade_check || return 1
+    kernel_mtd_upgrade || return 1
+    uboot_mtd_upgrade || return 1
+    old_move || return 1
+}
+
+stop()
+{
+    echo -n ""
+}
