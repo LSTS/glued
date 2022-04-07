@@ -219,6 +219,25 @@ function copyToSystem()
   fi
 }
 
+function copyDUNE()
+{
+  nfo1 "Stopping DUNE services, if exist."
+  services dune stop
+  nfo1 "Moving DUNE package to /opt/lsts/dune"
+  mkdir -p /opt/lsts/dune &>/dev/null
+  if [ $? -ne 0 ]; then
+    err "Fail Creating DUNE folder"
+  else
+    cp -rf ${pathForUnpack}/dune*/* /opt/lsts/dune
+    if [ $? -ne 0 ]; then
+      err "Fail Moving DUNE package"
+    else
+      ok "Update/Install Done"
+      nfo1 "Please restart DUNE services"
+    fi
+  fi
+}
+
 function installPackage()
 {
   echo -e -n "[$(date +"%Y-%m-%d %H:%M:%S")] \033[0m\033[1;34m* $*Update/Install \033[0m\033[0;33m$package\033[0m\033[1;34m on \033[0m\033[0;32m$system\033[0m"
@@ -244,7 +263,11 @@ function installPackage()
   if [ $packageToInstallExist = true ] ; then
     downloadPackage
     if [ $unpackFileOk = true ] ; then
-      copyToSystem
+      if [[ "$package" == *"dune"* ]]; then
+        copyDUNE
+      else
+        copyToSystem
+      fi
     fi
   else
     err "Package Not Found"
