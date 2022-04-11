@@ -44,7 +44,7 @@ fi
 if [ "$1" = "list" ]; then
     for family in $(ls -1 systems | sort); do
         echo -e "\n  + Family $family"
-        find "systems/$family" -name '*.cfg' ! -name 'linux-*' | egrep -v "devlinks|linux-[0-9.]*.cfg" | while read s; do
+        find "systems/$family" -name '*.cfg' ! -name 'linux-*' | egrep -v "devlinks|linux-[0-9.]*.cfg|setserial" | while read s; do
             echo "    - $(basename "$s" .cfg)"
         done | sort
     done
