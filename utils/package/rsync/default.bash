@@ -25,11 +25,16 @@ requires=\
 
 configure()
 {
+    mkdir $cfg_dir_builds/$pkg/rootfs
+    mkdir $cfg_dir_builds/$pkg/rootfs/usr
+    mkdir $cfg_dir_builds/$pkg/rootfs/usr/bin
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
+
     ./configure \
         --target="$cfg_target_canonical" \
         --host="$cfg_target_canonical" \
         --build="$cfg_host_canonical" \
-        --prefix="$cfg_dir_rootfs/usr" \
+        --prefix="$cfg_dir_output_rootfs/usr" \
         --disable-ipv6 \
         --disable-locale \
         --disable-debug \
@@ -46,6 +51,8 @@ build()
 
 target_install()
 {
-    $cmd_target_strip rsync -o "$cfg_dir_rootfs/usr/bin/rsync" &&
-    tar -C "$pkg_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
+    $cmd_target_strip rsync -o "$cfg_dir_output_rootfs/usr/bin/rsync" &&
+    tar -C "$pkg_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_output_rootfs" -x -v -f -
+
+    tar -czf ../rsync-v$version.tar.gz ../rootfs
 }

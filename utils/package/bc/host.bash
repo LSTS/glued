@@ -20,13 +20,15 @@ maintainer=\
 
 requires=\
 (
-    'flex/host'
+    'flex/a6xx-host'
 )
 
 configure()
 {
+    mkdir $cfg_dir_builds/$pkg/toolchain
+    export cfg_dir_output_toolchain=$cfg_dir_builds/$pkg/toolchain
     ./configure \
-        --prefix="$cfg_dir_toolchain" \
+        --prefix="$cfg_dir_output_toolchain" \
         --disable-shared \
         --enable-static
 }
@@ -39,4 +41,5 @@ build()
 host_install()
 {
     $cmd_make install
+    tar -czf ../bc-v$version-host.tar.gz ../toolchain
 }

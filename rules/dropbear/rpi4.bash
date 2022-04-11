@@ -1,6 +1,11 @@
 version=\
 (
-    '2015.67'
+    'v2015.67'
+)
+
+requires=\
+(
+    'zlib/rpi4'
 )
 
 maintainer=\

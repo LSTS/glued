@@ -33,8 +33,14 @@ post_unpack()
 
 configure()
 {
+    mkdir $cfg_dir_builds/$pkg/rootfs
+    mkdir $cfg_dir_builds/$pkg/rootfs/usr
+    mkdir $cfg_dir_builds/$pkg/rootfs/usr/bin
+    mkdir $cfg_dir_builds/$pkg/rootfs/usr/sbin
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
+
     "../dropbear-$version/configure" \
-        --prefix="$cfg_dir_rootfs/usr" \
+        --prefix="$cfg_dir_output_rootfs/usr" \
         --disable-utmp \
         --disable-utmpx \
         --disable-wtmp \
@@ -55,12 +61,14 @@ build()
 
 target_install()
 {
-    $cmd_target_strip dropbearmulti -o "$cfg_dir_rootfs/usr/bin/dropbearmulti" &&
-    ln -fs dropbearmulti "$cfg_dir_rootfs/usr/bin/dropbearconvert" &&
-    ln -fs dropbearmulti "$cfg_dir_rootfs/usr/bin/dropbearkey" &&
-    ln -fs dropbearmulti "$cfg_dir_rootfs/usr/bin/scp" &&
-    ln -fs dropbearmulti "$cfg_dir_rootfs/usr/bin/ssh" &&
-    ln -fs dropbearmulti "$cfg_dir_rootfs/usr/bin/dbclient" &&
-    ln -fs ../bin/dropbearmulti "$cfg_dir_rootfs/usr/sbin/dropbear" &&
-    tar -C "$pkg_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
+    $cmd_target_strip dropbearmulti -o "$cfg_dir_output_rootfs/usr/bin/dropbearmulti" &&
+    ln -fs dropbearmulti "$cfg_dir_output_rootfs/usr/bin/dropbearconvert" &&
+    ln -fs dropbearmulti "$cfg_dir_output_rootfs/usr/bin/dropbearkey" &&
+    ln -fs dropbearmulti "$cfg_dir_output_rootfs/usr/bin/scp" &&
+    ln -fs dropbearmulti "$cfg_dir_output_rootfs/usr/bin/ssh" &&
+    ln -fs dropbearmulti "$cfg_dir_output_rootfs/usr/bin/dbclient" &&
+    ln -fs ../bin/dropbearmulti "$cfg_dir_output_rootfs/usr/sbin/dropbear" &&
+    tar -C "$pkg_dir/fs" --exclude .svn -c -f - . | tar -C "$cfg_dir_output_rootfs" -x -v -f -
+
+    tar -czf ../dropbear-v$version.tar.gz ../rootfs
 }

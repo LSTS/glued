@@ -26,7 +26,10 @@ build()
 
 host_install()
 {
-    $cmd_mkdir "$cfg_dir_toolchain/bin"
+    mkdir -p $cfg_dir_builds/$pkg/toolchain
+    export cfg_dir_output_toolchain=$cfg_dir_builds/$pkg/toolchain
+    $cmd_mkdir "$cfg_dir_output_toolchain/bin"
     cd "../lz4-r$version" &&
-    cp -v programs/{lz4,lz4c} "$cfg_dir_toolchain/bin"
+    cp -v programs/{lz4,lz4c} "$cfg_dir_output_toolchain/bin"
+    tar -czf ../lz4-v$version-host.tar.gz ../toolchain
 }

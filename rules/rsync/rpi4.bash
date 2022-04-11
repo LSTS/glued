@@ -3,6 +3,11 @@ version=\
     'v3.1.1'
 )
 
+requires=\
+(
+    'zlib/rpi4'
+)
+
 maintainer=\
 (
     'Pedro Gonçalves <pedro@lsts.pt>'
@@ -18,10 +23,6 @@ md5=\
     '3f4faee463881746726ace558916dccb'
 )
 
-requires=\
-(
-    'zlib/rpi4'
-)
 
 post_unpack()
 {

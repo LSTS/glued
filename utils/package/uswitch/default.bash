@@ -20,7 +20,7 @@ maintainer=\
 
 requires=\
 (
-    'libusb/default'
+    'libusb/a6xx'
 )
 
 build()
@@ -30,5 +30,9 @@ build()
 
 target_install()
 {
-    $cmd_target_strip uswitch -o "$cfg_dir_rootfs/usr/bin/uswitch"
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/usr/bin
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
+
+    $cmd_target_strip uswitch -o "$cfg_dir_output_rootfs/usr/bin/uswitch"
+    tar -czf ../uswitch-v$version.tar.gz ../rootfs
 }

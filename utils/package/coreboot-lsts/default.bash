@@ -20,7 +20,14 @@ maintainer=\
 
 target_install()
 {
-    dir="$cfg_dir_rootfs/usr/share/coreboot-lsts"
+    mkdir $cfg_dir_builds/$pkg/rootfs
+    mkdir $cfg_dir_builds/$pkg/rootfs/usr
+    mkdir $cfg_dir_builds/$pkg/rootfs/usr/share
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
+
+    dir="$cfg_dir_output_rootfs/usr/share/coreboot-lsts"
     $cmd_mkdir "$dir" &&
     $cmd_cp "coreboot-lsts-$version.rom" "$dir"
+
+    tar -czf ../coreboot-lsts-v$version.tar.gz ../rootfs
 }

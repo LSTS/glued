@@ -24,7 +24,14 @@ build()
 
 target_install()
 {
+    mkdir $cfg_dir_builds/$pkg/rootfs
+    mkdir $cfg_dir_builds/$pkg/rootfs/usr
+    mkdir $cfg_dir_builds/$pkg/rootfs/usr/bin
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
+
     for f in emm-8p-xt-eeprom-lauv; do
-        $cmd_target_strip "$f" -o "$cfg_dir_rootfs/usr/bin/$f"
+        $cmd_target_strip "$f" -o "$cfg_dir_output_rootfs/usr/bin/$f"
     done
+
+    tar -czf ../emm-8p-xt-eeprom-v$version.tar.gz ../rootfs
 }

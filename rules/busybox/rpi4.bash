@@ -4,7 +4,7 @@
 
 version=\
 (
-    '1.34.1'
+    'v1.34.1'
 )
 
 maintainer=\
