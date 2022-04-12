@@ -20,11 +20,14 @@ maintainer=\
 
 configure()
 {
+    mkdir -p $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot/usr
+    export cfg_dir_output_toolchain_sysroot=$cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot
+
     "../libtirpc-$version/configure" \
         --target="$cfg_target_canonical" \
         --host="$cfg_target_canonical" \
         --build="$cfg_host_canonical" \
-        --prefix="$cfg_dir_toolchain_sysroot/usr" \
+        --prefix="$cfg_dir_output_toolchain_sysroot/usr" \
         --disable-gssapi \
         --disable-ipv6 \
         --disable-static \
@@ -43,14 +46,19 @@ host_install()
 
 target_install()
 {
-    $cmd_mkdir "$cfg_dir_rootfs/etc"
-    $cmd_cp "doc/netconfig" "$cfg_dir_rootfs/etc/netconfig"
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/usr/lib
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
 
-    for f in "$cfg_dir_toolchain_sysroot/usr/lib/"libtirpc*so*; do
+    $cmd_mkdir "$cfg_dir_output_rootfs/etc"
+    $cmd_cp "doc/netconfig" "$cfg_dir_output_rootfs/etc/netconfig"
+
+    for f in "$cfg_dir_output_toolchain_sysroot/usr/lib/"libtirpc*so*; do
         if [ -L "$f" ]; then
-            cp -vd "$f" "$cfg_dir_rootfs/lib"
+            cp -vd "$f" "$cfg_dir_output_rootfs/usr/lib"
         else
-            $cmd_target_strip -v "$f" -o "$cfg_dir_rootfs/lib/$(basename "$f")"
+            $cmd_target_strip -v "$f" -o "$cfg_dir_output_rootfs/usr/lib/$(basename "$f")"
         fi
     done
+
+    tar -czf ../libtirpc-v$version.tar.gz ../rootfs ../toolchain
 }

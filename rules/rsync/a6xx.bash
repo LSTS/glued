@@ -5,7 +5,7 @@ version=\
 
 requires=\
 (
-    'zlib/rpi4'
+    'zlib/a6xx'
 )
 
 maintainer=\

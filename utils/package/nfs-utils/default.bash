@@ -20,7 +20,7 @@ maintainer=\
 
 requires=\
 (
-    'libtirpc/rpi4'
+    'libtirpc/default'
 )
 
 post_unpack()
@@ -35,13 +35,11 @@ post_unpack()
 
 configure()
 {
-    mkdir ../rootfs
-    mkdir ../rootfs/etc
-    mkdir ../rootfs/usr
-    mkdir ../rootfs/usr/bin
-    mkdir ../rootfs/usr/sbin
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/usr/bin
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/usr/sbin
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/etc
     export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
-
+    
     "../nfs-utils-$version/configure" \
         --target="$cfg_target_canonical" \
         --host="$cfg_target_canonical" \

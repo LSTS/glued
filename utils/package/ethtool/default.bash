@@ -19,8 +19,10 @@ maintainer=\
 
 configure()
 {
+    mkdir -p $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot/usr
+    export cfg_dir_output_toolchain_sysroot=$cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot
     ../ethtool-${version}/configure \
-        --prefix="${cfg_dir_toolchain_sysroot}/usr" \
+        --prefix="${cfg_dir_output_toolchain_sysroot}/usr" \
         --target=$cfg_target_canonical \
         --host=$cfg_target_canonical \
         --config-cache
@@ -38,8 +40,13 @@ host_install()
 
 target_install()
 {
-    cp -a "${cfg_dir_toolchain_sysroot}/usr/sbin/ethtool" "${cfg_dir_rootfs}/usr/sbin/" &&
-    $cmd_target_strip "${cfg_dir_rootfs}/usr/sbin/ethtool" 
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/usr/sbin
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
+
+    cp -a "${cfg_dir_output_toolchain_sysroot}/usr/sbin/ethtool" "${cfg_dir_output_rootfs}/usr/sbin/" &&
+    $cmd_target_strip "${cfg_dir_output_rootfs}/usr/sbin/ethtool"
+
+    tar -czf ../ethtool-v$version.tar.gz ../rootfs ../toolchain
 }
 
 

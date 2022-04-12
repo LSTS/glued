@@ -33,16 +33,22 @@ build()
 
 host_install()
 {
+    mkdir -p $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot
+    export cfg_dir_output_toolchain_sysroot=$cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot
     CC="$cmd_target_cc" \
         SYSROOT="$cfg_dir_toolchain_sysroot" \
-        DESTDIR="$cfg_dir_toolchain_sysroot" \
+        DESTDIR="$cfg_dir_output_toolchain_sysroot" \
         $cmd_make install
 }
 
 target_install()
 {
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
     CC="$cmd_target_cc" \
         SYSROOT="$cfg_dir_rootfs" \
-        DESTDIR="$cfg_dir_rootfs" \
+        DESTDIR="$cfg_dir_output_rootfs" \
         $cmd_make install
+
+    tar -czf ../pps-tools-v$version.tar.gz ../rootfs ../toolchain
 }

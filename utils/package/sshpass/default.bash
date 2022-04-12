@@ -15,11 +15,7 @@ md5=\
 
 configure()
 {
-    mkdir $cfg_dir_builds/$pkg/toolchain
-    mkdir $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical
-    mkdir $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot
-    mkdir $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot/usr
-    mkdir $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot/usr/bin
+    mkdir -p $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot/usr/bin
     export cfg_dir_output_toolchain_sysroot=$cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot
 
     export ac_cv_func_malloc_0_nonnull=yes
@@ -42,9 +38,8 @@ host_install()
 
 target_install()
 {
-    mkdir $cfg_dir_builds/$pkg/rootfs
-    mkdir $cfg_dir_builds/$pkg/rootfs/bin
-    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/usr/bin
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs/usr
 
     $cmd_target_strip "$cfg_dir_output_toolchain_sysroot/usr/bin/sshpass" -o "$cfg_dir_output_rootfs/bin/sshpass"
 

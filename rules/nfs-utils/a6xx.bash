@@ -10,17 +10,17 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/gcc-5.4/nfs-utils-$version.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-a6xx/gcc-5.4/nfs-utils-$version.tar.gz"
 )
 
 requires=\
 (
-    'libtirpc/rpi4'
+    'libtirpc/a6xx'
 )
 
 md5=\
 (
-    'e38ecfa598d2f619027b6b329f72708c'
+    '01ec249681d2cbb637b751d1732b2cb9'
 )
 
 post_unpack()
