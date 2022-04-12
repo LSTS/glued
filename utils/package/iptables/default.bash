@@ -20,8 +20,10 @@ maintainer=\
 
 configure()
 {
+    mkdir -p $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot/usr
+    export cfg_dir_output_toolchain_sysroot=$cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot
     ../iptables-$version/configure \
-        --prefix="$cfg_dir_rootfs/usr" \
+        --prefix="$cfg_dir_output_toolchain_sysroot/usr" \
         --target=$cfg_target_canonical \
         --host=$cfg_target_canonical \
         --build=$cfg_host_canonical \
@@ -36,11 +38,16 @@ build()
 
 target_install()
 {
-    $cmd_target_strip iptables/xtables-multi -o $cfg_dir_rootfs/usr/sbin/xtables-multi &&
-    ln -fs xtables-multi $cfg_dir_rootfs/usr/sbin/iptables
-    ln -fs xtables-multi $cfg_dir_rootfs/usr/sbin/iptables-save
-    ln -fs xtables-multi $cfg_dir_rootfs/usr/sbin/iptables-restore
-    ln -fs xtables-multi $cfg_dir_rootfs/usr/sbin/ip6tables
-    ln -fs xtables-multi $cfg_dir_rootfs/usr/sbin/ip6tables-save
-    ln -fs xtables-multi $cfg_dir_rootfs/usr/sbin/ip6tables-restore
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/usr/sbin
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
+
+    $cmd_target_strip iptables/xtables-multi -o $cfg_dir_output_rootfs/usr/sbin/xtables-multi &&
+    ln -fs xtables-multi $cfg_dir_output_rootfs/usr/sbin/iptables
+    ln -fs xtables-multi $cfg_dir_output_rootfs/usr/sbin/iptables-save
+    ln -fs xtables-multi $cfg_dir_output_rootfs/usr/sbin/iptables-restore
+    ln -fs xtables-multi $cfg_dir_output_rootfs/usr/sbin/ip6tables
+    ln -fs xtables-multi $cfg_dir_output_rootfs/usr/sbin/ip6tables-save
+    ln -fs xtables-multi $cfg_dir_output_rootfs/usr/sbin/ip6tables-restore
+
+    tar -czf ../iptables-v$version.tar.gz ../rootfs
 }

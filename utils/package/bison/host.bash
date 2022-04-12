@@ -38,5 +38,5 @@ host_install()
 {
     $cmd_make install
 
-    tar -czf ../bison-v$version.tar.gz ../toolchain
+    tar -czf ../bison-v$version-host.tar.gz ../toolchain
 }

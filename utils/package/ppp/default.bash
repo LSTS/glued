@@ -45,6 +45,11 @@ build()
 
 target_install()
 {
-    $cmd_target_strip pppd/pppd -o $cfg_dir_rootfs/usr/sbin/pppd &&
-    $cmd_target_strip chat/chat -o $cfg_dir_rootfs/usr/sbin/chat
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/usr/sbin
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
+
+    $cmd_target_strip pppd/pppd -o $cfg_dir_output_rootfs/usr/sbin/pppd &&
+    $cmd_target_strip chat/chat -o $cfg_dir_output_rootfs/usr/sbin/chat
+
+    tar -czf ../ppp-v$version.tar.gz ../rootfs
 }
