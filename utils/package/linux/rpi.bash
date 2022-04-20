@@ -17,6 +17,8 @@ md5=\
 
 requires=\
 (
+    'bc/host'
+    'kmod/host'
     'lz4/host'
 )
 

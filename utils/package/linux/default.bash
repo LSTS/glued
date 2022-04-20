@@ -20,9 +20,9 @@ maintainer=\
 
 requires=\
 (
-    'bc/host-a6xx'
-    'kmod/host-a6xx'
-    'lz4/host-a6xx'
+    'bc/host'
+    'kmod/host'
+    'lz4/host'
 )
 
 # This variable is updated by find_patches().
@@ -211,9 +211,9 @@ target_install()
             ARCH="$cfg_target_linux" \
             INSTALL_MOD_PATH="$cfg_dir_output_rootfs/usr" \
             KBUILD_VERBOSE=1 \
-            DEPMOD="$cfg_dir_output_toolchain/sbin/depmod" \
+            DEPMOD="$cfg_dir_toolchain/sbin/depmod" \
             firmware_install
     fi
 
-    tar -czf ../linux-v$version.tar.gz ../rootfs ../toolchain
+    tar -czf ../linux-v$version.tar.gz ../rootfs
 }

@@ -20,7 +20,7 @@ maintainer=\
 
 requires=\
 (
-    'flex/a6xx-host'
+    'flex/host'
 )
 
 configure()

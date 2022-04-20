@@ -21,9 +21,9 @@ md5=\
 
 target_install()
 {
-    $cmd_mkdir "$cfg_dir_rootfs/boot"
-
-    $cmd_cp "../$pkg-$version/"* "$cfg_dir_rootfs/boot/"
-
-    tar -C "$pkg_dir/fs" -c -f - . | tar -C "$cfg_dir_rootfs" -x -v -f -
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/boot
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
+    $cmd_cp "../$pkg-$version/"* "$cfg_dir_output_rootfs/boot/"
+    tar -C "$pkg_dir/fs" -c -f - . | tar -C "$cfg_dir_output_rootfs" -x -v -f -
+    tar -czf ../rpi-boot-firmware-v$version.tar.gz ../rootfs
 }
