@@ -24,7 +24,7 @@
 ###########################################################################
 
 # Config: GLUED version.
-cfg_glued_version='2020.12'
+cfg_glued_version='2022.04.n'
 # Config: GLUED vendor.
 cfg_glued_vendor='lsts'
 
