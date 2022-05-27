@@ -75,6 +75,7 @@ linux_cfg_file()
 
 post_unpack()
 {
+    eval "apt-get update; apt-get install -y libssl-dev bc"
     n=0; while [ -n "${patches[$n]}" ]; do
              patch="${patches[$n]}"
              echo "* Applying $patch..."
@@ -148,6 +149,13 @@ build()
             zImage || return 1
     fi
 
+    if [ "$(basename $cfg_target_linux_kernel)" = 'Image.gz' ]; then
+          $cmd_make \
+              CROSS_COMPILE=$cfg_target_canonical- \
+              ARCH=$cfg_target_linux \
+              Image.gz
+    fi
+
     # Device tree blob.
     if [ -n "$cfg_target_linux_dtb" ]; then
         $cmd_make \
@@ -183,10 +191,12 @@ target_install()
     fi
 
     # Device tree blobs.
-    dts="arch/$cfg_target_linux/boot/dts"
+    dts="arch/$cfg_target_linux/boot/dts/broadcom"
     if [ -d "$dts" ]; then
         $cmd_mkdir "$cfg_dir_output_rootfs/boot" &&
-            cp -v "$dts/"*.dtb "$cfg_dir_output_rootfs/boot"
+            cp -v "$dts/"*.dtb "$dts"
+    else
+       echo "ERROR: failed to dts at '$cfg_target_linux_kernel'"
     fi
 
     # Device tree overlays.

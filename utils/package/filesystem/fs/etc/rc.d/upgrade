@@ -211,7 +211,7 @@ uboot_part_upgrade_check()
     return 0
 }
 
-rpi2_boot_part_upgrade()
+rpi_boot_part_upgrade()
 {
     label="$1"
     dev="$2"
@@ -253,7 +253,6 @@ rpi2_boot_part_upgrade()
         echo 'done'
     done
 
-    kernel='kernel7.img'
     if [ -f "/mnt/$kernel" ]; then
         echo -en "* $label: Replacing $kernel... "
         cp "$base/.glued-new/boot/kernel" "/mnt/$kernel"
@@ -272,17 +271,26 @@ rpi2_boot_part_upgrade()
     return 0
 }
 
-# Check if board is a Raspberry Pi 2/3.
-rpi2_boot_part_upgrade_check()
+# Check if board is a Raspberry Pi x32 or x64.
+rpi_boot_part_upgrade_check()
 {
-    for machine in 'bcm2709' 'raspberry pi'; do
+    current_machine=$(dmesg | grep Linux)
+    if [[ "$current_machine" == *"aarch64"* ]]; then
+      echo "* rpi4x64: machine detected"
+      kernel='kernel8.img'
+      rpi_boot_part_upgrade "rpi4x64" "/dev/mmcblk0p1"
+      return 0
+    else
+      for machine in 'bcm2709' 'raspberry pi'; do
         dmesg | grep Machine | grep -i "$machine" > /dev/null 2>&1
         if [ $? -eq 0 ]; then
-            echo "* rpi2: machine detected"
-            rpi2_boot_part_upgrade "rpi2" "/dev/mmcblk0p1"
+            echo "* rpi2/3: machine detected"
+            kernel='kernel7.img'
+            rpi_boot_part_upgrade "rpi2" "/dev/mmcblk0p1"
             return 0
         fi
-    done
+      done
+    fi
 }
 
 old_move()
@@ -334,7 +342,7 @@ start()
     uboot_mtd_part || return 1
     new_unpack || return 1
     uboot_part_upgrade_check || return 1
-    rpi2_boot_part_upgrade_check || return 1
+    rpi_boot_part_upgrade_check || return 1
     kernel_mtd_upgrade || return 1
     uboot_mtd_upgrade || return 1
     old_move || return 1
