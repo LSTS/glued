@@ -7,7 +7,8 @@ requires=\
 
 build()
 {
-    $cmd_make
+#    $cmd_make_single -fPIC
+     $cmd_make
 }
 
 host_install()

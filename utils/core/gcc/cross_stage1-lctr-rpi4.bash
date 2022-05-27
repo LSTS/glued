@@ -28,7 +28,6 @@ configure()
         --disable-libgomp \
         --disable-libmudflap \
         --disable-libquadmath \
-        --disable-multilib \
         --with-newlib \
         --enable-poison-system-directories \
         --enable-target-optspace \

@@ -21,7 +21,6 @@ configure()
         --disable-libgomp \
         --disable-libmudflap \
         --disable-nls \
-        --disable-multilib \
         --enable-languages=c,c++
 }
 

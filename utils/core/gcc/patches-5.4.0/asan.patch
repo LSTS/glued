@@ -1,0 +1,11 @@
+--- a/libsanitizer/asan//asan_linux.cc
++++ b/libsanitizer/asan//asan_linux.cc
+@@ -29,6 +29,7 @@
+ #include <dlfcn.h>
+ #include <fcntl.h>
+ #include <pthread.h>
++#include <signal.h>
+ #include <stdio.h>
+ #include <unistd.h>
+ #include <unwind.h>
+

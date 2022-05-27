@@ -24,7 +24,6 @@ configure()
         --disable-libquadmath \
         --disable-libatomic \
         --enable-languages=c \
-        --disable-multilib \
         --disable-nls
 }
 

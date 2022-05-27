@@ -1,16 +1,16 @@
 version=\
 (
-    '4.19.163'
+    '5.15.40'
 )
 
 url=\
 (
-    "https://www.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz"
+    "https://www.kernel.org/pub/linux/kernel/v5.x/linux-$version.tar.xz"
 )
 
 md5=\
 (
-    '96695ed3c7832f1eade2d460070a8036'
+    'ed4f84ea81ab519aeccced9f30603f02'
 )
 
 maintainer=\
