@@ -1,0 +1,18 @@
+# Core.
+#arm_freq=1000
+#sdram_freq=500
+#core_freq=500
+#over_voltage=2
+#temp_limit=80 #Will throttle to default clock speed if hit.
+
+# Disable BT on Rpi3.
+dtoverlay=pi3-disable-bt
+
+# Enable RasPicam
+#start_x=1
+gpu_mem=128
+
+dtparam=i2c_arm=on
+dtparam=i2c1=on
+
+enable_uart=1
