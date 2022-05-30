@@ -64,7 +64,7 @@ if [ -n "$cfg_target_linux_dtb" ]; then
 fi
 
 # Write config vars.
-set | sort | grep ^cfg_ | egrep -v '^cfg_dir|^cfg_target|^cfg_host_|^cfg_toolchain|^cfg_rootfs_tar|^cfg_partitions' > "$cfg_dir_rootfs/etc/config"
+set | sort | grep ^cfg_ | egrep -v '^cfg_dir|^cfg_target|^cfg_host_|^cfg_toolchain|^cfg_rootfs_tar|^cfg_partitions|^cfg_work_dir_system|^cfg_core_tar' > "$cfg_dir_rootfs/etc/config"
 
 $fakeroot -- chmod -v 0700 "$cfg_dir_rootfs/root"
 $fakeroot -- chmod -v 1777 "$cfg_dir_rootfs/tmp" "$cfg_dir_rootfs/var/tmp"
