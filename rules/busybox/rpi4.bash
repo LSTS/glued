@@ -27,3 +27,12 @@ post_unpack()
     $cmd_cp ../rootfs/* $cfg_dir_rootfs
 }
 
+configure()
+{
+    [[ -z "$cfg_lsts_ftp_logs_path" ]] && err 'Missing "$cfg_lsts_ftp_logs_path" var set! Generating disabled one.'
+
+    rm $cfg_dir_rootfs/etc/lsts-ftp-logs.conf
+    echo -n "$([[ -z "$cfg_lsts_ftp_logs_path" ]] && echo '# ')" > $cfg_dir_rootfs/etc/lsts-ftp-logs.conf
+    echo -n "30021 stream  tcp     nowait  root    /usr/sbin/ftpd /usr/sbin/ftpd -a root -w " >> $cfg_dir_rootfs/etc/lsts-ftp-logs.conf
+    echo -n "$([[ ! -z "$cfg_lsts_ftp_logs_path" ]] && echo "$cfg_lsts_ftp_logs_path" || echo "/opt/lsts/dune/log/$cfg_hostname")" >> $cfg_dir_rootfs/etc/lsts-ftp-logs.conf
+}
