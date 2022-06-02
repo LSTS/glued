@@ -10,12 +10,12 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/gcc-5.4/rpi4cfs-1uart.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/gcc-5.4/rpi4cfs-5uart.tar.gz"
 )
 
 md5=\
 (
-    '18049b8a3f7793ca2de8286f2700b4b5'
+    'fe9697525ddb5143a439aaaa01440a26'
 )
 
 post_unpack()
