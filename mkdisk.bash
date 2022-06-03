@@ -106,13 +106,10 @@ create_part_rpiboot()
         cp -r "$f" mount || die
     done
 
-    if [[ $cfg_target_linux == *"arm64"* ]]; then
-      nfo2 renaming kernel to kernel8.img
-      mv mount/kernel mount/kernel8.img
-    else
-      nfo2 renaming kernel to kernel7.img
-      mv mount/kernel mount/kernel7.img
-    fi
+    nfo2 renaming kernel to kernel8.img
+    cp mount/kernel mount/kernel8.img
+    nfo2 renaming kernel to kernel7.img
+    mv mount/kernel mount/kernel7.img
 
     if [ -f mount/board.dtb ]; then
         dtb=$(basename "$cfg_target_linux_dtb")
