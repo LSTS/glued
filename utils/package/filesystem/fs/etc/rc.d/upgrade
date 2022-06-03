@@ -254,10 +254,8 @@ rpi_boot_part_upgrade()
     done
 
     if [ -f "/mnt/$kernel" ]; then
-        echo -en "* $label: Replacing kernel7.img"
-        cp "$base/.glued-new/boot/kernel" "/mnt/kernel7.img"
-        echo -en "* $label: Replacing kernel8.img "
-        cp "$base/.glued-new/boot/kernel" "/mnt/kernel8.img"
+        echo -en "* $label: Replacing $kernel... "
+        cp "$base/.glued-new/boot/kernel" "/mnt/$kernel"
         echo 'done'
     fi
 
