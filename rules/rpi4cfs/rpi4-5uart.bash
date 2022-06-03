@@ -18,7 +18,7 @@ md5=\
     'fe9697525ddb5143a439aaaa01440a26'
 )
 
-post_unpack()
+target_install()
 {
     $cmd_cp ../rootfs/* $cfg_dir_rootfs
 }

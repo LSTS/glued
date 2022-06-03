@@ -21,4 +21,9 @@ md5=\
 post_unpack()
 {
     $cmd_cp ../rootfs/* $cfg_dir_rootfs
+    rm -rf ../.download
+    rm -rf ../.post_unpack
+    rm -rf ../.unpack
+    rm -rf ../rootfs
+    rm -rf ../rpi4cfs-v1.0.0
 }
