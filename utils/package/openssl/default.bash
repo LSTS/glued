@@ -20,9 +20,12 @@ requires=\
 
 configure()
 {
+    mkdir -p $cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot/usr
+    export cfg_dir_output_toolchain_sysroot=$cfg_dir_builds/$pkg/toolchain/$cfg_target_canonical/sysroot
+
     ./Configure linux-generic32 --cross-compile-prefix="$cfg_target_canonical-" \
-                --prefix="$cfg_dir_toolchain_sysroot/usr" \
-                --openssldir="$cfg_dir_toolchain_sysroot/usr" \
+                --prefix="$cfg_dir_output_toolchain_sysroot/usr" \
+                --openssldir="$cfg_dir_output_toolchain_sysroot/usr" \
                 shared
 }
 
@@ -39,12 +42,17 @@ host_install()
 
 target_install()
 {
-    for f in $cfg_dir_toolchain_sysroot/usr/lib/{libcrypto.so*,libssl.so*}; do
-        name="$cfg_dir_rootfs/lib/$(basename $f)"
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/usr/lib
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs/usr
+
+    for f in $cfg_dir_output_toolchain_sysroot/usr/lib/{libcrypto.so*,libssl.so*}; do
+        name="$cfg_dir_output_rootfs/lib/$(basename $f)"
         if [ -f "$f" ]; then
             $cmd_target_strip "$f" -o "$name"
         else
             $cmd_cp "$f" "$name"
         fi
     done
+ 
+    tar -czf ../openssl-v$version.tar.gz ../rootfs ../toolchain
 }

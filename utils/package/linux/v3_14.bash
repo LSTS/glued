@@ -20,9 +20,9 @@ maintainer=\
 
 requires=\
 (
-    'bc/host'
-    'kmod/host'
-    'lz4/host'
+    'bc/host-a9xx'
+    'kmod/host-a9xx'
+    'lz4/host-a9xx'
 )
 
 # This variable is updated by find_patches().
@@ -83,8 +83,11 @@ post_unpack()
              let n++
          done
 
-    if [ -d "$cfg_dir_toolchain/firmware" ]; then
-        tar -C "$cfg_dir_toolchain/firmware" -c -v -f - . | tar -C firmware -x -v -f -
+    mkdir -p $cfg_dir_builds/$pkg/toolchain
+    export cfg_dir_output_toolchain=$cfg_dir_builds/$pkg/toolchain
+
+    if [ -d "$cfg_dir_output_toolchain/firmware" ]; then
+        tar -C "$cfg_dir_output_toolchain/firmware" -c -v -f - . | tar -C firmware -x -v -f -
     fi
 }
 
@@ -168,9 +171,13 @@ target_install()
         $strip -s -R .comment "$cfg_target_linux_kernel"
     fi
 
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/boot/
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/usr
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
+
     # Kernel image.
     if [ -n "$cfg_target_linux_kernel" ]; then
-        cp -v "$cfg_target_linux_kernel" "$cfg_dir_rootfs/boot/kernel"
+        cp -v "$cfg_target_linux_kernel" "$cfg_dir_output_rootfs/boot/kernel"
     else
         echo "ERROR: failed to find kernel image at '$cfg_target_linux_kernel'"
         return 1
@@ -179,28 +186,30 @@ target_install()
     # Device tree blobs.
     dts="arch/$cfg_target_linux/boot/dts"
     if [ -d "$dts" ]; then
-        $cmd_mkdir "$cfg_dir_rootfs/boot" &&
-            cp -v "$dts/"*.dtb "$cfg_dir_rootfs/boot"
+        $cmd_mkdir "$cfg_dir_output_rootfs/boot" &&
+            cp -v "$dts/"*.dtb "$cfg_dir_output_rootfs/boot"
     fi
 
     # Device tree overlays.
     overlays_dir="arch/$cfg_target_linux/boot/dts/overlays"
     if [ -d "$overlays_dir" ]; then
-	$cmd_mkdir "$cfg_dir_rootfs/boot/overlays" || return 1
-        $cmd_cp "$overlays_dir"/*.dtbo "$cfg_dir_rootfs/boot/overlays" || return 1
+	$cmd_mkdir "$cfg_dir_output_rootfs/boot/overlays" || return 1
+        $cmd_cp "$overlays_dir"/*.dtbo "$cfg_dir_output_rootfs/boot/overlays" || return 1
     fi
 
     $cmd_make \
         CROSS_COMPILE="$cfg_target_canonical-" \
         ARCH="$cfg_target_linux" \
-        INSTALL_MOD_PATH="$cfg_dir_rootfs/usr" \
+        INSTALL_MOD_PATH="$cfg_dir_output_rootfs/usr" \
         KBUILD_VERBOSE=1 \
         modules_install
 
     $cmd_make \
         CROSS_COMPILE="$cfg_target_canonical-" \
         ARCH="$cfg_target_linux" \
-        INSTALL_MOD_PATH="$cfg_dir_rootfs/usr" \
+        INSTALL_MOD_PATH="$cfg_dir_output_rootfs/usr" \
         KBUILD_VERBOSE=1 \
         firmware_install
+
+   tar -czf ../linux-v$version.tar.gz ../rootfs
 }

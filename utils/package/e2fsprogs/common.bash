@@ -1,14 +1,14 @@
 version=\
 (
-    '1.42.13'
+    '1.45.6'
 )
 
 url=\
 (
-    "http://downloads.sourceforge.net/e2fsprogs/e2fsprogs-$version.tar.gz"
+    "https://sourceforge.net/projects/e2fsprogs/files/e2fsprogs/v1.45.6/e2fsprogs-$version.tar.gz"
 )
 
 md5=\
 (
-    'bc759fc62666786f5436e2075beb3265'
+    'cccfb706d162514e4f9dbfbc9e5d65ee'
 )

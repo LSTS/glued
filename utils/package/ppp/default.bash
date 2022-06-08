@@ -1,6 +1,6 @@
 version=\
 (
-    '2.4.5'
+    '2.4.9'
 )
 
 url=\
@@ -10,7 +10,7 @@ url=\
 
 md5=\
 (
-    '4621bc56167b6953ec4071043fe0ec57'
+    'c88153ae3d16ae114152cd3c15c7301d'
 )
 
 maintainer=\
@@ -21,14 +21,15 @@ maintainer=\
 requires=\
 (
     'libpcap/default'
+    'openssl/default'
 )
 
-post_unpack()
-{
-    for patch in "$pkg_dir"/patches/*; do
-        patch -p1 < "$patch" || return 1
-    done
-}
+#post_unpack()
+#{
+#    for patch in "$pkg_dir"/patches/*; do
+#        patch -p1 < "$patch" || return 1
+#    done
+#}
 
 configure()
 {

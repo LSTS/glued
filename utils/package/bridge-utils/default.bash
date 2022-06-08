@@ -30,9 +30,11 @@ post_unpack()
 
 configure()
 {
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/usr/bin
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
     cd ../bridge-utils-$version &&
     ./configure \
-        --prefix="$cfg_dir_rootfs/usr" \
+        --prefix="$cfg_dir_output_rootfs/usr" \
         --target=$cfg_target_canonical \
         --host=$cfg_target_canonical \
         --build=$cfg_host_canonical
@@ -47,5 +49,7 @@ build()
 target_install()
 {
     cd ../bridge-utils-$version &&
-    $cmd_target_strip brctl/brctl -o $cfg_dir_rootfs/usr/bin/brctl
+    $cmd_target_strip brctl/brctl -o $cfg_dir_output_rootfs/usr/bin/brctl
+
+    tar -czf ../bridge-utils-v$version.tar.gz ../rootfs
 }

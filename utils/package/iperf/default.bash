@@ -20,12 +20,15 @@ maintainer=\
 
 configure()
 {
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/usr/bin
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
+
     export ac_cv_func_malloc_0_nonnull='yes'
     "../iperf-$version/configure" \
         --target="$cfg_target_canonical" \
         --host="$cfg_target_canonical" \
         --build="$cfg_host_canonical" \
-        --prefix="$cfg_dir_rootfs/usr"
+        --prefix="$cfg_dir_output_rootfs/usr"
 }
 
 build()
@@ -35,5 +38,7 @@ build()
 
 target_install()
 {
-    $cmd_target_strip src/iperf -o $cfg_dir_rootfs/usr/bin/iperf
+    $cmd_target_strip src/iperf -o $cfg_dir_output_rootfs/usr/bin/iperf
+
+    tar -czf ../iperf-v$version.tar.gz ../rootfs
 }
