@@ -21,7 +21,7 @@
 ###########################################################################
 
 TAG         := glued
-VERSION     := 2020.11.12
+VERSION     := 2022.06.03.c
 VOLUME      := $(CURDIR)/..
 DNS	    := 8.8.8.8
 GITWORKTREE := $(shell [ "$$(git worktree list | wc -l)" -gt 1 ] && echo 'yes')
