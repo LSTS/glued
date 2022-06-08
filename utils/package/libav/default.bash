@@ -15,9 +15,12 @@ md5=\
 
 configure()
 {
+    mkdir -p $cfg_dir_builds/$pkg/rootfs/usr
+    export cfg_dir_output_rootfs=$cfg_dir_builds/$pkg/rootfs
+
     ./configure \
         --sysroot="$cfg_dir_toolchain_sysroot" \
-        --prefix="$cfg_dir_rootfs/usr" \
+        --prefix="$cfg_dir_output_rootfs/usr" \
         --cross-prefix="$cfg_target_canonical-" \
         --target-os="linux" \
         --enable-memalign-hack \
@@ -36,4 +39,6 @@ target_install()
 {
     $cmd_make \
         install
+
+    tar -czf ../libav-v$version.tar.gz ../rootfs
 }
