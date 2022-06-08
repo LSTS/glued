@@ -1,0 +1,104 @@
+diff -Nru linux-3.13.1/arch/arm/boot/dts/Makefile linux-3.13.1.rasm/arch/arm/boot/dts/Makefile
+--- linux-3.13.1/arch/arm/boot/dts/Makefile	2014-01-29 13:06:37.000000000 +0000
++++ linux-3.13.1.rasm/arch/arm/boot/dts/Makefile	2014-02-01 23:49:34.138870922 +0000
+@@ -186,6 +186,7 @@
+ 	omap3-gta04.dtb \
+ 	omap3-igep0020.dtb \
+ 	omap3-igep0030.dtb \
++	omap3-lctr-a9xx.dtb \
+ 	omap3-zoom3.dtb \
+ 	omap4-panda.dtb \
+ 	omap4-panda-a4.dtb \
+diff -Nru linux-3.13.1/arch/arm/boot/dts/omap3-lctr-a9xx.dts linux-3.13.1.rasm/arch/arm/boot/dts/omap3-lctr-a9xx.dts
+--- linux-3.13.1/arch/arm/boot/dts/omap3-lctr-a9xx.dts	1970-01-01 01:00:00.000000000 +0100
++++ linux-3.13.1.rasm/arch/arm/boot/dts/omap3-lctr-a9xx.dts	2014-02-01 23:49:40.019073833 +0000
+@@ -0,0 +1,89 @@
++/*
++ * Copyright (C) 2014 Universidade do Porto - Faculdade de Engenharia
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++
++#include <dt-bindings/input/input.h>
++#include "omap3-igep0020.dts"
++
++/ {
++	leds {
++		boot {
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	gpio_keys {
++		pinctrl-names = "default";
++		pinctrl-0 = <&gpio_keys_pins>;
++		compatible = "gpio-keys";
++
++		button@0 {
++			label = "Button 0";
++			gpios = <&gpio5 11 GPIO_ACTIVE_HIGH>;	/* gpio_139 */
++			linux,code = <BTN_0>;
++			debounce-interval = <5>;
++		};
++
++		button@1 {
++			label = "Button 1";
++			gpios = <&gpio5 10 GPIO_ACTIVE_HIGH>;	/* gpio_138 */
++			linux,code = <BTN_1>;
++			debounce-interval = <5>;
++		};
++
++		button@2 {
++			label = "Button 2";
++			gpios = <&gpio5 9 GPIO_ACTIVE_HIGH>;	/* gpio_137 */
++			linux,code = <BTN_2>;
++			debounce-interval = <5>;
++		};
++	};
++
++	pps {
++		compatible = "pps-gpio";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pps_pins>;
++		gpios = <&gpio5 8 GPIO_ACTIVE_HIGH>;
++		assert-rising-edge;
++	};
++};
++
++&omap3_pmx_core {
++	gpio_keys_pins: pinmux_gpio_keys_pins {
++		pinctrl-single,pins = <
++			0x136 (PIN_INPUT_PULLDOWN | MUX_MODE4)	/* gpio_137 - button 2 */
++			0x138 (PIN_INPUT_PULLDOWN | MUX_MODE4)	/* gpio_138 - button 1 */
++			0x13a (PIN_INPUT_PULLDOWN | MUX_MODE4)	/* gpio_139 - button 0 */
++		>;
++	};
++
++	pps_pins: pinmux_pps_pins {
++		pinctrl-single,pins = <
++			0x134 (PIN_INPUT_PULLDOWN | MUX_MODE4)	/* gpio_136 */
++		>;
++	};
++};
++
++&i2c2 {
++	rtc@68 {
++		compatible = "dallas,ds1307";
++		reg = <0x68>;
++	};
++};
++
++/* Disable WiFi/Bluetooth combo. */
++&mmc2 {
++	status = "disabled";
++};
++
++&vdd33 {
++	status = "disabled";
++};
++
++&lbee1usjyc_vmmc {
++	status = "disabled";
++};
