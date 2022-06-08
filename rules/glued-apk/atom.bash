@@ -3,6 +3,11 @@ version=\
     'v1.0.0'
 )
 
+maintainer=\
+(
+    'Pedro Gonçalves <pedro@lsts.pt>'
+)
+
 requires=\
 (
     'bash/atom'
