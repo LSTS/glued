@@ -10,12 +10,12 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/base/lctr-a6xx/glued-base-gcc5.4-lctr-a6xx.tar.gz"
+    "https://www.lsts.pt/glued/cloud/base/lctr-rpi2.3/glued-base-gcc5.4-lctr-rpi2.3.tar.gz"
 )
 
 md5=\
 (
-    'dea7ff4990bd7c9deab08c053bb54d95'
+    '4fad3591061b2dcfe7af6ce570b0887e'
 )
 
 post_unpack()

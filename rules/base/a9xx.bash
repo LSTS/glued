@@ -15,7 +15,7 @@ url=\
 
 md5=\
 (
-    '5920942a0e70c0d224212b9608a37552'
+    'cb965f0bb932b1047eb7edda4a0da06d'
 )
 
 post_unpack()
