@@ -1,7 +1,7 @@
 cfg_architecture='armv7'
 cfg_storage='data0:ext4:/opt'
 cfg_modules=''
-cfg_services0='dropbear network storage upgrade syslog'
+cfg_services0='depmod-check dropbear network storage upgrade syslog'
 cfg_services1='huawei ntpd'
 cfg_services2='dune'
 cfg_packages='base/a9xx u-boot/a9xx dropbear/a9xx rsync/a9xx busybox/a9xx linux/a9xx uswitch/a9xx ppp/a9xx iptables/a9xx socat/a9xx bridge-utils/a9xx ntp/a9xx e2fsprogs/a9xx i2c-tools/a9xx iperf/a9xx dnsmasq/a9xx glued-apk/a9xx'

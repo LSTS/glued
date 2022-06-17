@@ -1,6 +1,6 @@
 cfg_architecture='geode'
 cfg_storage='data0:ext4:/opt'
-cfg_services0='dropbear network storage upgrade syslog escc ptpd setserial'
+cfg_services0='depmod-check dropbear network storage upgrade syslog escc ptpd setserial'
 cfg_services1=''
 cfg_services2='dune'
 cfg_modules=''
