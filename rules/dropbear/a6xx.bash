@@ -15,7 +15,7 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-a6xx/gcc-5.4/dropbear-$version.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-a6xx/gcc-5.4/a6xx-dropbear-$version.tar.gz"
 )
 
 md5=\

@@ -11,7 +11,7 @@ maintainer=\
 url=\
 (
 
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/gcc-5.4/fakeroot-v${version}-host.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/gcc-5.4/rpi4-fakeroot-v${version}-host.tar.gz"
 )
 
 md5=\

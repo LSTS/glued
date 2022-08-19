@@ -14,7 +14,7 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-a9xx/gcc-5.4/busybox-$version.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-a9xx/gcc-5.4/a9xx-busybox-$version.tar.gz"
 )
 
 md5=\

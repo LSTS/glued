@@ -5,7 +5,7 @@ version=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/gcc-5.4/pkg-config-${version}-host.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4/gcc-5.4/rpi4-pkg-config-${version}-host.tar.gz"
 )
 
 md5=\

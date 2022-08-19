@@ -10,7 +10,7 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4x64/gcc-5.4/bzip2-${version}.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-rpi4x64/gcc-5.4/rpi4x64-bzip2-${version}.tar.gz"
 )
 
 md5=\

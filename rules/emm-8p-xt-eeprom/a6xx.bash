@@ -10,7 +10,7 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-a6xx/gcc-5.4/emm-8p-xt-eeprom-${version}.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-a6xx/gcc-5.4/a6xx-emm-8p-xt-eeprom-${version}.tar.gz"
 )
 
 md5=\

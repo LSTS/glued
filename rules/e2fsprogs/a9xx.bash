@@ -10,7 +10,7 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-a9xx/gcc-5.4/e2fsprogs-$version.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-a9xx/gcc-5.4/a9xx-e2fsprogs-$version.tar.gz"
 )
 
 md5=\

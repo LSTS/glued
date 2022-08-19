@@ -10,7 +10,7 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-a9xx/gcc-5.4/linux-$version.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-a9xx/gcc-5.4/a9xx-linux-$version.tar.gz"
 )
 
 md5=\

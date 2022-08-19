@@ -16,7 +16,7 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-a6xx/gcc-5.4/syslinux-$version-host.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-a6xx/gcc-5.4/a6xx-syslinux-$version-host.tar.gz"
 )
 
 md5=\

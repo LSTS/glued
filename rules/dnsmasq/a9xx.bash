@@ -10,7 +10,7 @@ maintainer=\
 
 url=\
 (
-    "https://www.lsts.pt/glued/cloud/package/lctr-a9xx/gcc-5.4/dnsmasq-$version.tar.gz"
+    "https://www.lsts.pt/glued/cloud/package/lctr-a9xx/gcc-5.4/a9xx-dnsmasq-$version.tar.gz"
 )
 
 md5=\
